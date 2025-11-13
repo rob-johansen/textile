@@ -3,8 +3,13 @@
     "name": "Rob Johansen",
     "email": "rob.johansen@gmail.com"
   },
+  "config": {
+    "forge": "./forge.config.mts"
+  },
   "dependencies": {
-    "electron-squirrel-startup": "1.0.1"
+    "electron-squirrel-startup": "1.0.1",
+    "react": "19.2.0",
+    "react-dom": "19.2.0"
   },
   "description": "An app for weaving together bits of text",
   "devDependencies": {
@@ -18,16 +23,21 @@
     "@electron-forge/plugin-vite": "7.10.2",
     "@electron/fuses": "1.8.0",
     "@types/electron-squirrel-startup": "1.0.2",
-    "@typescript-eslint/eslint-plugin": "5.62.0",
-    "@typescript-eslint/parser": "5.62.0",
+    "@types/react": "19.2.4",
+    "@types/react-dom": "19.2.3",
+    "@typescript-eslint/eslint-plugin": "8.46.4",
+    "@typescript-eslint/parser": "^8.46.4",
+    "@vitejs/plugin-react": "5.1.1",
     "electron": "39.1.2",
     "eslint": "8.57.1",
+    "eslint-import-resolver-typescript": "4.4.4",
     "eslint-plugin-import": "2.32.0",
-    "typescript": "4.5.5",
-    "vite": "5.4.21"
+    "typescript": "5.9.3",
+    "vite": "5.4.21",
+    "vite-tsconfig-paths": "5.1.4"
   },
   "license": "UNLICENSED",
-  "main": ".vite/build/main.js",
+  "main": ".vite/build/textile.js",
   "name": "textile",
   "productName": "Textile",
   "scripts": {
@@ -37,5 +47,6 @@
     "publish": "electron-forge publish",
     "lint": "eslint --ext .ts,.tsx ."
   },
+  "type": "module",
   "version": "0.0.1"
 }
