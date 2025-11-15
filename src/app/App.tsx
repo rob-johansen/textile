@@ -1,5 +1,9 @@
+import { StoreProvider } from '@/app/providers/StoreProvider'
+
 export const App = () => {
   return (
-    <div>Hello, React!</div>
+    <StoreProvider>
+      <div>Hello, React!</div>
+    </StoreProvider>
   )
 }

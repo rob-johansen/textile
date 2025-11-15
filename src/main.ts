@@ -1,6 +1,6 @@
 import { app, BrowserWindow } from 'electron'
-import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import started from 'electron-squirrel-startup'
 
 const __filename = fileURLToPath(import.meta.url);
