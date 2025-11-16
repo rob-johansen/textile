@@ -11,7 +11,8 @@
     "mobx": "6.15.0",
     "mobx-react-lite": "4.1.1",
     "react": "19.2.0",
-    "react-dom": "19.2.0"
+    "react-dom": "19.2.0",
+    "winston": "3.18.3"
   },
   "description": "An app for weaving together bits of text",
   "devDependencies": {
