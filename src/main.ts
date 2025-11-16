@@ -16,11 +16,15 @@ if (started) {
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 800,
     height: 600,
+    titleBarStyle: 'hidden',
     webPreferences: {
       preload: join(__dirname, 'preload.js'),
     },
+    width: 800,
+    // The hidden `titleBarStyle` above hides the window controls (minimize, maximize, close)
+    // on Windows and Linux. Setting `titleBarOverlay` to `true` adds those controls back.
+    ...(process.platform !== 'darwin' ? { titleBarOverlay: true } : {}),
   })
 
   // and load the index.html of the app.

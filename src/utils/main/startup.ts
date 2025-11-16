@@ -6,7 +6,7 @@ import { logger } from '@/utils/main/logger'
 import type { Textile } from '@/types/Textile'
 
 export const loadTextiles = async (): Promise<Textile[]> => {
-  const documents = join(app.getPath('documents'), 'Textiles')
+  const documents = join(app.getPath('documents'), 'Textile')
 
   try {
     const files = await readdir(documents)
@@ -25,7 +25,7 @@ export const loadTextiles = async (): Promise<Textile[]> => {
       try {
         await mkdir(documents)
       } catch (err) {
-        logger.error('Error creating Textiles directory %0', err)
+        logger.error('Error creating Textile directory %0', err)
       }
     }
   }
