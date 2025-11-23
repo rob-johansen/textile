@@ -16,4 +16,8 @@ export class ToolbarStore {
     this.root = root
     makeAutoObservable(this)
   }
+
+  onChangeSearch = (value: string): void => {
+    this.state.searchText = value
+  }
 }

@@ -7,3 +7,11 @@ body {
 .draggable {
   app-region: drag;
 }
+
+input {
+  app-region: no-drag;
+}
+
+@theme {
+  --color-error: #d72b0d;
+}
