@@ -98,6 +98,10 @@
   app-region: drag;
 }
 
+button {
+  app-region: no-drag;
+}
+
 input {
   app-region: no-drag;
 }
