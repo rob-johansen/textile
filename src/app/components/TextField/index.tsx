@@ -34,7 +34,7 @@ export const TextField = forwardRef(
 
     const inputStyles = twMerge(
       `
-        bg-slate-50
+        bg-white
         border-[1px]
         border-slate-400
         cursor-text
@@ -44,7 +44,6 @@ export const TextField = forwardRef(
         disabled:hover:border-slate-400
         disabled:shadow-none
         disabled:text-[#999999]
-        focus:bg-white
         focus:border-blue-500
         focus:shadow-[0_0_4px_rgba(96,165,250,0.3)]
         h-[36px]

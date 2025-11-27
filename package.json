@@ -7,6 +7,7 @@
     "forge": "./forge.config.mts"
   },
   "dependencies": {
+    "@floating-ui/react": "0.27.16",
     "@tailwindcss/vite": "4.1.17",
     "electron-squirrel-startup": "1.0.1",
     "mobx": "6.15.0",

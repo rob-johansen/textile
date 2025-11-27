@@ -13,6 +13,7 @@ export const Toolbar = observer(() => {
     <div className="bg-slate-100 border-b border-b-gray-300 draggable flex h-[56px] justify-center">
       <div className="flex gap-x-[16px] items-center w-[50%]">
         <TextField
+          className="bg-slate-50 focus:bg-white"
           hideError={true}
           icon={() => <Icon primary="#64748b" source={Search} />}
           placeholder="Search"

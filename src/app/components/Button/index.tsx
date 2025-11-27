@@ -33,7 +33,6 @@ export const Button = ({
       hover:bg-blue-500/[0.875]
       items-center
       justify-center
-      pb-[1px]
       px-[24px]
       relative
       rounded-full
