@@ -2,6 +2,8 @@
 
 ## Flow
 
+### Launch
+
 1. The user launches Textile.
 2. Textile tries to read the user's textiles—the `.json` files in the `app.getPath('documents')/Textile` directory.
     - If this directory doesn't exist, Textile tries to create it.
@@ -14,3 +16,31 @@
         - Screen 1...
     - If this file does exist, the flow continues.
 4. 
+
+### New Textile
+
+1. Textile shows a "New Textile" heading
+2. Textile shows a text field labeled "Name"
+3. Textile shows "1. Start with" and an `input` dropdown with "..." placeholder and these options:
+    - Text that I will provide now
+    - The contents of my clipboard when I run this textile
+    - The output of a command when I run this textile
+4. The user selects an option to start with.
+5. Textile shows whatever is needed for gathering input relevant to the selected option:
+    - For the "Text that I will provide now" option, Textile shows a textarea
+    - For the "The contents of my clipboard when I run this textile" option, Textile shows nothing
+    - For the "The output of a command when I run this textile" option, Textile shows a textarea
+6. Textile also shows two buttons:
+    - Add Step
+    - Finish
+7. When "Add Step" is clicked, Textile shows "2." and an `action` dropdown with "..." placeholder and these options:
+    - Append
+    - Prepend
+    - Remove
+    - Replace
+8. When an action is selected, Textile shows a new `input` dropdown with "..." placeholder and options corresponding to the action
+9. When "Finish" is clicked, Textile displays its concluding dropdown with the following options:
+    - Copy the result to my clipboard
+    - Show the result
+    - Show the result and copy it to my clipboard
+10. Textile also shows a "Keyboard Shortcut" field
