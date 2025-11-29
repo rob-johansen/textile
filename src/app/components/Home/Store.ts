@@ -1,15 +1,25 @@
 import { makeAutoObservable, runInAction } from 'mobx'
+import { v4 as uuid } from 'uuid';
 
+import { Status } from '@/types/Status'
 import type { RootStore } from '@/app/RootStore'
+import type { Textile } from '@/types/Textile'
+
 
 type State = {
-  starting: boolean
+  status: string
+  textile: Textile
 }
 
 export class HomeStore {
   root: RootStore
   state: State = {
-    starting: true
+    status: Status.STARTING,
+    textile: {
+      id: '',
+      name: '',
+      steps: [],
+    }
   }
 
   constructor(root: RootStore) {
@@ -28,7 +38,16 @@ export class HomeStore {
         console.log(textile.name)
       }
 
-      this.state.starting = false
+      this.state.status = Status.NOTHING
     })
+  }
+
+  onClickNew = (): void => {
+    this.state.status = Status.CREATING
+    this.state.textile = {
+      id: uuid(),
+      name: '',
+      steps: [],
+    }
   }
 }

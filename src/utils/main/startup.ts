@@ -1,6 +1,7 @@
 import { app } from 'electron'
 import { join } from 'node:path'
 import { mkdir, readdir } from 'node:fs/promises'
+import { v4 as uuid } from 'uuid';
 
 import { logger } from '@/utils/main/logger'
 import type { Textile } from '@/types/Textile'
@@ -15,7 +16,7 @@ export const loadTextiles = async (): Promise<Textile[]> => {
     for (const file of files) {
       if (file.endsWith('.json')) {
         // TODO: Read and `JSON.parse()` the file so you have it's actual name and steps.
-        textiles.push({ name: file, steps: [] })
+        textiles.push({ id: uuid(), name: file, steps: [] })
       }
     }
 

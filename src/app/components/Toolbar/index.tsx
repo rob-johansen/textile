@@ -23,6 +23,7 @@ export const Toolbar = observer(() => {
         />
         <Button
           icon={{ element: () => <Icon className="size-[20px]" primary="#ffffff" source={Plus} /> }}
+          onClick={store.root.home.onClickNew}
         >
           New Textile
         </Button>

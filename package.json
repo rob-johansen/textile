@@ -16,6 +16,7 @@
     "react-dom": "19.2.0",
     "tailwind-merge": "3.4.0",
     "tailwindcss": "4.1.17",
+    "uuid": "13.0.0",
     "winston": "3.18.3"
   },
   "description": "An app for weaving together bits of text",

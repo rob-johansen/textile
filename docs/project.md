@@ -15,7 +15,7 @@
     - If this file does not exist (i.e. the user has not been onboarded), Textile shows its onboarding tutorial:
         - Screen 1...
     - If this file does exist, the flow continues.
-4. 
+4. ...
 
 ### New Textile
 
