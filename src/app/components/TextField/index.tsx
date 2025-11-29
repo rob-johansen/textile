@@ -26,7 +26,6 @@ export const TextField = forwardRef(
       `
         flex
         flex-col
-        focus-within:text-purple
         relative
       `,
       outerClassName

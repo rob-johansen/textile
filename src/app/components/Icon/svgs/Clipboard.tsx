@@ -2,7 +2,7 @@ import { twMerge } from 'tailwind-merge'
 
 import { IconProps } from '@/app/components/Icon/Icon'
 
-export const Clipboard = ({ className, primary = '#000000' }: IconProps) => {
+export const Clipboard = ({ className, primary = '#713f12' }: IconProps) => {
   return (
     <svg
       className={twMerge('h-[16px] shrink-0 w-[16px]', className)}

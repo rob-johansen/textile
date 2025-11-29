@@ -3,7 +3,7 @@ import { useContext } from 'react'
 
 import { Status } from '@/types/Status'
 import { StoreContext } from '@/app/contexts/StoreContext'
-import { TextileForm } from '@/app/components/TextileForm'
+import { Textile } from '@/app/components/Textile'
 import { Toolbar } from '@/app/components/Toolbar'
 
 export const Home = observer(() => {
@@ -17,7 +17,7 @@ export const Home = observer(() => {
         <>
           <Toolbar />
           {store.state.status === Status.CREATING && (
-            <TextileForm />
+            <Textile />
           )}
         </>
       )}

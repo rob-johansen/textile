@@ -54,7 +54,7 @@ export const Select = observer(({
       <TextField
         {...getReferenceProps()}
         {...props}
-        className={twMerge('cursor-default pr-[32px] focus:border-slate-400 focus:shadow-[0_0_4px_rgba(148,163,184,0.3)] selection:text-white text-[1rem]', className)}
+        className={twMerge('cursor-default pr-[32px] field-sizing-content focus:border-slate-400 focus:shadow-[0_0_4px_rgba(148,163,184,0.3)] selection:text-white text-[1rem]', className)}
         readOnly
         ref={refs.setReference}
         value={store.state.options.filter((option: Option): boolean | undefined => option.selected)?.[0]?.name ?? ''}
@@ -85,7 +85,8 @@ export const Select = observer(({
                   return (
                     <button
                       className={twMerge('flex hover:bg-blue-100/[0.375] items-center justify-between min-h-[44px] outline-none text-left transition',
-                        selected && 'bg-blue-100/[0.625] hover:bg-blue-100/[0.625] pr-[8px]'
+                        selected && 'bg-blue-100/[0.625] hover:bg-blue-100/[0.625] pr-[8px]',
+                        selected && icon && 'pr-[28px]'
                       )}
                       key={value}
                       tabIndex={0}
@@ -97,7 +98,7 @@ export const Select = observer(({
                       })}
                     >
                       {icon && (
-                        <Icon className="ml-[12px] size-[20px]" primary="#404040" source={icon} />
+                        <Icon className="ml-[12px] size-[20px]" source={icon} />
                       )}
                       <span
                         className={twMerge('px-[1rem] py-[0.375rem] w-full whitespace-nowrap transition',
@@ -109,7 +110,7 @@ export const Select = observer(({
                       </span>
                       {selected && (
                         <Icon
-                          className="h-[22px] relative top-[-1px] w-[22px]"
+                          className="h-[22px] relative right-[-12px] top-[-1px] w-[22px]"
                           primary="#3b82f6"
                           source={Checkmark}
                         />

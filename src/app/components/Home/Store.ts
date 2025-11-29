@@ -1,10 +1,11 @@
 import { makeAutoObservable, runInAction } from 'mobx'
-import { v4 as uuid } from 'uuid';
+import { v4 as uuid } from 'uuid'
 
+import { Action } from '@/types/Action'
+import { Input } from '@/types/Input'
 import { Status } from '@/types/Status'
 import type { RootStore } from '@/app/RootStore'
 import type { Textile } from '@/types/Textile'
-
 
 type State = {
   status: string
@@ -47,7 +48,9 @@ export class HomeStore {
     this.state.textile = {
       id: uuid(),
       name: '',
-      steps: [],
+      steps: [
+        { action: Action.START, id: uuid(), input: '' as Input, value: '' }
+      ],
     }
   }
 }

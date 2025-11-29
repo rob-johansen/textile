@@ -6,11 +6,18 @@ export const Text = ({ className, primary = '#000000' }: IconProps) => {
   return (
     <svg
       className={twMerge('h-[16px] shrink-0 w-[16px]', className)}
-      fill={primary}
+      fill="none"
+      stroke={primary}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1}
       viewBox="0 0 24 24"
     >
       <path d="M0 0h24v24H0z" fill="none" stroke="none" />
-      <path d="M18.333 2c1.96 0 3.56 1.537 3.662 3.472l.005 .195v12.666c0 1.96 -1.537 3.56 -3.472 3.662l-.195 .005h-12.666a3.667 3.667 0 0 1 -3.662 -3.472l-.005 -.195v-12.666c0 -1.96 1.537 -3.56 3.472 -3.662l.195 -.005h12.666zm-10.333 12h-2l-.117 .007a1 1 0 0 0 .117 1.993h2l.117 -.007a1 1 0 0 0 -.117 -1.993zm4 -3h-6l-.117 .007a1 1 0 0 0 .117 1.993h6l.117 -.007a1 1 0 0 0 -.117 -1.993zm-2 -3h-4l-.117 .007a1 1 0 0 0 .117 1.993h4l.117 -.007a1 1 0 0 0 -.117 -1.993z"/>
+      <path d="M3 3m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"/>
+      <path d="M9 15h-2"/>
+      <path d="M13 12h-6"/>
+      <path d="M11 9h-4"/>
     </svg>
   )
 }
