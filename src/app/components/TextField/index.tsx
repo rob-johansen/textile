@@ -1,5 +1,5 @@
-import { twMerge } from 'tailwind-merge'
 import { forwardRef } from 'react'
+import { twMerge } from 'tailwind-merge'
 import type { InputHTMLAttributes, ReactElement, Ref } from 'react'
 
 import { Label } from '@/app/components/Label'
@@ -87,7 +87,7 @@ export const TextField = forwardRef(
 
     return (
       <div className={outerStyles}>
-        {typeof label === 'string' && label && (
+        {label && (
           <Label disabled={props.disabled} error={!!error} htmlFor={props.id}>
             {label}
           </Label>

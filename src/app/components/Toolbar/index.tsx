@@ -16,6 +16,7 @@ export const Toolbar = observer(() => {
           className="bg-slate-50 focus:bg-white"
           hideError={true}
           icon={() => <Icon primary="#64748b" source={Search} />}
+          id="search"
           placeholder="Search"
           onChange={(event) => store.onChangeSearch(event.target.value)}
           outerClassName="min-w-[300px] w-full"

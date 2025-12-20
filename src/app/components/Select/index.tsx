@@ -71,7 +71,7 @@ export const Select = observer(({
           <FloatingFocusManager context={context} modal={false}>
             <div
               {...getFloatingProps()}
-              className="bg-neutral-50/[0.75] border-[1px] border-neutral-200 m-0 max-h-[260px] overflow-y-auto rounded shadow-md z-50"
+              className="bg-white border-[1px] border-neutral-200 m-0 max-h-[260px] overflow-y-auto rounded shadow-md z-50"
               ref={refs.setFloating}
               style={{
                 ...floatingStyles,
