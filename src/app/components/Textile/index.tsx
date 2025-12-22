@@ -14,7 +14,7 @@ export const Textile = observer(() => {
 
   return (
     <div className="mt-[20px] pb-[56px] w-fit">
-      <h1 className="text-[1.5rem] text-center tracking-[0.25px]">
+      <h1 className="ml-[120px] text-[1.5rem] tracking-[0.25px]">
         New Textile
       </h1>
       <div className="flex gap-x-[8px] items-start ml-[120px] mt-[20px]">

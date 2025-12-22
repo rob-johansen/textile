@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite'
 import { useContext } from 'react'
 
 import { Button } from '@/app/components/Button'
-import { Icon, Plus, Search } from '@/app/components/Icon'
+import { Icon, Search, Textile } from '@/app/components/Icon'
 import { StoreContext } from '@/app/contexts/StoreContext'
 import { TextField } from '@/app/components/TextField'
 
@@ -23,7 +23,7 @@ export const Toolbar = observer(() => {
           value={store.state.searchText}
         />
         <Button
-          icon={{ element: () => <Icon className="size-[20px]" primary="#ffffff" source={Plus} /> }}
+          icon={{ element: () => <Icon className="size-[20px]" primary="#ffffff" source={Textile} /> }}
           onClick={store.root.home.onClickNew}
         >
           New Textile

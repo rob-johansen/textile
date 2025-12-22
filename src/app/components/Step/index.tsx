@@ -78,7 +78,7 @@ export const Step = observer((props: Props) => {
           </div>
         )}
         <div className="flex gap-x-[8px] items-center relative top-[2px]">
-          <div className="bg-success flex font-bold items-center justify-center rounded-full size-[32px] text-white">
+          <div className="bg-gradient-to-br flex font-bold from-[#4568dc] from-[-0.27%] items-center justify-center rounded-full size-[32px] text-white to-[#b06ab3] to-[134.14%]">
             {index + 1}
           </div>
           {step.action === Action.START ? (
