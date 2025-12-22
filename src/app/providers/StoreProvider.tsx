@@ -11,6 +11,7 @@ let store: RootStore | null = null
 
 export const StoreProvider = ({ children }: StoreProps) => {
   if (store === null) {
+    // eslint-disable-next-line react-hooks/globals
     store = new RootStore()
   }
 

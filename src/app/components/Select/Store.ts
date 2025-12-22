@@ -8,13 +8,13 @@ type State = {
 }
 
 export class SelectStore {
-  state: State = {
-    open: false,
-    options: [],
-  }
+  state: State
 
   constructor(options: Option[], value: string) {
-    this.state.options = [...options]
+    this.state = {
+      open: false,
+      options: [...options]
+    }
 
     for (const option of this.state.options) {
       option.selected = option.value === value

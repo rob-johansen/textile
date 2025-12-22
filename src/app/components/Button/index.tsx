@@ -5,6 +5,7 @@ import { Icon, Loading } from '@/app/components/Icon'
 import type { IconProps } from '@/app/components/Icon/Icon'
 
 type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  destructive?: boolean
   icon?: {
     element: (props: IconProps) => React.ReactElement,
     location?: 'left' | 'right'
@@ -16,6 +17,7 @@ type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 export const Button = ({
   children,
   className,
+  destructive,
   disabled,
   icon,
   loading,
@@ -33,6 +35,7 @@ export const Button = ({
       hover:bg-blue-500/[0.875]
       items-center
       justify-center
+      outline-none
       px-[24px]
       relative
       rounded-full
@@ -48,16 +51,22 @@ export const Button = ({
       bg-transparent
       border
       border-blue-500
+      disabled:border-blue-500/[0.375]
+      disabled:hover:bg-transparent
       hover:bg-blue-500/[0.1]
       text-blue-500
     `,
+    variant === 'secondary' && destructive &&
+    `
+      active:bg-[#d72b0d]/[0.2]
+      border-[#d72b0d]
+      disabled:border-[#d72b0d]/[0.3]
+      hover:bg-[#d72b0d]/[0.1]
+      text-[#d72b0d]
+    `,
     disabled &&
     `
-      active:bg-[#bbbbbb]
-      bg-[#bbbbbb]
-      border-transparent
       cursor-not-allowed
-      hover:bg-[#bbbbbb]
       text-[#eeeeee]
     `,
     loading &&

@@ -10,17 +10,21 @@ export const Home = observer(() => {
   const { home: store } = useContext(StoreContext)
 
   return (
-    <div>
+    <>
       {store.state.status === Status.STARTING ? (
         <>Starting up...</>
       ) : (
         <>
-          <Toolbar />
-          {store.state.status === Status.CREATING && (
-            <Textile />
-          )}
+          <div className="bg-slate-100 sticky top-[0] z-10">
+            <Toolbar/>
+          </div>
+          <div className="flex-[1_1_auto] overflow-y-scroll scrollbar-thin">
+            {store.state.status === Status.CREATING && (
+              <Textile />
+            )}
+          </div>
         </>
       )}
-    </div>
+    </>
   )
 })

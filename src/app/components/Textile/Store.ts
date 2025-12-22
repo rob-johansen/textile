@@ -1,4 +1,5 @@
 import { makeAutoObservable } from 'mobx'
+import { v4 as uuid } from 'uuid'
 
 import { Action } from '@/types/Action'
 import { Input } from '@/types/Input'
@@ -23,19 +24,13 @@ export class TextileStore {
     makeAutoObservable(this)
   }
 
-  onChangeAction = (action: Action, index: number) => {
-    this.state.textile.steps[index].action = action
-  }
-
-  onChangeInput = (input: Input, index: number) => {
-    this.state.textile.steps[index].input = input
+  onClickAddStep = () => {
+    this.state.textile.steps.push(
+      { action: '' as Action, id: uuid(), input: '' as Input, value: '' }
+    )
   }
 
   onChangeName = (value: string): void => {
     this.state.textile.name = value
-  }
-
-  onChangeValue = (value: string, index: number) => {
-    this.state.textile.steps[index].value = value
   }
 }
