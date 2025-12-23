@@ -20,6 +20,7 @@ import { Select } from '@/app/components/Select'
 import { StepStore } from './Store'
 import { StoreContext } from '@/app/contexts/StoreContext'
 import { TextArea } from '@/app/components/TextArea'
+import { TextField } from '@/app/components/TextField'
 import type { Step as StepType } from '@/types/Step'
 
 type Props = {
@@ -32,8 +33,8 @@ export const Step = observer((props: Props) => {
   const [store] = useState(() => new StepStore(root))
 
   const { index, step } = props
-  const actionId = `action${index}`
-  const inputId = `input${index}`
+  const questionId = `question${index}`
+  const pathId = `path${index}`
   const valueId = `value${index}`
 
   let actionIcon
@@ -48,21 +49,28 @@ export const Step = observer((props: Props) => {
   if (step.input === Input.TEXT_NOW) inputIcon = Text
 
   useEffect(() => {
-    const select = document.getElementById(inputId)
+    const question = document.getElementById(questionId)
     const textArea = document.getElementById(valueId)
+    const textField = document.getElementById(pathId)
 
-    if (select && textArea) {
-      textArea.style.width = `${select.offsetWidth}px`
-      setTimeout(() => {
-        textArea.focus()
-      })
+    if (question) {
+      if (textArea) {
+        textArea.style.width = `${question.offsetWidth}px`
+        setTimeout(() => {
+          textArea.focus()
+        })
+      }
+
+      if (textField) {
+        textField.style.width = `${question.offsetWidth}px`
+      }
     }
-  }, [inputId, step.input, valueId])
+  }, [questionId, pathId, step.input, valueId])
 
   return (
     <div className="flex flex-col w-fit">
       <div className={`flex gap-x-[8px] items-start ${index === 0 && 'ml-[120px]'}`}>
-        {store.showMoveDelete(index) && (
+        {store.showDeleteMoveButtons(index) && (
           <div className="flex gap-x-[8px] h-[36px] items-center ml-[20px] mr-[12px]">
             <Button
               className="px-[0] rounded size-[36px]"
@@ -95,58 +103,93 @@ export const Step = observer((props: Props) => {
             </div>
           </div>
         )}
-        <div className="flex gap-x-[8px] items-center relative top-[2px]">
-          <div className="bg-gradient-to-br flex font-bold from-[#4568dc] from-[-0.27%] items-center justify-center rounded-full size-[32px] text-white to-[#b06ab3] to-[134.14%]">
-            {index + 1}
+        <div className="flex gap-x-[8px] items-center" id={questionId}>
+          <div className="flex gap-x-[8px] items-center relative self-start top-[2px]">
+            <div className="bg-gradient-to-br flex font-bold from-[#4568dc] from-[-0.27%] items-center justify-center rounded-full size-[32px] text-white to-[#b06ab3] to-[134.14%]">
+              {index + 1}
+            </div>
+            {step.action === Action.START ? (
+              <span>Start with:</span>
+            ) : (
+              <span>Then:</span>
+            )}
           </div>
-          {step.action === Action.START ? (
-            <span>Start with:</span>
-          ) : (
-            <span>Then:</span>
-          )}
-        </div>
-        <div className="flex gap-x-[8px] items-center">
-          {store.showActionSelect(index) && (
-            <Select
-              id={actionId}
-              onClickOption={({ value }) => store.onChangeAction(value as Action, index)}
-              options={[
-                { icon: RightArrowBar, name: 'append', value: Action.APPEND },
-                { icon: FindReplace, name: 'replace', value: Action.REPLACE },
-                { icon: ClipboardCheck, name: 'copy the result to my clipboard', value: Action.COPY },
-                { icon: Text, name: 'show the result', value: Action.SHOW },
-              ]}
-              outerClassName={step.action ? '' : 'w-[66px]'}
-              placeholder="..."
-              value={step.action || ''}
-              {...(actionIcon ? { icon: actionIcon } : {})}
-            />
-          )}
-          {store.showInputSelect(index) && (
-            <Select
-              id={inputId}
-              onClickOption={({ value }) => store.onChangeInput(value as Input, index)}
-              options={[
-                { icon: Text, name: 'text that I will provide now', value: Input.TEXT_NOW },
-                { icon: Clipboard, name: 'the text on my clipboard when I run this textile', value: Input.CLIPBOARD_RUNTIME },
-                { icon: Terminal, name: 'the output of a command when I run this textile', value: Input.COMMAND_RUNTIME },
-              ]}
-              outerClassName={step.input ? '' : 'w-[66px]'}
-              placeholder="..."
-              value={step.input || ''}
-              {...(inputIcon ? { icon: inputIcon } : {})}
-            />
-          )}
+          <div className="flex gap-x-[8px] items-center">
+            {store.showActionSelect(index) && (
+              <Select
+                onClickOption={({ value }) => store.onChangeAction(value as Action, index)}
+                options={[
+                  { icon: RightArrowBar, name: 'append', value: Action.APPEND },
+                  { icon: FindReplace, name: 'replace', value: Action.REPLACE },
+                  { icon: ClipboardCheck, name: 'copy the result to my clipboard', value: Action.COPY },
+                  { icon: Text, name: 'show the result', value: Action.SHOW },
+                ]}
+                outerClassName={step.action ? '' : 'w-[66px]'}
+                placeholder="..."
+                value={step.action}
+                {...(actionIcon ? { icon: actionIcon } : {})}
+              />
+            )}
+            {store.showInputSelect(index) && (
+              <Select
+                onClickOption={({ value }) => store.onChangeInput(value as Input, index)}
+                options={[
+                  { icon: Text, name: 'text that I will provide now', value: Input.TEXT_NOW },
+                  { icon: Clipboard, name: 'the text on my clipboard when I run this textile', value: Input.CLIPBOARD_RUNTIME },
+                  { icon: Terminal, name: 'the output of a command when I run this textile', value: Input.COMMAND_RUNTIME },
+                ]}
+                outerClassName={step.input ? '' : 'w-[66px]'}
+                placeholder="..."
+                value={step.input}
+                {...(inputIcon ? { icon: inputIcon } : {})}
+              />
+            )}
+            {store.showReplaceInputs(index) && (
+              <div className="flex gap-x-[8px] items-center">
+                <TextField
+                  className="font-[JetBrains]"
+                  onChange={(event) => store.onChangeValue(event.target.value, index)}
+                  outerClassName={'w-[184px]'}
+                  placeholder="..."
+                  spellCheck={false}
+                  value={step.value}
+                />
+                <span className="relative self-start top-[7px]">
+                  with
+                </span>
+                <TextField
+                  className="font-[JetBrains] text-[0.875rem]"
+                  onChange={(event) => store.onChangeMetadata(event.target.value, index)}
+                  outerClassName={'w-[184px]'}
+                  placeholder="..."
+                  spellCheck={false}
+                  value={step.metadata.replacement ?? ''}
+                />
+              </div>
+            )}
+          </div>
         </div>
       </div>
-      {(step.input === Input.TEXT_NOW || step.input === Input.COMMAND_RUNTIME) && (
+      {store.showValueTextArea(index) && (
         <TextArea
-          className={`field-sizing-content whitespace-pre ${step.input === Input.COMMAND_RUNTIME && 'font-[JetBrains]'}`}
+          className="field-sizing-content whitespace-pre font-[JetBrains] text-[0.875rem]"
           id={valueId}
           onChange={(event) => store.onChangeValue(event.target.value, index)}
-          outerClassName="self-end"
+          outerClassName="ml-[120px]"
           placeholder={step.input === Input.TEXT_NOW ? 'Enter the text here' : 'Enter the command here'}
+          spellCheck={false}
           value={step.value}
+        />
+      )}
+      {store.showPathInput(index) && (
+        <TextField
+          className="font-[JetBrains] text-[0.875rem]"
+          id={pathId}
+          onChange={(event) => store.onChangeMetadata(event.target.value, index)}
+          outerClassName="ml-[120px]"
+          placeholder="Enter the path here"
+          spellCheck={false}
+          value={step.metadata.path ?? ''}
         />
       )}
     </div>

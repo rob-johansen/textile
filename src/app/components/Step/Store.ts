@@ -32,11 +32,30 @@ export class StepStore {
   }
 
   onChangeAction = (action: Action, index: number) => {
-    this.state.textile.steps[index].action = action
+    const step = this.state.textile.steps[index]
+    step.action = action
+
+    if (action === Action.REPLACE) {
+      step.input = Input.REPLACE_TARGET
+    } else {
+      step.input = '' as Input
+    }
   }
 
   onChangeInput = (input: Input, index: number) => {
     this.state.textile.steps[index].input = input
+  }
+
+  onChangeMetadata = (value: string, index: number) => {
+    const step = this.state.textile.steps[index]
+
+    if (step.input === Input.COMMAND_RUNTIME) {
+      step.metadata.path = value
+      step.metadata.replacement = undefined
+    } else if (step.input === Input.REPLACE_TARGET) {
+      step.metadata.path = undefined
+      step.metadata.replacement = value
+    }
   }
 
   onChangeValue = (value: string, index: number) => {
@@ -57,16 +76,36 @@ export class StepStore {
     this.state.textile.steps.splice(index - 1, 0, step)
   }
 
-  showInputSelect = (index: number): boolean => {
-    const step = this.state.textile.steps[index]
-    return index === 0 || (step.action && ![Action.COPY, Action.SHOW].includes(step.action))
-  }
-
   showActionSelect = (index: number): boolean => {
     return index > 0
   }
 
-  showMoveDelete = (index: number): boolean => {
+  showDeleteMoveButtons = (index: number): boolean => {
     return index > 0
+  }
+
+  showInputSelect = (index: number): boolean => {
+    const step = this.state.textile.steps[index]
+
+    if (step.input === Input.REPLACE_TARGET) {
+      return false
+    }
+
+    return index === 0 || (step.action && ![Action.COPY, Action.SHOW].includes(step.action))
+  }
+
+  showPathInput = (index: number): boolean => {
+    const step = this.state.textile.steps[index]
+    return step.input === Input.COMMAND_RUNTIME
+  }
+
+  showReplaceInputs = (index: number): boolean => {
+    const step = this.state.textile.steps[index]
+    return step.input === Input.REPLACE_TARGET
+  }
+
+  showValueTextArea = (index: number): boolean => {
+    const step = this.state.textile.steps[index]
+    return [Input.COMMAND_RUNTIME, Input.TEXT_NOW].includes(step.input)
   }
 }

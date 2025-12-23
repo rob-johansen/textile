@@ -49,10 +49,10 @@ The steps can be:
 2. Then `append` `the output of a command when I run this textile`:
     
     ```
-    command: git branch --show-current
+    git branch --show-current
     ```
     ```
-    path: ~/code/Frontend
+    ~/code/Frontend
     ```
     
 3. Then `replace` `CAT/` with `cat-`

@@ -25,9 +25,13 @@ export class TextileStore {
   }
 
   onClickAddStep = () => {
-    this.state.textile.steps.push(
-      { action: '' as Action, id: uuid(), input: '' as Input, value: '' }
-    )
+    this.state.textile.steps.push({
+      action: '' as Action,
+      id: uuid(),
+      input: '' as Input,
+      metadata: {},
+      value: ''
+    })
   }
 
   onChangeName = (value: string): void => {

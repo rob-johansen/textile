@@ -49,7 +49,13 @@ export class HomeStore {
       id: uuid(),
       name: '',
       steps: [
-        { action: Action.START, id: uuid(), input: '' as Input, value: '' }
+        {
+          action: Action.START,
+          id: uuid(),
+          input: '' as Input,
+          metadata: {},
+          value: ''
+        }
       ],
     }
   }
