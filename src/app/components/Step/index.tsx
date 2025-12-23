@@ -73,7 +73,7 @@ export const Step = observer((props: Props) => {
         {store.showDeleteMoveButtons(index) && (
           <div className="flex gap-x-[8px] h-[36px] items-center ml-[20px] mr-[12px]">
             <Button
-              className="px-[0] rounded size-[36px]"
+              className="px-[0] w-[36px]"
               destructive
               onClick={() => store.onClickDeleteStep(index)}
               title="Delete this step"
@@ -83,7 +83,7 @@ export const Step = observer((props: Props) => {
             </Button>
             <div>
               <Button
-                className="border-b-[0] h-[18px] px-[0] rounded-b-none rounded-t-[4px] w-[36px]"
+                className="border-b-[0] h-[18px] px-[0] rounded-b-none w-[36px]"
                 disabled={store.moveUpDisabled(index)}
                 onClick={() => store.onClickMoveUp(index)}
                 title="Move this step up"
@@ -92,7 +92,7 @@ export const Step = observer((props: Props) => {
                 <Icon className={store.moveUpDisabled(index) ? 'opacity-50' : ''} primary="#3b82f6" source={ChevronUp} />
               </Button>
               <Button
-                className="border-t-blue-500/[0.375] h-[18px] px-[0] rounded-b-[4px] rounded-t-none w-[36px]"
+                className="border-t-blue-500/[0.375] h-[18px] px-[0] rounded-t-none w-[36px]"
                 disabled={store.moveDownDisabled(index)}
                 onClick={() => store.onClickMoveDown(index)}
                 title="Move this step down"

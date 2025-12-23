@@ -38,7 +38,7 @@ export const Button = ({
       outline-none
       px-[24px]
       relative
-      rounded-full
+      rounded-[8px]
       text-[1.0625rem]
       text-white
       tracking-[0.5px]
