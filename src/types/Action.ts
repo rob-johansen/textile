@@ -1,7 +1,7 @@
 export enum Action {
   APPEND = 'APPEND',
-  PREPEND = 'PREPEND',
-  REMOVE = 'REMOVE',
+  COPY = 'COPY',
   REPLACE = 'REPLACE',
+  SHOW = 'SHOW',
   START = 'START',
 }

@@ -1,5 +1,68 @@
 # Textile
 
+## Use Cases
+
+### Link to Jira Ticket
+    
+    https://pieinsurance.atlassian.net/browse/CAT-2622
+    
+The steps can be:
+
+1. Start with `text that I will provide now`:
+    
+    ```
+    https://pieinsurance.atlassian.net/browse/
+    ```
+    
+2. Then `append` `the text on my clipboard when I run this textile`
+3. Then `copy the result to my clipboard`
+
+### GitHub Link to Jira Ticket
+    
+    [CAT-2622](https://pieinsurance.atlassian.net/browse/CAT-2622)
+
+The steps can be:
+
+1. Start with `text that I will provide now`:
+    
+    ```
+    [
+    ```
+    
+2. Then `append` `the text on my clipboard when I run this textile`
+3. Then `append` `[(https://pieinsurance.atlassian.net/browse/`
+4. Then `append` `the text on my clipboard when I run this textile`
+5. Then `append` `)`
+
+### GitHub Link to `work-comp` Preview URL
+
+    [work-comp](https://partner-git-cat-2622-customize-draft.pieinsurance.dev/work-comp)
+    
+The steps can be:
+
+1. Start with `text that I will provide now`:
+    
+    ```
+    [work-comp](https://partner-git-
+    ```
+    
+2. Then `append` `the output of a command when I run this textile`:
+    
+    ```
+    command: git branch --show-current
+    ```
+    ```
+    path: ~/code/Frontend
+    ```
+    
+3. Then `replace` `CAT/` with `cat-`
+4. Then `append` `text that I will provide now`:
+    
+    ```
+    .pieinsurance.dev/work-comp)
+    ```
+    
+
 ## Flow
 
 ### Launch
@@ -35,8 +98,6 @@
     - Finish
 7. When "Add Step" is clicked, Textile shows "2." and an `action` dropdown with "..." placeholder and these options:
     - Append
-    - Prepend
-    - Remove
     - Replace
 8. When an action is selected, Textile shows a new `input` dropdown with "..." placeholder and options corresponding to the action
 9. When "Finish" is clicked, Textile displays its concluding dropdown with the following options:

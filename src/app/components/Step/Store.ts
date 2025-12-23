@@ -1,9 +1,9 @@
 import { makeAutoObservable } from 'mobx'
 
+import { Action } from '@/types/Action'
 import { Input } from '@/types/Input'
 import type { RootStore } from '@/app/RootStore'
 import type { Textile } from '@/types/Textile'
-import { Action } from '@/types/Action'
 
 type State = {
   textile: Textile
@@ -22,11 +22,13 @@ export class StepStore {
   }
 
   moveDownDisabled = (index: number): boolean => {
-    return index === this.state.textile.steps.length - 1
+    const nextStep = this.state.textile.steps[index + 1]
+    return index === this.state.textile.steps.length - 1 || (nextStep && [Action.COPY, Action.SHOW].includes(nextStep.action))
   }
 
   moveUpDisabled = (index: number): boolean => {
-    return index === 1
+    const step = this.state.textile.steps[index]
+    return index === 1 || [Action.COPY, Action.SHOW].includes(step.action)
   }
 
   onChangeAction = (action: Action, index: number) => {
@@ -53,6 +55,15 @@ export class StepStore {
   onClickMoveUp = (index: number) => {
     const [step] = this.state.textile.steps.splice(index, 1)
     this.state.textile.steps.splice(index - 1, 0, step)
+  }
+
+  showInputSelect = (index: number): boolean => {
+    const step = this.state.textile.steps[index]
+    return index === 0 || (step.action && ![Action.COPY, Action.SHOW].includes(step.action))
+  }
+
+  showActionSelect = (index: number): boolean => {
+    return index > 0
   }
 
   showMoveDelete = (index: number): boolean => {

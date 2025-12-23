@@ -3,7 +3,18 @@ import { useContext, useEffect, useState } from 'react'
 
 import { Action } from '@/types/Action'
 import { Button } from '@/app/components/Button'
-import { Icon, ChevronDown, ChevronUp, Clipboard, Close, Terminal, Text } from '@/app/components/Icon'
+import {
+  ChevronDown,
+  ChevronUp,
+  Clipboard,
+  ClipboardCheck,
+  Close,
+  FindReplace,
+  Icon,
+  RightArrowBar,
+  Terminal,
+  Text
+} from '@/app/components/Icon'
 import { Input } from '@/types/Input'
 import { Select } from '@/app/components/Select'
 import { StepStore } from './Store'
@@ -21,8 +32,15 @@ export const Step = observer((props: Props) => {
   const [store] = useState(() => new StepStore(root))
 
   const { index, step } = props
+  const actionId = `action${index}`
   const inputId = `input${index}`
   const valueId = `value${index}`
+
+  let actionIcon
+  if (step.action === Action.APPEND) actionIcon = RightArrowBar
+  if (step.action === Action.REPLACE) actionIcon = FindReplace
+  if (step.action === Action.COPY) actionIcon = ClipboardCheck
+  if (step.action === Action.SHOW) actionIcon = Text
 
   let inputIcon
   if (step.input === Input.CLIPBOARD_RUNTIME) inputIcon = Clipboard
@@ -53,7 +71,7 @@ export const Step = observer((props: Props) => {
               title="Delete this step"
               variant="secondary"
             >
-              <Icon className="size-[22px]" primary="#d72b0d" source={Close}/>
+              <Icon className="size-[22px]" primary="#d72b0d" source={Close} />
             </Button>
             <div>
               <Button
@@ -63,7 +81,7 @@ export const Step = observer((props: Props) => {
                 title="Move this step up"
                 variant="secondary"
               >
-                <Icon className={store.moveUpDisabled(index) ? 'opacity-50' : ''} primary="#3b82f6" source={ChevronUp}/>
+                <Icon className={store.moveUpDisabled(index) ? 'opacity-50' : ''} primary="#3b82f6" source={ChevronUp} />
               </Button>
               <Button
                 className="border-t-blue-500/[0.375] h-[18px] px-[0] rounded-b-[4px] rounded-t-none w-[36px]"
@@ -72,7 +90,7 @@ export const Step = observer((props: Props) => {
                 title="Move this step down"
                 variant="secondary"
               >
-                <Icon className={store.moveDownDisabled(index) ? 'opacity-50' : ''} primary="#3b82f6" source={ChevronDown}/>
+                <Icon className={store.moveDownDisabled(index) ? 'opacity-50' : ''} primary="#3b82f6" source={ChevronDown} />
               </Button>
             </div>
           </div>
@@ -84,22 +102,42 @@ export const Step = observer((props: Props) => {
           {step.action === Action.START ? (
             <span>Start with:</span>
           ) : (
-            <span>select with append, replace, etc.</span>
+            <span>Then:</span>
           )}
         </div>
-        <Select
-          id={inputId}
-          onClickOption={({value}) => store.onChangeInput(value as Input, index)}
-          options={[
-            {icon: Text, name: 'Text that I will provide now', value: Input.TEXT_NOW},
-            {icon: Clipboard, name: 'The text on my clipboard when I run this textile', value: Input.CLIPBOARD_RUNTIME},
-            {icon: Terminal, name: 'The output of a command when I run this textile', value: Input.COMMAND_RUNTIME},
-          ]}
-          outerClassName={step.input ? '' : 'w-[66px]'}
-          placeholder="..."
-          value={step.input || ''}
-          {...(inputIcon ? {icon: inputIcon} : {})}
-        />
+        <div className="flex gap-x-[8px] items-center">
+          {store.showActionSelect(index) && (
+            <Select
+              id={actionId}
+              onClickOption={({ value }) => store.onChangeAction(value as Action, index)}
+              options={[
+                { icon: RightArrowBar, name: 'append', value: Action.APPEND },
+                { icon: FindReplace, name: 'replace', value: Action.REPLACE },
+                { icon: ClipboardCheck, name: 'copy the result to my clipboard', value: Action.COPY },
+                { icon: Text, name: 'show the result', value: Action.SHOW },
+              ]}
+              outerClassName={step.action ? '' : 'w-[66px]'}
+              placeholder="..."
+              value={step.action || ''}
+              {...(actionIcon ? { icon: actionIcon } : {})}
+            />
+          )}
+          {store.showInputSelect(index) && (
+            <Select
+              id={inputId}
+              onClickOption={({ value }) => store.onChangeInput(value as Input, index)}
+              options={[
+                { icon: Text, name: 'text that I will provide now', value: Input.TEXT_NOW },
+                { icon: Clipboard, name: 'the text on my clipboard when I run this textile', value: Input.CLIPBOARD_RUNTIME },
+                { icon: Terminal, name: 'the output of a command when I run this textile', value: Input.COMMAND_RUNTIME },
+              ]}
+              outerClassName={step.input ? '' : 'w-[66px]'}
+              placeholder="..."
+              value={step.input || ''}
+              {...(inputIcon ? { icon: inputIcon } : {})}
+            />
+          )}
+        </div>
       </div>
       {(step.input === Input.TEXT_NOW || step.input === Input.COMMAND_RUNTIME) && (
         <TextArea

@@ -1,13 +1,18 @@
 export { Icon } from './Icon'
 
 /* Alphabetical list of available icons */
+export { Backspace } from './svgs/Backspace'
+export { BarLeftArrow } from './svgs/BarLeftArrow'
 export { Checkmark } from './svgs/Checkmark'
 export { ChevronDown } from './svgs/ChevronDown'
 export { ChevronUp } from './svgs/ChevronUp'
 export { Clipboard } from './svgs/Clipboard'
+export { ClipboardCheck } from './svgs/ClipboardCheck'
 export { Close } from './svgs/Close'
+export { FindReplace } from './svgs/FindReplace'
 export { Loading } from './svgs/Loading'
 export { Plus } from './svgs/Plus'
+export { RightArrowBar } from './svgs/RightArrowBar'
 export { Search } from './svgs/Search'
 export { Terminal } from './svgs/Terminal'
 export { Text } from './svgs/Text'
