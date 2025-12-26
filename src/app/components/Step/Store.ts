@@ -1,8 +1,10 @@
 import { makeAutoObservable } from 'mobx'
+import { v4 as uuid } from 'uuid'
 
 import { Action } from '@/types/Action'
 import { Input } from '@/types/Input'
 import type { RootStore } from '@/app/RootStore'
+import type { Step } from '@/types/Step'
 import type { Textile } from '@/types/Textile'
 
 type State = {
@@ -31,8 +33,7 @@ export class StepStore {
     return index === 1 || [Action.COPY, Action.SHOW].includes(step.action)
   }
 
-  onChangeAction = (action: Action, index: number) => {
-    const step = this.state.textile.steps[index]
+  onChangeAction = (step: Step, action: Action) => {
     step.action = action
 
     if (action === Action.REPLACE) {
@@ -42,24 +43,45 @@ export class StepStore {
     }
   }
 
-  onChangeInput = (input: Input, index: number) => {
-    this.state.textile.steps[index].input = input
+  onChangeArg = (step: Step, index: number, value: string) => {
+    const args = step.metadata.args
+    if (args) {
+      args[index].value = value
+    }
   }
 
-  onChangeMetadata = (value: string, index: number) => {
-    const step = this.state.textile.steps[index]
+  onChangeInput = (step: Step, input: Input) => {
+    step.input = input
+    step.metadata.args = step.input === Input.COMMAND_RUNTIME ? [{id: uuid(), value: ''}] : undefined
+    step.metadata.path = step.input === Input.COMMAND_RUNTIME ? '' : undefined
+    step.metadata.replacement = step.input === Input.REPLACE_TARGET ? '' : undefined
+    step.value = ''
+  }
 
+  onChangeMetadata = (step: Step, value: string) => {
     if (step.input === Input.COMMAND_RUNTIME) {
       step.metadata.path = value
-      step.metadata.replacement = undefined
     } else if (step.input === Input.REPLACE_TARGET) {
-      step.metadata.path = undefined
       step.metadata.replacement = value
     }
   }
 
   onChangeValue = (value: string, index: number) => {
     this.state.textile.steps[index].value = value
+  }
+
+  onClickAddArg = (step: Step) => {
+    const args = step.metadata.args
+    if (args) {
+      args.push({ id: uuid(), value: '' })
+    }
+  }
+
+  onClickDeleteArg = (step: Step, index: number) => {
+    const args = step.metadata.args
+    if (args) {
+      args.splice(index, 1)
+    }
   }
 
   onClickDeleteStep = (index: number) => {
@@ -76,8 +98,16 @@ export class StepStore {
     this.state.textile.steps.splice(index - 1, 0, step)
   }
 
+  showArgInputs = (step: Step): boolean => {
+    return step.input === Input.COMMAND_RUNTIME
+  }
+
   showActionSelect = (index: number): boolean => {
     return index > 0
+  }
+
+  showCommandInput = (step: Step): boolean => {
+    return step.input === Input.COMMAND_RUNTIME
   }
 
   showDeleteMoveButtons = (index: number): boolean => {
@@ -94,18 +124,15 @@ export class StepStore {
     return index === 0 || (step.action && ![Action.COPY, Action.SHOW].includes(step.action))
   }
 
-  showPathInput = (index: number): boolean => {
-    const step = this.state.textile.steps[index]
+  showPathInput = (step: Step): boolean => {
     return step.input === Input.COMMAND_RUNTIME
   }
 
-  showReplaceInputs = (index: number): boolean => {
-    const step = this.state.textile.steps[index]
+  showReplaceInputs = (step: Step): boolean => {
     return step.input === Input.REPLACE_TARGET
   }
 
-  showValueTextArea = (index: number): boolean => {
-    const step = this.state.textile.steps[index]
-    return [Input.COMMAND_RUNTIME, Input.TEXT_NOW].includes(step.input)
+  showTextArea = (step: Step): boolean => {
+    return step.input === Input.TEXT_NOW
   }
 }

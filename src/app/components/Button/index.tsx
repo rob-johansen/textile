@@ -48,6 +48,7 @@ export const Button = ({
     variant === 'secondary' &&
     `
       active:bg-blue-500/[0.2]
+      disabled:bg-transparent
       bg-transparent
       border
       border-blue-500

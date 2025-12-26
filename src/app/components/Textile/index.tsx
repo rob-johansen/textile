@@ -13,7 +13,7 @@ export const Textile = observer(() => {
   const [store] = useState(() => new TextileStore(root))
 
   return (
-    <div className="mt-[20px] pb-[56px] w-fit">
+    <div className="min-w-[756px] mt-[20px] pb-[56px] w-fit">
       <h1 className="ml-[120px] text-[1.5rem] tracking-[0.25px]">
         New Textile
       </h1>
@@ -26,7 +26,7 @@ export const Textile = observer(() => {
           error={store.state.nameError}
           id="name"
           onChange={(event) => store.onChangeName(event.target.value)}
-          outerClassName="w-[300px]"
+          outerClassName="w-full"
           value={store.state.textile.name}
         />
       </div>
@@ -41,7 +41,7 @@ export const Textile = observer(() => {
           )
         })}
       </div>
-      <div className="flex ml-[120px] mt-[16px]">
+      <div className="flex justify-between ml-[120px] mt-[16px]">
         <Button
           icon={{ element: () => <Icon className="size-[20px]" primary="#3b82f6" source={Plus} /> }}
           onClick={store.onClickAddStep}
@@ -49,6 +49,18 @@ export const Textile = observer(() => {
         >
           Add Step
         </Button>
+        <div className="flex gap-x-[16px] items-center">
+          <Button
+            variant="secondary"
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={store.onClickSave}
+          >
+            Save
+          </Button>
+        </div>
       </div>
     </div>
   )

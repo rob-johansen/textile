@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 
 import { Action } from '@/types/Action'
 import { Button } from '@/app/components/Button'
@@ -11,6 +11,7 @@ import {
   Close,
   FindReplace,
   Icon,
+  Plus,
   RightArrowBar,
   Terminal,
   Text
@@ -47,25 +48,6 @@ export const Step = observer((props: Props) => {
   if (step.input === Input.CLIPBOARD_RUNTIME) inputIcon = Clipboard
   if (step.input === Input.COMMAND_RUNTIME) inputIcon = Terminal
   if (step.input === Input.TEXT_NOW) inputIcon = Text
-
-  useEffect(() => {
-    const question = document.getElementById(questionId)
-    const textArea = document.getElementById(valueId)
-    const textField = document.getElementById(pathId)
-
-    if (question) {
-      if (textArea) {
-        textArea.style.width = `${question.offsetWidth}px`
-        setTimeout(() => {
-          textArea.focus()
-        })
-      }
-
-      if (textField) {
-        textField.style.width = `${question.offsetWidth}px`
-      }
-    }
-  }, [questionId, pathId, step.input, valueId])
 
   return (
     <div className="flex flex-col w-fit">
@@ -117,7 +99,7 @@ export const Step = observer((props: Props) => {
           <div className="flex gap-x-[8px] items-center">
             {store.showActionSelect(index) && (
               <Select
-                onClickOption={({ value }) => store.onChangeAction(value as Action, index)}
+                onClickOption={({ value }) => store.onChangeAction(step, value as Action)}
                 options={[
                   { icon: RightArrowBar, name: 'append', value: Action.APPEND },
                   { icon: FindReplace, name: 'replace', value: Action.REPLACE },
@@ -132,7 +114,7 @@ export const Step = observer((props: Props) => {
             )}
             {store.showInputSelect(index) && (
               <Select
-                onClickOption={({ value }) => store.onChangeInput(value as Input, index)}
+                onClickOption={({ value }) => store.onChangeInput(step, value as Input)}
                 options={[
                   { icon: Text, name: 'text that I will provide now', value: Input.TEXT_NOW },
                   { icon: Clipboard, name: 'the text on my clipboard when I run this textile', value: Input.CLIPBOARD_RUNTIME },
@@ -144,7 +126,7 @@ export const Step = observer((props: Props) => {
                 {...(inputIcon ? { icon: inputIcon } : {})}
               />
             )}
-            {store.showReplaceInputs(index) && (
+            {store.showReplaceInputs(step) && (
               <div className="flex gap-x-[8px] items-center">
                 <TextField
                   className="font-[JetBrains]"
@@ -159,7 +141,7 @@ export const Step = observer((props: Props) => {
                 </span>
                 <TextField
                   className="font-[JetBrains] text-[0.875rem]"
-                  onChange={(event) => store.onChangeMetadata(event.target.value, index)}
+                  onChange={(event) => store.onChangeMetadata(step, event.target.value)}
                   outerClassName={'w-[184px]'}
                   placeholder="..."
                   spellCheck={false}
@@ -170,24 +152,75 @@ export const Step = observer((props: Props) => {
           </div>
         </div>
       </div>
-      {store.showValueTextArea(index) && (
+      {store.showCommandInput(step) && (
+        <TextField
+          className="font-[JetBrains] text-[0.875rem]"
+          id={valueId}
+          onChange={(event) => store.onChangeValue(event.target.value, index)}
+          outerClassName="ml-[120px]"
+          placeholder={step.input === Input.TEXT_NOW ? 'Enter the text' : 'Enter the command'}
+          spellCheck={false}
+          value={step.value}
+        />
+      )}
+      {store.showTextArea(step) && (
         <TextArea
           className="field-sizing-content whitespace-pre font-[JetBrains] text-[0.875rem]"
           id={valueId}
           onChange={(event) => store.onChangeValue(event.target.value, index)}
           outerClassName="ml-[120px]"
-          placeholder={step.input === Input.TEXT_NOW ? 'Enter the text here' : 'Enter the command here'}
+          placeholder={step.input === Input.TEXT_NOW ? 'Enter the text' : 'Enter the command'}
           spellCheck={false}
           value={step.value}
         />
       )}
-      {store.showPathInput(index) && (
+      {store.showArgInputs(step) && (
+        step.metadata.args?.map((arg, index) => {
+          const argId = `arg${index}`
+
+          return (
+            <div
+              className="flex gap-x-[8px] items-start"
+              key={arg.id}
+            >
+              <TextField
+                className="font-[JetBrains] text-[0.875rem]"
+                id={argId}
+                onChange={(event) => store.onChangeArg(step, index, event.target.value)}
+                outerClassName="ml-[120px] w-full"
+                placeholder={`Enter ${index === 0 ? 'the first' : 'another'} command argument (optional)`}
+                spellCheck={false}
+                value={arg.value}
+              />
+              <Button
+                className="px-[0] shrink-0 w-[36px]"
+                onClick={() => store.onClickAddArg(step)}
+                title="Add an argument"
+                variant="secondary"
+              >
+                <Icon className="size-[20px]" primary="#3b82f6" source={Plus} />
+              </Button>
+              <Button
+                className="px-[0] shrink-0 w-[36px]"
+                destructive
+                disabled={index === 0}
+                onClick={() => store.onClickDeleteArg(step, index)}
+                title="Delete this argument"
+                variant="secondary"
+              >
+                <Icon className={`size-[22px] ${index === 0 && 'opacity-50'}`} primary="#d72b0d" source={Close} />
+              </Button>
+            </div>
+          )
+        })
+      )}
+      {store.showPathInput(step) && (
         <TextField
           className="font-[JetBrains] text-[0.875rem]"
           id={pathId}
-          onChange={(event) => store.onChangeMetadata(event.target.value, index)}
+          onChange={(event) => store.onChangeMetadata(step, event.target.value)}
           outerClassName="ml-[120px]"
-          placeholder="Enter the path here"
+          placeholder="Enter the full path where the command should run"
           spellCheck={false}
           value={step.metadata.path ?? ''}
         />
