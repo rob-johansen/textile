@@ -3,6 +3,7 @@ import { useContext, useState } from 'react'
 
 import { Button } from '@/app/components/Button'
 import { Icon, Plus } from '@/app/components/Icon'
+import { Modal } from '@/app/components/Modal'
 import { Step } from '@/app/components/Step'
 import { StoreContext } from '@/app/contexts/StoreContext'
 import { TextField } from '@/app/components/TextField'
@@ -62,6 +63,19 @@ export const Textile = observer(() => {
           </Button>
         </div>
       </div>
+      {store.state.showLastStepError && (
+        <Modal
+          onOpenChange={store.onEscapeLastStepError}
+          title="Last Step"
+        >
+          Your textile isn’t finished! Make sure the last step either shows the result, or copies the result to your clipboard.
+          <div className="flex justify-end mt-[16px]">
+            <Button onClick={store.onCloseLastStepError}>
+              OK
+            </Button>
+          </div>
+        </Modal>
+      )}
     </div>
   )
 })

@@ -4,13 +4,14 @@ import { v4 as uuid } from 'uuid'
 import { Action } from '@/types/Action'
 import { Input } from '@/types/Input'
 import { scrollTo } from '@/app/utils/scroll'
-import { validateName } from '@/app/components/Textile/validations'
+import { validateLastStep, validateName } from '@/app/components/Textile/validations'
 import { validateStep } from '@/app/components/Step/validations'
 import type { RootStore } from '@/app/RootStore'
 import type { Textile } from '@/types/Textile'
 
 type State = {
   nameError: string
+  showLastStepError: boolean
   textile: Textile
 }
 
@@ -22,6 +23,7 @@ export class TextileStore {
     this.root = root
     this.state = {
       nameError: '',
+      showLastStepError: false,
       textile: root.home.state.textile
     }
     makeAutoObservable(this)
@@ -57,8 +59,6 @@ export class TextileStore {
       }
     }
 
-    // TODO: Validate the next thing (The user has not added a COPY or SHOW step)...
-
     if (!validName) {
       scrollTo('name')
       return
@@ -68,10 +68,23 @@ export class TextileStore {
       scrollTo(`step${stepError}`)
       return
     }
+
+    if (!validateLastStep(steps)) {
+      this.state.showLastStepError = true
+      return
+    }
   }
 
   onChangeName = (value: string): void => {
     this.state.textile.name = value
     this.state.nameError = ''
+  }
+
+  onCloseLastStepError = () => {
+    this.state.showLastStepError = false
+  }
+
+  onEscapeLastStepError = (open: boolean) => {
+    this.state.showLastStepError = open
   }
 }
