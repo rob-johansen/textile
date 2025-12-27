@@ -51,6 +51,13 @@ export class HomeStore {
       steps: [
         {
           action: Action.START,
+          error: {
+            action: '',
+            input: '',
+            path: '',
+            replacement: '',
+            value: '',
+          },
           id: uuid(),
           input: '' as Input,
           metadata: {},

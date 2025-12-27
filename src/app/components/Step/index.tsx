@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 import { Action } from '@/types/Action'
 import { Button } from '@/app/components/Button'
@@ -35,7 +35,6 @@ export const Step = observer((props: Props) => {
 
   const { index, step } = props
   const questionId = `question${index}`
-  const pathId = `path${index}`
   const valueId = `value${index}`
 
   let actionIcon
@@ -49,8 +48,20 @@ export const Step = observer((props: Props) => {
   if (step.input === Input.COMMAND_RUNTIME) inputIcon = Terminal
   if (step.input === Input.TEXT_NOW) inputIcon = Text
 
+  useEffect(() => {
+    const question = document.getElementById(questionId)
+    const value = document.getElementById(valueId)
+
+    if (question && value) {
+      value.style.width = `${question.offsetWidth}px`
+      setTimeout(() => {
+        value.focus()
+      }, 10)
+    }
+  }, [questionId, step.input, valueId])
+
   return (
-    <div className="flex flex-col w-fit">
+    <div className="flex flex-col w-fit" id={`step${index}`}>
       <div className={`flex gap-x-[8px] items-start ${index === 0 && 'ml-[120px]'}`}>
         {store.showDeleteMoveButtons(index) && (
           <div className="flex gap-x-[8px] h-[36px] items-center ml-[20px] mr-[12px]">
@@ -99,6 +110,7 @@ export const Step = observer((props: Props) => {
           <div className="flex gap-x-[8px] items-center">
             {store.showActionSelect(index) && (
               <Select
+                error={step.error.action}
                 onClickOption={({ value }) => store.onChangeAction(step, value as Action)}
                 options={[
                   { icon: RightArrowBar, name: 'append', value: Action.APPEND },
@@ -114,6 +126,7 @@ export const Step = observer((props: Props) => {
             )}
             {store.showInputSelect(index) && (
               <Select
+                error={step.error.input}
                 onClickOption={({ value }) => store.onChangeInput(step, value as Input)}
                 options={[
                   { icon: Text, name: 'text that I will provide now', value: Input.TEXT_NOW },
@@ -130,7 +143,8 @@ export const Step = observer((props: Props) => {
               <div className="flex gap-x-[8px] items-center">
                 <TextField
                   className="font-[JetBrains]"
-                  onChange={(event) => store.onChangeValue(event.target.value, index)}
+                  error={step.error.value}
+                  onChange={(event) => store.onChangeValue(step, event.target.value)}
                   outerClassName={'w-[184px]'}
                   placeholder="..."
                   spellCheck={false}
@@ -141,6 +155,7 @@ export const Step = observer((props: Props) => {
                 </span>
                 <TextField
                   className="font-[JetBrains] text-[0.875rem]"
+                  error={step.error.replacement}
                   onChange={(event) => store.onChangeMetadata(step, event.target.value)}
                   outerClassName={'w-[184px]'}
                   placeholder="..."
@@ -155,8 +170,9 @@ export const Step = observer((props: Props) => {
       {store.showCommandInput(step) && (
         <TextField
           className="font-[JetBrains] text-[0.875rem]"
+          error={step.error.value}
           id={valueId}
-          onChange={(event) => store.onChangeValue(event.target.value, index)}
+          onChange={(event) => store.onChangeValue(step, event.target.value)}
           outerClassName="ml-[120px]"
           placeholder={step.input === Input.TEXT_NOW ? 'Enter the text' : 'Enter the command'}
           spellCheck={false}
@@ -166,8 +182,9 @@ export const Step = observer((props: Props) => {
       {store.showTextArea(step) && (
         <TextArea
           className="field-sizing-content whitespace-pre font-[JetBrains] text-[0.875rem]"
+          error={step.error.value}
           id={valueId}
-          onChange={(event) => store.onChangeValue(event.target.value, index)}
+          onChange={(event) => store.onChangeValue(step, event.target.value)}
           outerClassName="ml-[120px]"
           placeholder={step.input === Input.TEXT_NOW ? 'Enter the text' : 'Enter the command'}
           spellCheck={false}
@@ -217,7 +234,7 @@ export const Step = observer((props: Props) => {
       {store.showPathInput(step) && (
         <TextField
           className="font-[JetBrains] text-[0.875rem]"
-          id={pathId}
+          error={step.error.path}
           onChange={(event) => store.onChangeMetadata(step, event.target.value)}
           outerClassName="ml-[120px]"
           placeholder="Enter the full path where the command should run"

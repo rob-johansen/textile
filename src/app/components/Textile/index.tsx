@@ -30,7 +30,7 @@ export const Textile = observer(() => {
           value={store.state.textile.name}
         />
       </div>
-      <div className="mt-[16px]">
+      <div className="mt-[8px]">
         {store.state.textile.steps.map((step, index) => {
           return (
             <Step

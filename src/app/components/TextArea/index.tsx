@@ -61,7 +61,7 @@ export const TextArea = forwardRef(
         ref={ref}
       />
       {!hideError && (
-        <p className={twMerge('h-[18px] mt-[2px] text-[0.75rem] text-error text-right tracking-[0.4px]', error ? 'visible' : 'invisible')}>
+        <p className={twMerge('h-[18px] mb-[8px] mt-[2px] text-[0.75rem] text-error text-right tracking-[0.4px]', error ? 'visible' : 'invisible')}>
           {error}
         </p>
       )}

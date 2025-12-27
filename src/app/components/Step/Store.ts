@@ -35,6 +35,7 @@ export class StepStore {
 
   onChangeAction = (step: Step, action: Action) => {
     step.action = action
+    step.error.action = ''
 
     if (action === Action.REPLACE) {
       step.input = Input.REPLACE_TARGET
@@ -51,6 +52,7 @@ export class StepStore {
   }
 
   onChangeInput = (step: Step, input: Input) => {
+    step.error.input = ''
     step.input = input
     step.metadata.args = step.input === Input.COMMAND_RUNTIME ? [{id: uuid(), value: ''}] : undefined
     step.metadata.path = step.input === Input.COMMAND_RUNTIME ? '' : undefined
@@ -60,14 +62,17 @@ export class StepStore {
 
   onChangeMetadata = (step: Step, value: string) => {
     if (step.input === Input.COMMAND_RUNTIME) {
+      step.error.path = ''
       step.metadata.path = value
     } else if (step.input === Input.REPLACE_TARGET) {
+      step.error.replacement = ''
       step.metadata.replacement = value
     }
   }
 
-  onChangeValue = (value: string, index: number) => {
-    this.state.textile.steps[index].value = value
+  onChangeValue = (step: Step, value: string) => {
+    step.value = value
+    step.error.value = ''
   }
 
   onClickAddArg = (step: Step) => {

@@ -73,6 +73,7 @@ export const TextField = forwardRef(
     const errorStyles = twMerge(
       `
         h-[18px]
+        mb-[8px]
         mt-[2px]
         text-[0.75rem]
         text-error
