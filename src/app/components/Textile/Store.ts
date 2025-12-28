@@ -3,7 +3,7 @@ import { v4 as uuid } from 'uuid'
 
 import { Action } from '@/types/Action'
 import { Input } from '@/types/Input'
-import { removeDupes } from '@/app/utils/textile'
+import { moveResult, removeDupes } from '@/app/utils/textile'
 import { scrollTo } from '@/app/utils/scroll'
 import { validateLastStep, validateName } from '@/app/components/Textile/validations'
 import { validateStep } from '@/app/components/Step/validations'
@@ -76,8 +76,7 @@ export class TextileStore {
     }
 
     removeDupes(steps)
-
-    // TODO: Last of all, if there's a COPY or SHOW step in the middle somewhere, move it to the end.
+    moveResult(steps)
   }
 
   onChangeName = (value: string): void => {
