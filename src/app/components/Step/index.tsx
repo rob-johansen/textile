@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from 'react'
 import { Action } from '@/types/Action'
 import { Button } from '@/app/components/Button'
 import {
+  BarLeftArrow,
   ChevronDown,
   ChevronUp,
   Clipboard,
@@ -39,6 +40,7 @@ export const Step = observer((props: Props) => {
 
   let actionIcon
   if (step.action === Action.APPEND) actionIcon = RightArrowBar
+  if (step.action === Action.PREPEND) actionIcon = BarLeftArrow
   if (step.action === Action.REPLACE) actionIcon = FindReplace
   if (step.action === Action.COPY) actionIcon = ClipboardCheck
   if (step.action === Action.SHOW) actionIcon = Text
@@ -114,6 +116,7 @@ export const Step = observer((props: Props) => {
                 onClickOption={({ value }) => store.onChangeAction(step, value as Action)}
                 options={[
                   { icon: RightArrowBar, name: 'append', value: Action.APPEND },
+                  { icon: BarLeftArrow, name: 'prepend', value: Action.PREPEND },
                   { icon: FindReplace, name: 'replace', value: Action.REPLACE },
                   { icon: ClipboardCheck, name: 'copy the result to my clipboard', value: Action.COPY },
                   { icon: Text, name: 'show the result', value: Action.SHOW },

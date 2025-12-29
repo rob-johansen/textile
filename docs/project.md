@@ -40,23 +40,30 @@ The steps can be:
     
 The steps can be:
 
-1. Start with `text that I will provide now`:
+1. Start with `the output of a command when I run this textile`:
     
     ```
-    [work-comp](https://partner-git-
+    git
     ```
-    
-2. Then `append` `the output of a command when I run this textile`:
-    
     ```
-    git branch --show-current
+    branch
+    ```
+    ```
+    --show-current
     ```
     ```
     ~/code/Frontend
     ```
     
-3. Then `replace` `CAT/` with `cat-`
-4. Then `append` `text that I will provide now`:
+2. Then `replace` `CAT` with `cat`
+3. Then `replace` `/` with `-`
+4. Then `prepend` `text that I will provide now`:
+    
+    ```
+    [work-comp](https://partner-git-
+    ```
+    
+5. Then `append` `text that I will provide now`:
     
     ```
     .pieinsurance.dev/work-comp)

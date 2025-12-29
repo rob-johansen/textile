@@ -8,7 +8,7 @@ export const validateStep = (step: Step): boolean => {
     return false
   }
 
-  if ([Action.APPEND, Action.REPLACE].includes(step.action) && !step.input) {
+  if ([Action.APPEND, Action.PREPEND, Action.REPLACE].includes(step.action) && !step.input) {
     step.error.input = 'Required'
     return false
   }
