@@ -3,7 +3,7 @@ import { v4 as uuid } from 'uuid'
 
 import { Action } from '@/types/Action'
 import { Input } from '@/types/Input'
-import { moveResult, removeDupes } from '@/app/utils/textile'
+import { moveResult, removeDupes, replacer } from '@/app/utils/textile'
 import { scrollTo } from '@/app/utils/scroll'
 import { validateLastStep, validateName } from '@/app/components/Textile/validations'
 import { validateStep } from '@/app/components/Step/validations'
@@ -50,7 +50,8 @@ export class TextileStore {
   onClickSave = async () => {
     const validName = validateName(this)
 
-    const steps = this.state.textile.steps
+    const textile = this.state.textile
+    const steps = textile.steps
     let stepError = -1
 
     for (let i = steps.length - 1; i >= 0; i--) {
@@ -77,6 +78,16 @@ export class TextileStore {
 
     removeDupes(steps)
     moveResult(steps)
+
+    const success = await window.main.writeTextile(textile.id, JSON.stringify(textile, replacer))
+
+    if (success) {
+      // TODO: Show the textile in read-only form, with its name selected in the list on the left...
+      console.log('Success!')
+    } else {
+      // TODO: Show an error toast...
+      console.log('Error...')
+    }
   }
 
   onChangeName = (value: string): void => {

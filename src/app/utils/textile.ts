@@ -1,5 +1,5 @@
-import type { Step } from '@/types/Step'
 import { Action } from '@/types/Action'
+import type { Step } from '@/types/Step'
 
 /**
  * Moves a "result" step (i.e. `COPY` or `SHOW`) to the penultimate
@@ -58,4 +58,19 @@ export const removeDupes = (steps: Step[]) => {
   for (const i of remove) {
     steps.splice(i, 1)
   }
+}
+
+/**
+ * Replaces properties that needn't be written to file when saving a
+ * textile (intended as the second argument to `JSON.stringify()`)
+ *
+ * @param key The string name of the current property being processed by `JSON.stringify()`
+ * @param value The value of the current property being processed by `JSON.stringify()`
+ */
+export const replacer = (key: string, value: unknown) => {
+  if (key === 'error' || key === 'id') {
+    return undefined // Remove the `error` object from each step, and all `id` properties.
+  }
+
+  return value
 }
