@@ -9,7 +9,8 @@ import type { Textile } from '@/types/Textile'
 
 type State = {
   status: string
-  textile: Textile
+  textile: Textile // The currently selected textile
+  textiles: Textile[] // The list of all textiles on the left
 }
 
 export class HomeStore {
@@ -20,7 +21,8 @@ export class HomeStore {
       id: '',
       name: '',
       steps: [],
-    }
+    },
+    textiles: [],
   }
 
   constructor(root: RootStore) {
