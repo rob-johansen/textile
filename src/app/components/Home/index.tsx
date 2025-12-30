@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite'
 import { useContext } from 'react'
 
+import { List } from '@/app/components/List'
 import { Resizer } from '@/app/components/Resizer'
 import { Status } from '@/types/Status'
 import { StoreContext } from '@/app/contexts/StoreContext'
@@ -17,65 +18,10 @@ export const Home = observer(() => {
       ) : (
         <>
           <div className="bg-slate-100 sticky top-[0] z-10">
-            <Toolbar/>
+            <Toolbar />
           </div>
           <div className="flex h-[calc(100vh-56px)] select-none" id="content">
-            <div className="min-w-[200px] overflow-y-scroll scrollbar-thin" id="textiles">
-              <div>Textile 1</div>
-              <div>Textile 2</div>
-              <div>Textile 3</div>
-              <div>Textile 4</div>
-              <div>Textile 5</div>
-              <div>Textile 6</div>
-              <div>Textile 7</div>
-              <div>Textile 8</div>
-              <div>Textile 9</div>
-              <div>Textile 1</div>
-              <div>Textile 2</div>
-              <div>Textile 3</div>
-              <div>Textile 4</div>
-              <div>Textile 5</div>
-              <div>Textile 6</div>
-              <div>Textile 7</div>
-              <div>Textile 8</div>
-              <div>Textile 9</div>
-              <div>Textile 1</div>
-              <div>Textile 2</div>
-              <div>Textile 3</div>
-              <div>Textile 4</div>
-              <div>Textile 5</div>
-              <div>Textile 6</div>
-              <div>Textile 7</div>
-              <div>Textile 8</div>
-              <div>Textile 9</div>
-              <div>Textile 1</div>
-              <div>Textile 2</div>
-              <div>Textile 3</div>
-              <div>Textile 4</div>
-              <div>Textile 5</div>
-              <div>Textile 6</div>
-              <div>Textile 7</div>
-              <div>Textile 8</div>
-              <div>Textile 9</div>
-              <div>Textile 1</div>
-              <div>Textile 2</div>
-              <div>Textile 3</div>
-              <div>Textile 4</div>
-              <div>Textile 5</div>
-              <div>Textile 6</div>
-              <div>Textile 7</div>
-              <div>Textile 8</div>
-              <div>Textile 9</div>
-              <div>Textile 1</div>
-              <div>Textile 2</div>
-              <div>Textile 3</div>
-              <div>Textile 4</div>
-              <div>Textile 5</div>
-              <div>Textile 6</div>
-              <div>Textile 7</div>
-              <div>Textile 8</div>
-              <div>Textile 9</div>
-            </div>
+            <List />
             <Resizer />
             <div className="flex-[1_1_auto] min-w-[870px] overflow-y-scroll scrollbar-thin">
               {store.state.status === Status.CREATING && (

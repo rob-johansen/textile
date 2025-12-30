@@ -83,7 +83,7 @@ export class TextileStore {
 
     if (success) {
       // TODO: Show the textile in read-only form, with its name selected in the list on the left...
-      console.log('Success!')
+      this.root.home.state.textiles.push({ ...this.state.textile })
     } else {
       // TODO: Show an error toast...
       console.log('Error...')
