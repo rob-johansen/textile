@@ -12,17 +12,17 @@ import { twMerge } from 'tailwind-merge'
 import type React from 'react'
 
 type Props = Omit<React.HTMLProps<HTMLDivElement>, 'title'> & {
-  onOpenChange?: (open: boolean) => void
+  onEscape?: (open: boolean) => void
   title: string
 }
 
-export const Modal = ({ children, className, onOpenChange, title }: Props) => {
-  const { context, refs } = useFloating({ onOpenChange, open: true })
+export const Modal = ({ children, className, onEscape, title }: Props) => {
+  const { context, refs } = useFloating({ onOpenChange: onEscape, open: true })
   const { setFloating, setReference } = refs
 
   const { getFloatingProps, getReferenceProps } = useInteractions([
     useClick(context),
-    useDismiss(context, { escapeKey: !!onOpenChange }),
+    useDismiss(context, { escapeKey: !!onEscape }),
     useRole(context)
   ])
 

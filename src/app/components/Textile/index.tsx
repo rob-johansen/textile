@@ -4,6 +4,7 @@ import { useContext, useState } from 'react'
 import { Button } from '@/app/components/Button'
 import { Icon, Plus } from '@/app/components/Icon'
 import { Modal } from '@/app/components/Modal'
+import { Shortcut } from '@/app/components/Keyboard/Shortcut'
 import { Step } from '@/app/components/Step'
 import { StoreContext } from '@/app/contexts/StoreContext'
 import { TextField } from '@/app/components/TextField'
@@ -31,6 +32,20 @@ export const Textile = observer(() => {
           value={store.state.textile.name}
         />
       </div>
+      <div className="flex gap-x-[8px] items-center ml-[120px]">
+        <label>
+          Keyboard Shortcut
+        </label>
+        <Button
+          className="px-[0] shrink-0 w-[36px]"
+          onClick={store.onEditShortcut}
+          title="Add"
+          variant="secondary"
+        >
+          <Icon className="size-[20px]" primary="#3b82f6" source={Plus} />
+        </Button>
+      </div>
+      <hr className="border-t border-t-slate-400/[0.625] mb-[32px] ml-[120px] mt-[24px]" />
       <div className="mt-[8px]">
         {store.state.textile.steps.map((step, index) => {
           return (
@@ -63,9 +78,12 @@ export const Textile = observer(() => {
           </Button>
         </div>
       </div>
+      {store.state.editingShortcut && (
+        <Shortcut textileStore={store} />
+      )}
       {store.state.showLastStepError && (
         <Modal
-          onOpenChange={store.onEscapeLastStepError}
+          onEscape={store.onEscapeLastStepError}
           title="Last Step"
         >
           Your textile isn’t finished! Make sure the last step either shows the result, or copies the result to your clipboard.

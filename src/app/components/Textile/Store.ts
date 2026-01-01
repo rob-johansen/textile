@@ -11,6 +11,7 @@ import type { RootStore } from '@/app/RootStore'
 import type { Textile } from '@/types/Textile'
 
 type State = {
+  editingShortcut: boolean
   nameError: string
   showLastStepError: boolean
   textile: Textile
@@ -23,6 +24,7 @@ export class TextileStore {
   constructor(root: RootStore) {
     this.root = root
     this.state = {
+      editingShortcut: false,
       nameError: '',
       showLastStepError: false,
       textile: root.home.state.textile
@@ -79,7 +81,7 @@ export class TextileStore {
     removeDupes(steps)
     moveResult(steps)
 
-    const success = await window.main.writeTextile(textile.id, JSON.stringify(textile, replacer))
+    const success = await window.main.writeTextile(textile.id, JSON.stringify(textile, replacer, 2))
 
     if (success) {
       // TODO: Show the textile in read-only form, with its name selected in the list on the left...
@@ -97,6 +99,10 @@ export class TextileStore {
 
   onCloseLastStepError = () => {
     this.state.showLastStepError = false
+  }
+
+  onEditShortcut = () => {
+    this.state.editingShortcut = true
   }
 
   onEscapeLastStepError = (open: boolean) => {
