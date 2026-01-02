@@ -28,6 +28,8 @@ export const Button = ({
     `
       active:bg-blue-500
       bg-blue-500/[0.95]
+      disabled:cursor-not-allowed
+      disabled:text-[#eeeeee]
       flex
       font-bold
       gap-[8px]
@@ -48,12 +50,13 @@ export const Button = ({
     variant === 'secondary' &&
     `
       active:bg-blue-500/[0.2]
-      disabled:bg-transparent
       bg-transparent
       border
       border-blue-500
+      disabled:bg-transparent
       disabled:border-blue-500/[0.375]
       disabled:hover:bg-transparent
+      disabled:text-blue-500/[0.375]
       hover:bg-blue-500/[0.1]
       text-blue-500
     `,
@@ -64,11 +67,6 @@ export const Button = ({
       disabled:border-[#d72b0d]/[0.3]
       hover:bg-[#d72b0d]/[0.1]
       text-[#d72b0d]
-    `,
-    disabled &&
-    `
-      cursor-not-allowed
-      text-[#eeeeee]
     `,
     loading &&
     `

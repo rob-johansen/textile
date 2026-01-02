@@ -5,7 +5,8 @@ import type { Keyboard } from '@/types/Keyboard'
 import type { TextileStore } from '@/app/components/Textile/Store'
 
 type State = Keyboard & {
-  keyError: string
+  firstMod2Checked: boolean
+  key1Error: string
   mod1Error: string
 }
 
@@ -19,15 +20,32 @@ export class ShortcutStore {
         key: '',
         mod1: ''
       },
-      keyError: '',
+      firstMod2Checked: false,
+      key1Error: '',
       mod1Error: '',
     }
     this.textileStore = textileStore
     makeAutoObservable(this)
   }
 
-  get metaFirstMod1(): boolean {
+  get firstMod1Meta(): boolean {
     return this.state.first.mod1 === Modifier.Meta
+  }
+
+  get firstMod2AltDisabled(): boolean {
+    return !this.state.firstMod2Checked || this.state.first.mod1 === Modifier.Alt
+  }
+
+  get firstMod2CtrlDisabled(): boolean {
+    return !this.state.firstMod2Checked || this.state.first.mod1 === Modifier.Control
+  }
+
+  get firstMod2Meta(): boolean {
+    return this.state.first.mod2 === Modifier.Meta
+  }
+
+  get firstMod2MetaDisabled(): boolean {
+    return !this.state.firstMod2Checked || this.state.first.mod1 === Modifier.Meta
   }
 
   onChangeKey = (sequence: string, value: string) => {
@@ -42,11 +60,14 @@ export class ShortcutStore {
     if (sequence === 'first') {
       if (mod === 1) {
         this.state.first.mod1 = value
+        if (this.state.first.mod2 === value) {
+          this.state.first.mod2 = undefined
+        }
       } else {
-        // TODO: Make sure `second` exists, then set its `key`
+        this.state.first.mod2 = value
       }
     } else {
-      // TODO: Make sure `second` exists, then set its `key`
+      // TODO: Make sure `second` exists, then set the appropriate mod
     }
   }
 
@@ -57,6 +78,14 @@ export class ShortcutStore {
   onEscape = (open: boolean) => {
     if (!open) {
       this.textileStore.state.editingShortcut = false
+    }
+  }
+
+  toggleFirstMod2 = () => {
+    this.state.firstMod2Checked = !this.state.firstMod2Checked
+
+    if (!this.state.firstMod2Checked) {
+      this.state.first.mod2 = undefined
     }
   }
 }
