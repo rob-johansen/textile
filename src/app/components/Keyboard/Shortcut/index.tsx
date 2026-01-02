@@ -7,6 +7,7 @@ import { Icon, CommandKey, WindowsKey } from '@/app/components/Icon'
 import { Modal } from '@/app/components/Modal'
 import { Modifier } from '@/types/Shortcut'
 import { ShortcutStore } from './Store'
+import { ShortcutText } from '@/app/components/Keyboard/ShortcutText'
 import { TextField } from '@/app/components/TextField'
 import type { TextileStore } from '@/app/components/Textile/Store'
 
@@ -46,7 +47,10 @@ export const Shortcut = observer(({ textileStore }: Props) => {
             onClick={() => store.onClickModifier('first', 1, Modifier.Meta)}
             variant={`${store.firstMod1Meta ? 'primary' : 'secondary'}`}
           >
-            <Icon primary={`${store.firstMod1Meta ? '#ffffff' : '#3b82f6'}`} source={window.main.platform === 'darwin' ? CommandKey : WindowsKey} />
+            <Icon
+              primary={`${store.firstMod1Meta ? '#ffffff' : '#3b82f6'}`}
+              source={window.main.platform === 'darwin' ? CommandKey : WindowsKey}
+            />
           </Button>
         )}
       </div>
@@ -79,7 +83,10 @@ export const Shortcut = observer(({ textileStore }: Props) => {
             onClick={() => store.onClickModifier('first', 2, Modifier.Meta)}
             variant={`${store.firstMod2Meta ? 'primary' : 'secondary'}`}
           >
-            <Icon primary={`${store.firstMod2MetaDisabled ? '#3b82f660' : store.firstMod2Meta ? '#ffffff' : '#3b82f6'}`} source={window.main.platform === 'darwin' ? CommandKey : WindowsKey} />
+            <Icon
+              primary={`${store.firstMod2MetaDisabled ? '#3b82f660' : store.firstMod2Meta ? '#ffffff' : '#3b82f6'}`}
+              source={window.main.platform === 'darwin' ? CommandKey : WindowsKey}
+            />
           </Button>
         )}
         <Button
@@ -96,7 +103,7 @@ export const Shortcut = observer(({ textileStore }: Props) => {
           Key:
         </label>
         <TextField
-          className="font-[JetBrains] uppercase"
+          className="font-[JetBrains]"
           error={store.state.key1Error}
           hideError
           id="key1"
@@ -104,6 +111,20 @@ export const Shortcut = observer(({ textileStore }: Props) => {
           onChange={(event) => store.onChangeKey('first', event.target.value)}
           outerClassName="w-[44px]"
           value={store.state.first.key}
+        />
+      </div>
+      <div className="mt-[28px]">
+        <Checkbox
+          checked={store.state.additional}
+          className="mb-0"
+          label="Additional Sequence"
+          onChange={store.toggleAdditional}
+        />
+      </div>
+      <div className="border-b border-b-slate-400 border-t border-t-slate-400 flex h-[40px] items-center justify-center mt-[36px]">
+        <ShortcutText
+          first={store.state.first}
+          second={store.state.second}
         />
       </div>
       <div className="flex gap-x-[16px] items-center justify-end mt-[24px]">

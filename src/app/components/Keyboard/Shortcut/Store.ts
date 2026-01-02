@@ -5,6 +5,7 @@ import type { Keyboard } from '@/types/Keyboard'
 import type { TextileStore } from '@/app/components/Textile/Store'
 
 type State = Keyboard & {
+  additional: boolean
   firstMod2Checked: boolean
   key1Error: string
   mod1Error: string
@@ -16,6 +17,7 @@ export class ShortcutStore {
 
   constructor(textileStore: TextileStore) {
     this.state = {
+      additional: false,
       first: {
         key: '',
         mod1: ''
@@ -49,8 +51,10 @@ export class ShortcutStore {
   }
 
   onChangeKey = (sequence: string, value: string) => {
+    // TODO: Limit the value to (A-Z or 0-9) and add text about it in the UI.
+
     if (sequence === 'first') {
-      this.state.first.key = value.charAt(0)
+      this.state.first.key = value.toUpperCase()
     } else {
       // TODO: Make sure `second` exists, then set its `key`
     }
@@ -78,6 +82,14 @@ export class ShortcutStore {
   onEscape = (open: boolean) => {
     if (!open) {
       this.textileStore.state.editingShortcut = false
+    }
+  }
+
+  toggleAdditional = () => {
+    this.state.additional = !this.state.additional
+
+    if (!this.state.additional) {
+      this.state.second = undefined
     }
   }
 

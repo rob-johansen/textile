@@ -2,7 +2,7 @@ import type { Textile } from '@/types/Textile'
 
 export interface Main {
   loadTextiles: () => Promise<Textile[]>,
-  platform: string,
+  platform: 'darwin' | 'linux' | 'win32',
   writeTextile: (id: string, textile: string) => Promise<boolean>,
 }
 
