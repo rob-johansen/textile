@@ -21,11 +21,25 @@ export const ShortcutText = ({ className, first, second }: Props) => {
   if (first.mod2 === Modifier.Meta) firstMod2 = mac ? '⌘' : '⊞'
   if (first.mod2 === Modifier.Shift) firstMod2 = '⇧'
 
+  if (second) {
+    if (second.mod1 === Modifier.Alt) secondMod1 = mac ? '⌥' : '⎇'
+    if (second.mod1 === Modifier.Control) secondMod1 = mac ? '⌃' : '^'
+    if (second.mod1 === Modifier.Meta) secondMod1 = mac ? '⌘' : '⊞'
+
+    if (second.mod2 === Modifier.Alt) secondMod2 = mac ? '⌥' : '⎇'
+    if (second.mod2 === Modifier.Control) secondMod2 = mac ? '⌃' : '^'
+    if (second.mod2 === Modifier.Meta) secondMod2 = mac ? '⌘' : '⊞'
+    if (second.mod2 === Modifier.Shift) secondMod2 = '⇧'
+  }
+
   return (
     <div className={className}>
       <span>{first.mod1 && `${firstMod1}+`}</span>
       <span>{first.mod1 && first.mod2 && `${firstMod2}+`}</span>
       <span>{first.mod1 && first.key && `${first.key}`}</span>
+      <span>{second && second.mod1 && `+${secondMod1}+`}</span>
+      <span>{second && second.mod1 && second.mod2 && `${secondMod2}+`}</span>
+      <span>{second && second.mod1 && second.key && `${second.key}`}</span>
     </div>
   )
 }

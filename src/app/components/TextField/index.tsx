@@ -70,19 +70,6 @@ export const TextField = forwardRef(
       className
     )
 
-    const errorStyles = twMerge(
-      `
-        h-[18px]
-        mb-[8px]
-        mt-[2px]
-        text-[0.75rem]
-        text-error
-        text-right
-        tracking-[0.4px]
-      `,
-      error ? 'visible' : 'invisible'
-    )
-
     // If `icon` is defined, it's a component that must be capitalized.
     const Icon = icon
 
@@ -110,7 +97,9 @@ export const TextField = forwardRef(
           </button>
         )}
         {!hideError && (
-          <p className={errorStyles}>{error}</p>
+          <p className={twMerge('h-[18px] mb-[8px] mt-[2px] text-[0.75rem] text-error text-right tracking-[0.4px]', error ? 'visible' : 'invisible')}>
+            {error}
+          </p>
         )}
       </div>
     )

@@ -1,4 +1,5 @@
 import { observer } from 'mobx-react-lite'
+import { twMerge } from 'tailwind-merge'
 import { useState } from 'react'
 
 import { Button } from '@/app/components/Button'
@@ -19,10 +20,7 @@ export const Shortcut = observer(({ textileStore }: Props) => {
   const [store] = useState(() => new ShortcutStore(textileStore))
 
   return (
-    <Modal
-      onEscape={store.onEscape}
-      title="Keyboard Shortcut"
-    >
+    <Modal title="Keyboard Shortcut">
       <div className="flex gap-x-[8px] items-center">
         <div className="ml-[32px] mr-[3px] text-[0.875rem] text-neutral-900 tracking-[0.25px]">
           Modifier 1:
@@ -103,15 +101,17 @@ export const Shortcut = observer(({ textileStore }: Props) => {
           Key:
         </label>
         <TextField
-          className="font-[JetBrains]"
-          error={store.state.key1Error}
+          className={`font-[JetBrains]${store.state.key1Error && ' border-error focus:border-error'}`}
           hideError
           id="key1"
           maxLength={1}
-          onChange={(event) => store.onChangeKey('first', event.target.value)}
+          onChange={(event) => store.onChangeKey('first', event.target.value.toUpperCase())}
           outerClassName="w-[44px]"
           value={store.state.first.key}
         />
+        <p className={twMerge('h-[18px] left-[1px] relative text-[0.75rem] text-neutral-900 text-right top-[10px] tracking-[0.4px]', store.state.key1Error && ' text-error')}>
+          (A-Z or 0-9)
+        </p>
       </div>
       <div className="mt-[28px]">
         <Checkbox
@@ -121,6 +121,102 @@ export const Shortcut = observer(({ textileStore }: Props) => {
           onChange={store.toggleAdditional}
         />
       </div>
+      {store.state.additional && (
+        <>
+          <div className="flex gap-x-[8px] items-center mt-[24px]">
+            <div className="ml-[32px] mr-[3px] text-[0.875rem] text-neutral-900 tracking-[0.25px]">
+              Modifier 1:
+            </div>
+            <Button
+              className="font-[JetBrains] h-[32px] pl-[6px] pr-[5px] text-[0.75rem] w-[40px]"
+              onClick={() => store.onClickModifier('second', 1, Modifier.Alt)}
+              variant={`${store.state.second?.mod1 === Modifier.Alt ? 'primary' : 'secondary'}`}
+            >
+              alt
+            </Button>
+            <Button
+              className="font-[JetBrains] h-[32px] pl-[6px] pr-[5px] text-[0.75rem] w-[48px]"
+              onClick={() => store.onClickModifier('second', 1, Modifier.Control)}
+              variant={`${store.state.second?.mod1 === Modifier.Control ? 'primary' : 'secondary'}`}
+            >
+              ctrl
+            </Button>
+            {window.main.platform !== 'linux' && (
+              <Button
+                className="px-[0] shrink-0 size-[32px]"
+                onClick={() => store.onClickModifier('second', 1, Modifier.Meta)}
+                variant={`${store.secondMod1Meta ? 'primary' : 'secondary'}`}
+              >
+                <Icon
+                  primary={`${store.secondMod1Meta ? '#ffffff' : '#3b82f6'}`}
+                  source={window.main.platform === 'darwin' ? CommandKey : WindowsKey}
+                />
+              </Button>
+            )}
+          </div>
+          <div className="flex gap-x-[8px] items-center mt-[20px]">
+            <Checkbox
+              checked={store.state.secondMod2Checked}
+              label="Modifier 2:"
+              onChange={store.toggleSecondMod2}
+            />
+            <Button
+              className="font-[JetBrains] h-[32px] pl-[6px] pr-[5px] relavite text-[0.75rem] top-[-2px] w-[40px]"
+              disabled={store.secondMod2AltDisabled}
+              onClick={() => store.onClickModifier('second', 2, Modifier.Alt)}
+              variant={`${store.state.second?.mod2 === Modifier.Alt ? 'primary' : 'secondary'}`}
+            >
+              alt
+            </Button>
+            <Button
+              className="font-[JetBrains] h-[32px] pl-[6px] pr-[5px] relavite text-[0.75rem] top-[-2px] w-[48px]"
+              disabled={store.secondMod2CtrlDisabled}
+              onClick={() => store.onClickModifier('second', 2, Modifier.Control)}
+              variant={`${store.state.second?.mod2 === Modifier.Control ? 'primary' : 'secondary'}`}
+            >
+              ctrl
+            </Button>
+            {window.main.platform !== 'linux' && (
+              <Button
+                className="px-[0] relavite shrink-0 size-[32px] top-[-2px]"
+                disabled={store.secondMod2MetaDisabled}
+                onClick={() => store.onClickModifier('second', 2, Modifier.Meta)}
+                variant={`${store.secondMod2Meta ? 'primary' : 'secondary'}`}
+              >
+                <Icon
+                  primary={`${store.secondMod2MetaDisabled ? '#3b82f660' : store.secondMod2Meta ? '#ffffff' : '#3b82f6'}`}
+                  source={window.main.platform === 'darwin' ? CommandKey : WindowsKey}
+                />
+              </Button>
+            )}
+            <Button
+              className="font-[JetBrains] h-[32px] pl-[6px] pr-[5px] relavite text-[0.75rem] top-[-2px] w-[48px]"
+              disabled={!store.state.secondMod2Checked}
+              onClick={() => store.onClickModifier('second', 2, Modifier.Shift)}
+              variant={`${store.state.second?.mod2 === Modifier.Shift ? 'primary' : 'secondary'}`}
+            >
+              shift
+            </Button>
+          </div>
+          <div className="flex gap-x-[8px] items-start ml-[76px] mt-[20px]">
+            <label className="relative text-[0.875rem] text-neutral-900 tracking-[0.25px] top-[7px]" htmlFor="key2">
+              Key:
+            </label>
+            <TextField
+              className={`font-[JetBrains]${store.state.key2Error && ' border-error focus:border-error'}`}
+              hideError
+              id="key2"
+              maxLength={1}
+              onChange={(event) => store.onChangeKey('second', event.target.value.toUpperCase())}
+              outerClassName="w-[44px]"
+              value={store.state.second?.key ?? ''}
+            />
+            <p className={twMerge('h-[18px] left-[1px] relative text-[0.75rem] text-neutral-900 text-right top-[10px] tracking-[0.4px]', store.state.key2Error && ' text-error')}>
+              (A-Z or 0-9)
+            </p>
+          </div>
+        </>
+      )}
       <div className="border-b border-b-slate-400 border-t border-t-slate-400 flex h-[40px] items-center justify-center mt-[36px]">
         <ShortcutText
           first={store.state.first}
