@@ -7,8 +7,9 @@ import { Checkbox } from '@/app/components/Checkbox'
 import { Icon, CommandKey, WindowsKey } from '@/app/components/Icon'
 import { Modal } from '@/app/components/Modal'
 import { Modifier } from '@/types/Shortcut'
+import { ShortcutError } from '../ShortcutError'
 import { ShortcutStore } from './Store'
-import { ShortcutText } from '@/app/components/Keyboard/ShortcutText'
+import { ShortcutText } from '../ShortcutText'
 import { TextField } from '@/app/components/TextField'
 import type { TextileStore } from '@/app/components/Textile/Store'
 
@@ -22,7 +23,7 @@ export const Shortcut = observer(({ textileStore }: Props) => {
   return (
     <Modal title="Keyboard Shortcut">
       <div className="flex gap-x-[8px] items-center">
-        <div className="ml-[32px] mr-[3px] text-[0.875rem] text-neutral-900 tracking-[0.25px]">
+        <div className={twMerge('ml-[32px] mr-[3px] text-[0.875rem] text-neutral-900 tracking-[0.25px]', store.state.firstMod1Error && 'text-error')}>
           Modifier 1:
         </div>
         <Button
@@ -55,6 +56,7 @@ export const Shortcut = observer(({ textileStore }: Props) => {
       <div className="flex gap-x-[8px] items-center mt-[20px]">
         <Checkbox
           checked={store.state.firstMod2Checked}
+          error={store.state.firstMod2Error}
           label="Modifier 2:"
           onChange={store.toggleFirstMod2}
         />
@@ -101,7 +103,7 @@ export const Shortcut = observer(({ textileStore }: Props) => {
           Key:
         </label>
         <TextField
-          className={`font-[JetBrains]${store.state.key1Error && ' border-error focus:border-error'}`}
+          className={twMerge('font-[JetBrains] px-[8px] text-center', store.state.key2Error && ' border-error focus:border-error')}
           hideError
           id="key1"
           maxLength={1}
@@ -203,7 +205,7 @@ export const Shortcut = observer(({ textileStore }: Props) => {
               Key:
             </label>
             <TextField
-              className={`font-[JetBrains]${store.state.key2Error && ' border-error focus:border-error'}`}
+              className={twMerge('font-[JetBrains] px-[8px] text-center', store.state.key2Error && ' border-error focus:border-error')}
               hideError
               id="key2"
               maxLength={1}
@@ -218,10 +220,15 @@ export const Shortcut = observer(({ textileStore }: Props) => {
         </>
       )}
       <div className="border-b border-b-slate-400 border-t border-t-slate-400 flex h-[40px] items-center justify-center mt-[36px]">
-        <ShortcutText
-          first={store.state.first}
-          second={store.state.second}
-        />
+        {store.showError ? (
+          <ShortcutError store={store} />
+        ) : (
+          <ShortcutText
+            first={store.state.first}
+            placeholder="make selections above"
+            second={store.state.second}
+          />
+        )}
       </div>
       <div className="flex gap-x-[16px] items-center justify-end mt-[24px]">
         <Button

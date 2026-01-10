@@ -36,7 +36,7 @@ export const Checkbox = forwardRef(
       >
         <input
           {...props}
-          className={twMerge('appearance-none bg-neutral-50 border-[1px] border-slate-400 checked:bg-blue-600/[0.125] checked:border-blue-500 disabled:bg-neutral-50 disabled:border-slate-400 disabled:cursor-not-allowed disabled:group-hover:shadow-[none] disabled:hover:border-[none] disabled:shadow-none group-hover:shadow-[0_0_0_3px_rgba(40,44,159,0.05)] h-[24px] hover:border-blue-500 rounded transition w-[24px]', label && 'mr-[8px]', error && 'border-error')}
+          className={twMerge('appearance-none bg-neutral-50 border-[1px] border-slate-400 checked:bg-blue-600/[0.125] checked:border-blue-500 disabled:bg-neutral-50 disabled:border-slate-400 disabled:cursor-not-allowed disabled:group-hover:shadow-[none] disabled:hover:border-[none] disabled:shadow-none group-hover:shadow-[0_0_0_3px_rgba(40,44,159,0.05)] h-[24px] hover:border-blue-500 rounded transition w-[24px]', label && 'mr-[8px]', error && 'border-error checked:border-error hover:border-error')}
           ref={ref}
           style={{
             backgroundImage: `url("${getCheckIcon({

@@ -1,15 +1,17 @@
 import { makeAutoObservable } from 'mobx'
 
 import { Modifier } from '@/types/Shortcut'
+import { validateShortcut } from '@/app/components/Keyboard/Shortcut/validation'
 import type { Keyboard } from '@/types/Keyboard'
 import type { TextileStore } from '@/app/components/Textile/Store'
 
 type State = Keyboard & {
   additional: boolean
+  firstMod1Error: boolean
   firstMod2Checked: boolean
+  firstMod2Error: boolean
   key1Error: boolean
   key2Error: boolean
-  mod1Error: string
   secondMod2Checked: boolean
 }
 
@@ -27,7 +29,8 @@ export class ShortcutStore {
       firstMod2Checked: false,
       key1Error: false,
       key2Error: false,
-      mod1Error: '',
+      firstMod1Error: false,
+      firstMod2Error: false,
       secondMod2Checked: false,
     }
     this.textileStore = textileStore
@@ -74,6 +77,10 @@ export class ShortcutStore {
     return !this.state.secondMod2Checked || this.state.second?.mod1 === Modifier.Meta
   }
 
+  get showError(): boolean {
+    return this.state.firstMod1Error || this.state.firstMod2Error || this.state.key1Error
+  }
+
   onChangeKey = (sequence: string, value: string) => {
     if (value !== '' && !/^[A-Z0-9]$/.test(value)) {
       if (sequence === 'first') {
@@ -104,11 +111,14 @@ export class ShortcutStore {
     if (sequence === 'first') {
       if (mod === 1) {
         this.state.first.mod1 = value
+        this.state.firstMod1Error = false
+
         if (this.state.first.mod2 === value) {
           this.state.first.mod2 = undefined
         }
       } else {
         this.state.first.mod2 = value
+        this.state.firstMod2Error = false
       }
     } else {
       if (!this.state.second) {
@@ -130,7 +140,8 @@ export class ShortcutStore {
   }
 
   onClickSave = () => {
-    // TODO and WYLO 0: Validate everything...
+    if (!validateShortcut(this)) return
+
     // TODO and WYLO 1: Save the keyboard shortcut to the current textile.
     // TODO and WYLO 2: When the current textile has a shortcut, add support for showing it when this modal is opened.
     // TODO and WYLO 3: When the current textile is created, make sure it writes this shortcut to disk.
@@ -156,6 +167,7 @@ export class ShortcutStore {
 
     if (!this.state.firstMod2Checked) {
       this.state.first.mod2 = undefined
+      this.state.firstMod2Error = false
     }
   }
 

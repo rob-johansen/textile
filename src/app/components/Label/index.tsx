@@ -7,24 +7,8 @@ export type Props = React.LabelHTMLAttributes<HTMLLabelElement> & {
 }
 
 export const Label = ({ children, className, disabled, error, ...props }: Props) => {
-  const styles = twMerge(
-    `
-      font-medium
-      mb-[4px]
-      text-[0.875rem]
-      tracking-[0.25px]
-    `,
-    error && 'text-error',
-    disabled &&
-    `
-      cursor-not-allowed
-      text-[#999999]
-    `,
-    className
-  )
-
   return (
-    <label {...props} className={styles}>
+    <label {...props} className={twMerge('font-medium mb-[4px] text-[0.875rem] tracking-[0.25px]', disabled && 'cursor-not-allowed text-[#999999]', className, error && 'hover:text-error text-error')}>
       {children}
     </label>
   )
