@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite'
 import { useContext, useState } from 'react'
 
 import { Button } from '@/app/components/Button'
-import { Icon, Plus } from '@/app/components/Icon'
+import { Icon, Close, Pencil, Plus } from '@/app/components/Icon'
 import { Modal } from '@/app/components/Modal'
 import { Shortcut } from '@/app/components/Keyboard/Shortcut'
 import { ShortcutText } from '@/app/components/Keyboard/ShortcutText'
@@ -48,10 +48,29 @@ export const Textile = observer(() => {
           </Button>
         )}
         {store.state.textile.keyboard && (
-          <ShortcutText
-            first={store.state.textile.keyboard.first}
-            second={store.state.textile.keyboard.second}
-          />
+          <>
+            <ShortcutText
+              first={store.state.textile.keyboard.first}
+              second={store.state.textile.keyboard.second}
+            />
+            <Button
+              className="px-[0] shrink-0 w-[36px]"
+              onClick={store.onEditShortcut}
+              title="Edit"
+              variant="secondary"
+            >
+              <Icon className="size-[22px]" primary="#3b82f6" source={Pencil} />
+            </Button>
+            <Button
+              className="px-[0] w-[36px]"
+              destructive
+              onClick={store.onDeleteShortcut}
+              title="Delete"
+              variant="secondary"
+            >
+              <Icon className="size-[22px]" primary="#d72b0d" source={Close} />
+            </Button>
+          </>
         )}
       </div>
       <hr className="border-t border-t-slate-400/[0.625] mb-[32px] ml-[120px] mt-[24px]" />

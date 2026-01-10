@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx'
+import { makeAutoObservable, runInAction } from 'mobx'
 import { v4 as uuid } from 'uuid'
 
 import { Action } from '@/types/Action'
@@ -85,7 +85,9 @@ export class TextileStore {
 
     if (success) {
       // TODO: Show the textile in read-only form, with its name selected in the list on the left...
-      this.root.home.state.textiles.push({ ...this.state.textile })
+      runInAction(() => {
+        this.root.home.state.textiles.push({ ...this.state.textile })
+      })
     } else {
       // TODO: Show an error toast...
       console.log('Error...')
@@ -99,6 +101,10 @@ export class TextileStore {
 
   onCloseLastStepError = () => {
     this.state.showLastStepError = false
+  }
+
+  onDeleteShortcut = () => {
+    this.state.textile.keyboard = undefined
   }
 
   onEditShortcut = () => {

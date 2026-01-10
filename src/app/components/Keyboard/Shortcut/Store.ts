@@ -22,11 +22,13 @@ export class ShortcutStore {
   textileStore: TextileStore
 
   constructor(textileStore: TextileStore) {
+    const shortcut = textileStore.state.textile.keyboard
     this.state = {
-      additional: false,
+      additional: Boolean(shortcut?.second),
       first: {
-        key: '',
-        mod1: ''
+        key: shortcut?.first.key ?? '',
+        mod1: shortcut?.first.mod1 ?? '',
+        mod2: shortcut?.first.mod2 ?? '',
       },
       firstMod2Checked: false,
       key1Error: false,
@@ -36,6 +38,13 @@ export class ShortcutStore {
       secondMod1Error: false,
       secondMod2Checked: false,
       secondMod2Error: false,
+      ...(shortcut?.second ? {
+        second: {
+          key: shortcut.second.key ?? '',
+          mod1: shortcut.second.mod1 ?? '',
+          mod2: shortcut.second.mod2 ?? '',
+        }
+      } : {}),
     }
     this.textileStore = textileStore
     makeAutoObservable(this)
@@ -160,9 +169,6 @@ export class ShortcutStore {
     }
 
     this.onEscape(false)
-
-    // TODO and WYLO 2: When the current textile has a shortcut, add support for showing it when this modal is opened.
-    // TODO and WYLO 3: When the current textile is created, make sure it writes this shortcut to disk.
   }
 
   onEscape = (open: boolean) => {
