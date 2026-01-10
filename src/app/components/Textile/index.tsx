@@ -5,6 +5,7 @@ import { Button } from '@/app/components/Button'
 import { Icon, Plus } from '@/app/components/Icon'
 import { Modal } from '@/app/components/Modal'
 import { Shortcut } from '@/app/components/Keyboard/Shortcut'
+import { ShortcutText } from '@/app/components/Keyboard/ShortcutText'
 import { Step } from '@/app/components/Step'
 import { StoreContext } from '@/app/contexts/StoreContext'
 import { TextField } from '@/app/components/TextField'
@@ -34,16 +35,24 @@ export const Textile = observer(() => {
       </div>
       <div className="flex gap-x-[8px] items-center ml-[120px]">
         <label>
-          Keyboard Shortcut
+          <span>Keyboard shortcut</span>{store.state.textile.keyboard && (<span className="mr-[2px]">:</span>)}
         </label>
-        <Button
-          className="px-[0] shrink-0 w-[36px]"
-          onClick={store.onEditShortcut}
-          title="Add"
-          variant="secondary"
-        >
-          <Icon className="size-[20px]" primary="#3b82f6" source={Plus} />
-        </Button>
+        {!store.state.textile.keyboard && (
+          <Button
+            className="px-[0] shrink-0 w-[36px]"
+            onClick={store.onEditShortcut}
+            title="Add"
+            variant="secondary"
+          >
+            <Icon className="size-[20px]" primary="#3b82f6" source={Plus}/>
+          </Button>
+        )}
+        {store.state.textile.keyboard && (
+          <ShortcutText
+            first={store.state.textile.keyboard.first}
+            second={store.state.textile.keyboard.second}
+          />
+        )}
       </div>
       <hr className="border-t border-t-slate-400/[0.625] mb-[32px] ml-[120px] mt-[24px]" />
       <div className="mt-[8px]">

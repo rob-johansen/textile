@@ -52,7 +52,7 @@ export const ShortcutText = ({ className, first, placeholder, second }: Props) =
       <span>{Boolean(first.mod2) && firstMod2}</span>
       <span className="text-gray-500">{showPlus2 && '+'}</span>
       <span>{Boolean(first.key) && first.key}</span>
-      <span className="mx-[9px] relative text-gray-500 top-[-1px]">{showPlus3 && '+'}</span>
+      <span className="mx-[6px] relative text-gray-500 top-[-1px]">{showPlus3 && '+'}</span>
       <span>{Boolean(second?.mod1) && secondMod1}</span>
       <span className="text-gray-500">{showPlus4 && '+'}</span>
       <span>{Boolean(second?.mod2) && secondMod2}</span>

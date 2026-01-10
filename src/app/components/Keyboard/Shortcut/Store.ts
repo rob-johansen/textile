@@ -12,7 +12,9 @@ type State = Keyboard & {
   firstMod2Error: boolean
   key1Error: boolean
   key2Error: boolean
+  secondMod1Error: boolean
   secondMod2Checked: boolean
+  secondMod2Error: boolean
 }
 
 export class ShortcutStore {
@@ -31,7 +33,9 @@ export class ShortcutStore {
       key2Error: false,
       firstMod1Error: false,
       firstMod2Error: false,
+      secondMod1Error: false,
       secondMod2Checked: false,
+      secondMod2Error: false,
     }
     this.textileStore = textileStore
     makeAutoObservable(this)
@@ -78,7 +82,12 @@ export class ShortcutStore {
   }
 
   get showError(): boolean {
-    return this.state.firstMod1Error || this.state.firstMod2Error || this.state.key1Error
+    return this.state.firstMod1Error ||
+      this.state.firstMod2Error ||
+      this.state.key1Error ||
+      this.state.secondMod1Error ||
+      this.state.secondMod2Error ||
+      this.state.key2Error
   }
 
   onChangeKey = (sequence: string, value: string) => {
@@ -130,11 +139,14 @@ export class ShortcutStore {
 
       if (mod === 1) {
         this.state.second.mod1 = value
+        this.state.secondMod1Error = false
+
         if (this.state.second.mod2 === value) {
           this.state.second.mod2 = undefined
         }
       } else {
         this.state.second.mod2 = value
+        this.state.secondMod2Error = false
       }
     }
   }
@@ -142,7 +154,13 @@ export class ShortcutStore {
   onClickSave = () => {
     if (!validateShortcut(this)) return
 
-    // TODO and WYLO 1: Save the keyboard shortcut to the current textile.
+    this.textileStore.state.textile.keyboard = {
+      first: this.state.first,
+      second: this.state.second,
+    }
+
+    this.onEscape(false)
+
     // TODO and WYLO 2: When the current textile has a shortcut, add support for showing it when this modal is opened.
     // TODO and WYLO 3: When the current textile is created, make sure it writes this shortcut to disk.
   }
@@ -178,6 +196,7 @@ export class ShortcutStore {
       if (this.state.second) {
         this.state.second.mod2 = undefined
       }
+      this.state.secondMod2Error = false
     }
   }
 }

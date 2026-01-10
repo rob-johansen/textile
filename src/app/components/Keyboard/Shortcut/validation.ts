@@ -22,5 +22,26 @@ export const validateShortcut = (store: ShortcutStore): boolean => {
     valid = false
   }
 
+  if (store.state.additional) {
+    if (!store.state.second?.mod1) {
+      store.state.secondMod1Error = true
+      valid = false
+    }
+
+    if (store.state.secondMod2Checked && !store.state.second?.mod2) {
+      store.state.secondMod2Error = true
+      valid = false
+    }
+
+    if (!store.state.second?.key) {
+      if (valid) {
+        document.getElementById('key2')?.focus() // Only focus the input if everything above it is valid.
+      }
+
+      store.state.key2Error = true
+      valid = false
+    }
+  }
+
   return valid
 }

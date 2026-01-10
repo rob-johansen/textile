@@ -103,7 +103,7 @@ export const Shortcut = observer(({ textileStore }: Props) => {
           Key:
         </label>
         <TextField
-          className={twMerge('font-[JetBrains] px-[8px] text-center', store.state.key2Error && ' border-error focus:border-error')}
+          className={twMerge('font-[JetBrains] px-[8px] text-center', store.state.key1Error && ' border-error focus:border-error')}
           hideError
           id="key1"
           maxLength={1}
@@ -126,7 +126,7 @@ export const Shortcut = observer(({ textileStore }: Props) => {
       {store.state.additional && (
         <>
           <div className="flex gap-x-[8px] items-center mt-[24px]">
-            <div className="ml-[32px] mr-[3px] text-[0.875rem] text-neutral-900 tracking-[0.25px]">
+            <div className={twMerge('ml-[32px] mr-[3px] text-[0.875rem] text-neutral-900 tracking-[0.25px]', store.state.secondMod1Error && 'text-error')}>
               Modifier 1:
             </div>
             <Button
@@ -159,6 +159,7 @@ export const Shortcut = observer(({ textileStore }: Props) => {
           <div className="flex gap-x-[8px] items-center mt-[20px]">
             <Checkbox
               checked={store.state.secondMod2Checked}
+              error={store.state.secondMod2Error}
               label="Modifier 2:"
               onChange={store.toggleSecondMod2}
             />
