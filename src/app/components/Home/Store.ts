@@ -36,12 +36,11 @@ export class HomeStore {
     const textiles = await window.main.loadTextiles()
 
     runInAction(() => {
-      // TODO: At this moment in time, the files are loaded and you're ready to stop showing a splash screen in the UI.
-      for (const textile of textiles) {
-        console.log(textile.name)
-      }
+      // TODO: At this moment in time, the files are loaded and
+      //       you can stop showing a splash screen in the UI.
 
       this.state.status = Status.NOTHING
+      this.state.textiles = textiles
     })
   }
 
