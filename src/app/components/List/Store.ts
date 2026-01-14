@@ -14,4 +14,12 @@ export class ListStore {
   get textiles(): Textile[] {
     return this.root.home.state.textiles
   }
+
+  isSelected = (textile: Textile): boolean => {
+    return textile.id === this.root.home.state.textile.id
+  }
+
+  onClickTextile = (textile: Textile) => {
+    this.root.home.state.textile = textile
+  }
 }
