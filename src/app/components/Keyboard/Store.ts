@@ -18,7 +18,6 @@ export class KeyboardStore {
     this.root = root
 
     window.addEventListener('keydown', this.onKeyDown, true)
-    window.addEventListener('keyup', this.onKeyUp, true)
 
     makeAutoObservable(this)
   }
@@ -32,7 +31,7 @@ export class KeyboardStore {
     const ctrl = event.ctrlKey
     const meta = event.metaKey
     const shift = event.shiftKey
-    const key = event.key.toUpperCase()
+    const key = event.code.at(-1)?.toUpperCase() ?? ''
 
     let modCount = 0
     if (alt) modCount++
@@ -57,20 +56,14 @@ export class KeyboardStore {
         waitingMod2 === firstMod2 &&
         waitingKey === firstKey
       ) {
-        console.log(`1 ${textile.name}`)
-        console.log('waitingMod1:', waitingMod1)
-        console.log('waitingMod2:', waitingMod2)
-        console.log('waitingKey:', waitingKey)
         // This textile has a second sequence, and its first sequence was pressed within the time window.
         if (
           alt && secondMod1 === Modifier.Alt ||
           ctrl && secondMod1 === Modifier.Control ||
           meta && secondMod1 === Modifier.Meta
         ) {
-          console.log(`2 ${textile.name}`)
           // The mod 1 of the second sequence is down.
           if (secondMod2) {
-            console.log(`3 ${textile.name}`)
             // This textile's shortcut has a mod 2 in its second sequence.
             if (
               alt && secondMod2 === Modifier.Alt ||
@@ -78,16 +71,11 @@ export class KeyboardStore {
               meta && secondMod2 === Modifier.Meta ||
               shift && secondMod2 === Modifier.Shift
             ) {
-              console.log(`4 ${textile.name}`)
               // The mod 2 of the second sequence is down.
               if (key === secondKey) {
-                console.log(`5 ${textile.name}`)
                 // We've matched the shortcut of a textile that has two sequences, and two modifiers in its second sequence.
                 console.log(`Matched "${textile.name}"!`)
                 this.reset()
-              } else {
-                console.log(`key: ${key}`)
-                console.log(`secondKey: ${secondKey}`)
               }
             }
           } else {
@@ -151,10 +139,6 @@ export class KeyboardStore {
         }
       }
     }
-  }
-
-  onKeyUp = (event: KeyboardEvent) => {
-    // TODO: What should actually happen here?
   }
 
   reset = () => {
