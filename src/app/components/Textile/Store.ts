@@ -104,7 +104,7 @@ export class TextileStore {
         sort(this.root.home.state.textiles)
       })
     } else {
-      // TODO: Show an error toast...
+      // TODO: Show an error toast about not being able to save the textile...
       console.log('Error...')
     }
   }
@@ -131,12 +131,21 @@ export class TextileStore {
   }
 
   onRemoveShortcut = async () => {
-    if (!this.state.shortcutDupe) return // If only TypeScript could know that `shortcutDupe` will never be `undefined` here.
+    const dupe = this.state.shortcutDupe
+    if (!dupe) return // TypeScript doesn't know that `dupe` will never be `undefined` here.
 
-    this.state.shortcutDupe.keyboard = undefined
+    dupe.keyboard = undefined
 
-    // TODO: Write `this.state.shortcutDupe` to disk
-    // TODO: Set `this.state.shortcutDupe` to `undefined`
-    // TODO: Call `this.onClickSave()`
+    const success = await window.main.writeTextile(dupe.id, JSON.stringify(dupe, replacer, 2))
+
+    if (success) {
+      runInAction(() => {
+        this.state.shortcutDupe = undefined
+        this.onClickSave()
+      })
+    } else {
+      // TODO: Show an error toast about not being able to remove the shortcut...
+      console.log('Error removing shortcut...')
+    }
   }
 }

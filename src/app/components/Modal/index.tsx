@@ -44,10 +44,8 @@ export const Modal = ({ children, className, onEscape, title }: Props) => {
               ref={setFloating}
               {...getFloatingProps()}
             >
-              <div className="flex items-center h-[60px] justify-between px-[16px] pt-[8px] rounded-tl-[8px] rounded-tr-[8px]">
-                <h3 className="flex font-bold items-center overflow-hidden text-[1.125rem] text-ellipsis tracking-[0.15px] whitespace-nowrap">
-                  {title}
-                </h3>
+              <div className="flex font-bold items-center h-[60px] px-[16px] pt-[8px] rounded-tl-[8px] rounded-tr-[8px] text-[1.125rem] tracking-[0.15px]">
+                {title}
               </div>
               <div className="flex flex-col max-h-[calc(100vh-212px)] pb-[16px] pt-[8px] px-[16px]">
                 {children}

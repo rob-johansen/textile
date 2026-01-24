@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
 import { Button } from '@/app/components/Button'
+import { Icon, Warning } from '@/app/components/Icon'
 import { Modal } from '@/app/components/Modal'
 import { ShortcutText } from '@/app/components/Keyboard/ShortcutText'
 import type { Textile } from '@/types/Textile'
@@ -12,20 +13,22 @@ type Props = {
 }
 
 export const ShortcutDupe = ({ onCancel, onRemove, textile }: Props) => {
+  const [first] = useState(textile.keyboard?.first)
   const [loading, setLoading] = useState(false)
-
-  /*
-    TODO: When you click the "Remove" button, it changes to a spinner and this modal stays open; however, `textile.keyboard`
-          is now `undefined` ... so you can't show the <ShortcutText> component anymore. Come up with something...
-   */
+  const [second] = useState(textile.keyboard?.second)
 
   return (
-    <Modal title="Shortcut Conflict">
-      <div className="flex items-center">
+    <Modal
+      className="[&>div:first-child]:ml-[38px]"
+      title="Shortcut Conflict"
+    >
+      <Icon className="absolute h-[28px] top-[20px]" source={Warning} />
+      <div className="flex gap-x-[16px] items-start">
         <div>
           {/* eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain */}
-          <ShortcutText className="inline" first={textile.keyboard?.first!} second={textile.keyboard?.second} />{' '}
-          <span className={textile.keyboard?.second ? 'ml-[2px]' : 'ml-[-8px]'}>is already assigned to the <span className="font-bold">{textile.name}</span> textile. Do you want to remove it from that textile?</span>
+          This shortcut conflicts with the <span className="font-bold">{textile.name}</span> textile{' '}
+          (<ShortcutText className="inline" first={first!} second={second}/><span className={second ? 'ml-[2px]' : 'ml-[-11px]'}>)</span>.{' '}
+          Do you want to remove the shortcut from that textile?
         </div>
       </div>
       <div className="flex gap-x-[16px] items-center justify-end mt-[24px]">
