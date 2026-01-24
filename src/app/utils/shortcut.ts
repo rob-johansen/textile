@@ -2,13 +2,6 @@ import type { ShortcutStore } from '@/app/components/Keyboard/Shortcut/Store'
 import type { Textile } from '@/types/Textile'
 
 export const getDupe = (store: ShortcutStore, textiles: Textile[]): Textile | undefined => {
-  /*
-    TODO: You need to handle the case where the second sequence matches the first sequence of a shortcut that has no second sequence:
-          Textile A: Meta + G
-          Textile B: Meta + Shift + W  +  Meta + G
-                                          ^^^^^^^^  This second sequence will fire off Textile A too.
-   */
-
   const { key, mod1, mod2 } = store.state.first
 
   for (const textile of textiles) {
@@ -26,7 +19,7 @@ export const getDupe = (store: ShortcutStore, textiles: Textile[]): Textile | un
 
       if (!textile.keyboard.second) {
         // The one being created has a second sequence, but `textile` doesn't.
-        // We have a dupe because `textile` would always run when the first
+        // This is a dupe because `textile` would always run when the first
         // sequence of the one being created is pressed.
         return textile
       }
@@ -35,6 +28,39 @@ export const getDupe = (store: ShortcutStore, textiles: Textile[]): Textile | un
       const { second } = textile.keyboard
 
       if (key === second.key && mod1 === second.mod1 && mod2 === second.mod2) {
+        return textile
+      }
+    }
+
+    if (!store.state.second && textile.keyboard.second) {
+      const { second } = textile.keyboard
+
+      console.log('mod2', mod2)
+      console.log('second.mod2', second.mod2)
+
+      if (key === second.key && mod1 === second.mod1 && ((mod2 === second.mod2) || (mod2 === '' && typeof second.mod2 === 'undefined'))) {
+        /*
+          Textile A: Meta + G
+          Textile B: Meta + Shift + W  +  Meta + G
+                                          ^^^^^^^^  This second sequence would fire off Textile A too.
+         */
+        return textile
+      }
+    }
+
+    if (store.state.second && !textile.keyboard.second) {
+      const { second } = store.state
+
+      if (
+        second.key === first.key &&
+        second.mod1 === first.mod1 &&
+        ((second.mod2 === first.mod2) || (second.mod2 === '' && typeof first.mod2 === 'undefined') || (typeof second.mod2 === 'undefined' && first.mod2 === '')))
+      {
+        /*
+          Textile A: Meta + Shift + W  +  Meta + G
+                                          ^^^^^^^^  This second sequence would fire off Textile B too.
+          Textile B: Meta + G
+         */
         return textile
       }
     }

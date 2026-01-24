@@ -174,6 +174,7 @@ export class ShortcutStore {
     const dupe = getDupe(this, this.textileStore.root.home.state.textiles)
 
     if (dupe) {
+      // TODO and WYLO: Show the dupe modal...
       console.log('Found a dupe:', dupe)
       return
     }
