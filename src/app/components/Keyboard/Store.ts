@@ -74,7 +74,7 @@ export class KeyboardStore {
               // The mod 2 of the second sequence is down.
               if (key === secondKey) {
                 // We've matched the shortcut of a textile that has two sequences, and two modifiers in its second sequence.
-                console.log(`Matched "${textile.name}"!`)
+                console.log(`Matched 1 "${textile.name}"!`)
                 this.reset()
               }
             }
@@ -85,7 +85,7 @@ export class KeyboardStore {
 
             if (key === secondKey) {
               // We've matched the shortcut of a textile that has two sequences, and one modifier in its second sequence.
-              console.log(`Matched "${textile.name}"!`)
+              console.log(`Matched 2 "${textile.name}"!`)
               this.reset()
             }
           }
@@ -114,7 +114,7 @@ export class KeyboardStore {
                   this.wait(firstMod1, firstMod2, firstKey)
                 } else {
                   // We've matched the shortcut of a textile that has one sequence, and two modifiers in that sequence.
-                  console.log(`Matched "${textile.name}"!`)
+                  console.log(`Matched 3 "${textile.name}"!`)
                   this.reset()
                 }
               }
@@ -131,7 +131,7 @@ export class KeyboardStore {
                 this.wait(firstMod1, firstMod2, firstKey)
               } else {
                 // We've matched the shortcut of a textile that has one sequence, and one modifier in that sequence.
-                console.log(`Matched "${textile.name}"!`)
+                console.log(`Matched 4 "${textile.name}"!`)
                 this.reset()
               }
             }

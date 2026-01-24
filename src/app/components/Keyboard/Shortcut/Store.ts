@@ -1,5 +1,6 @@
 import { makeAutoObservable } from 'mobx'
 
+import { getDupe } from '@/app/utils/shortcut'
 import { Modifier } from '@/types/Shortcut'
 import { validateShortcut } from '@/app/components/Keyboard/Shortcut/validation'
 import type { Keyboard } from '@/types/Keyboard'
@@ -15,6 +16,7 @@ type State = Keyboard & {
   secondMod1Error: boolean
   secondMod2Checked: boolean
   secondMod2Error: boolean
+  sequenceMatchError: boolean
 }
 
 export class ShortcutStore {
@@ -30,14 +32,15 @@ export class ShortcutStore {
         mod1: shortcut?.first.mod1 ?? '',
         mod2: shortcut?.first.mod2 ?? '',
       },
-      firstMod2Checked: false,
-      key1Error: false,
-      key2Error: false,
+      firstMod2Checked: Boolean(shortcut?.first.mod2),
       firstMod1Error: false,
       firstMod2Error: false,
+      key1Error: false,
+      key2Error: false,
       secondMod1Error: false,
-      secondMod2Checked: false,
+      secondMod2Checked: Boolean(shortcut?.second?.mod2),
       secondMod2Error: false,
+      sequenceMatchError: false,
       ...(shortcut?.second ? {
         second: {
           key: shortcut.second.key ?? '',
@@ -96,10 +99,13 @@ export class ShortcutStore {
       this.state.key1Error ||
       this.state.secondMod1Error ||
       this.state.secondMod2Error ||
-      this.state.key2Error
+      this.state.key2Error ||
+      this.state.sequenceMatchError
   }
 
   onChangeKey = (sequence: string, value: string) => {
+    this.state.sequenceMatchError = false
+
     if (value !== '' && !/^[A-Z0-9]$/.test(value)) {
       if (sequence === 'first') {
         this.state.key1Error = true
@@ -126,6 +132,8 @@ export class ShortcutStore {
   }
 
   onClickModifier = (sequence: string, mod: number, value: string) => {
+    this.state.sequenceMatchError = false
+
     if (sequence === 'first') {
       if (mod === 1) {
         this.state.first.mod1 = value
@@ -163,6 +171,13 @@ export class ShortcutStore {
   onClickSave = () => {
     if (!validateShortcut(this)) return
 
+    const dupe = getDupe(this, this.textileStore.root.home.state.textiles)
+
+    if (dupe) {
+      console.log('Found a dupe:', dupe)
+      return
+    }
+
     this.textileStore.state.textile.keyboard = {
       first: this.state.first,
       second: this.state.second,
@@ -178,6 +193,8 @@ export class ShortcutStore {
   }
 
   toggleAdditional = () => {
+    this.state.sequenceMatchError = false
+
     this.state.additional = !this.state.additional
 
     if (!this.state.additional) {
@@ -187,6 +204,8 @@ export class ShortcutStore {
   }
 
   toggleFirstMod2 = () => {
+    this.state.sequenceMatchError = false
+
     this.state.firstMod2Checked = !this.state.firstMod2Checked
 
     if (!this.state.firstMod2Checked) {
@@ -196,6 +215,8 @@ export class ShortcutStore {
   }
 
   toggleSecondMod2 = () => {
+    this.state.sequenceMatchError = false
+
     this.state.secondMod2Checked = !this.state.secondMod2Checked
 
     if (!this.state.secondMod2Checked) {

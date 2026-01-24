@@ -15,7 +15,7 @@ export const ShortcutError = observer(({ store }: Props) => {
     } else if (!store.state.secondMod1Error && !store.state.secondMod2Error && store.state.key2Error) {
       document.getElementById('key2')?.focus()
     }
-  }, [store.state.firstMod1Error, store.state.firstMod2Error, store.state.key1Error, store.state.secondMod1Error, store.state.secondMod2Error, store.state.key2Error])
+  }, [store.state.firstMod1Error, store.state.firstMod2Error, store.state.key1Error, store.state.secondMod1Error, store.state.secondMod2Error, store.state.key2Error, store.state.sequenceMatchError])
 
   let message = ''
 
@@ -31,6 +31,8 @@ export const ShortcutError = observer(({ store }: Props) => {
     message = 'Please choose a second modifier'
   } else if (store.state.key2Error) {
     message = 'Please press a key'
+  } else if (store.state.sequenceMatchError) {
+    message = 'Please choose unique sequences'
   }
 
   return (

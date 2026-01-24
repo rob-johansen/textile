@@ -41,6 +41,17 @@ export const validateShortcut = (store: ShortcutStore): boolean => {
       store.state.key2Error = true
       valid = false
     }
+
+    // Maybe in a future release the two sequences can match, but it complicates
+    // the keyboard shortcut execution logic, so initially it's not supported.
+    if (
+      store.state.first.mod1 === store.state.second?.mod1 &&
+      ((store.state.first.mod2 === store.state.second.mod2) || (store.state.first.mod2 === '' && typeof store.state.second?.mod2 === 'undefined')) &&
+      store.state.first.key === store.state.second.key
+    ) {
+      store.state.sequenceMatchError = true
+      valid = false
+    }
   }
 
   return valid
