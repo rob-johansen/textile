@@ -1,6 +1,5 @@
 import { makeAutoObservable } from 'mobx'
 
-import { getDupe } from '@/app/utils/shortcut'
 import { Modifier } from '@/types/Shortcut'
 import { validateShortcut } from '@/app/components/Keyboard/Shortcut/validation'
 import type { Keyboard } from '@/types/Keyboard'
@@ -103,6 +102,10 @@ export class ShortcutStore {
       this.state.sequenceMatchError
   }
 
+  close = () => {
+    this.textileStore.state.editingShortcut = false
+  }
+
   onChangeKey = (sequence: string, value: string) => {
     this.state.sequenceMatchError = false
 
@@ -171,26 +174,12 @@ export class ShortcutStore {
   onClickSave = () => {
     if (!validateShortcut(this)) return
 
-    const dupe = getDupe(this, this.textileStore.root.home.state.textiles)
-
-    if (dupe) {
-      // TODO and WYLO: Show the dupe modal...
-      console.log('Found a dupe:', dupe)
-      return
-    }
-
     this.textileStore.state.textile.keyboard = {
       first: this.state.first,
       second: this.state.second,
     }
 
-    this.onEscape(false)
-  }
-
-  onEscape = (open: boolean) => {
-    if (!open) {
-      this.textileStore.state.editingShortcut = false
-    }
+    this.close()
   }
 
   toggleAdditional = () => {

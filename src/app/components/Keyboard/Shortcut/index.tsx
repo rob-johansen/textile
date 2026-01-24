@@ -233,7 +233,7 @@ export const Shortcut = observer(({ textileStore }: Props) => {
       </div>
       <div className="flex gap-x-[16px] items-center justify-end mt-[24px]">
         <Button
-          onClick={() => store.onEscape(false)}
+          onClick={store.close}
           variant="secondary"
         >
           Cancel

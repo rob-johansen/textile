@@ -5,6 +5,7 @@ import { Button } from '@/app/components/Button'
 import { Icon, Close, Pencil, Plus } from '@/app/components/Icon'
 import { Modal } from '@/app/components/Modal'
 import { Shortcut } from '@/app/components/Keyboard/Shortcut'
+import { ShortcutDupe } from '@/app/components/Keyboard/ShortcuteDupe'
 import { ShortcutText } from '@/app/components/Keyboard/ShortcutText'
 import { Step } from '@/app/components/Step'
 import { StoreContext } from '@/app/contexts/StoreContext'
@@ -108,6 +109,13 @@ export const Textile = observer(() => {
       </div>
       {store.state.editingShortcut && (
         <Shortcut textileStore={store} />
+      )}
+      {store.state.shortcutDupe && (
+        <ShortcutDupe
+          onCancel={store.onCancelShortcutDupe}
+          onRemove={store.onRemoveShortcut}
+          textile={store.state.shortcutDupe}
+        />
       )}
       {store.state.showLastStepError && (
         <Modal

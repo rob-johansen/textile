@@ -1,8 +1,9 @@
-import type { ShortcutStore } from '@/app/components/Keyboard/Shortcut/Store'
 import type { Textile } from '@/types/Textile'
 
-export const getDupe = (store: ShortcutStore, textiles: Textile[]): Textile | undefined => {
-  const { key, mod1, mod2 } = store.state.first
+export const getDupe = (candidate: Textile, textiles: Textile[]): Textile | undefined => {
+  if (!candidate.keyboard) return
+
+  const { key, mod1, mod2 } = candidate.keyboard.first
 
   for (const textile of textiles) {
     if (!textile.keyboard) continue
@@ -10,7 +11,7 @@ export const getDupe = (store: ShortcutStore, textiles: Textile[]): Textile | un
     const { first } = textile.keyboard
 
     if (key === first.key && mod1 === first.mod1 && mod2 === first.mod2) {
-      if (!store.state.second) {
+      if (!candidate.keyboard.second) {
         // The one being created doesn't have a second sequence. Even if `textile`
         // does, the one being created is a dupe because it would always run when
         // the first sequence of `textile` is pressed.
@@ -24,7 +25,7 @@ export const getDupe = (store: ShortcutStore, textiles: Textile[]): Textile | un
         return textile
       }
 
-      const { key, mod1, mod2 } = store.state.second
+      const { key, mod1, mod2 } = candidate.keyboard.second
       const { second } = textile.keyboard
 
       if (key === second.key && mod1 === second.mod1 && mod2 === second.mod2) {
@@ -32,11 +33,8 @@ export const getDupe = (store: ShortcutStore, textiles: Textile[]): Textile | un
       }
     }
 
-    if (!store.state.second && textile.keyboard.second) {
+    if (!candidate.keyboard.second && textile.keyboard.second) {
       const { second } = textile.keyboard
-
-      console.log('mod2', mod2)
-      console.log('second.mod2', second.mod2)
 
       if (key === second.key && mod1 === second.mod1 && ((mod2 === second.mod2) || (mod2 === '' && typeof second.mod2 === 'undefined'))) {
         /*
@@ -48,8 +46,8 @@ export const getDupe = (store: ShortcutStore, textiles: Textile[]): Textile | un
       }
     }
 
-    if (store.state.second && !textile.keyboard.second) {
-      const { second } = store.state
+    if (candidate.keyboard.second && !textile.keyboard.second) {
+      const { second } = candidate.keyboard
 
       if (
         second.key === first.key &&

@@ -2,6 +2,7 @@ import { makeAutoObservable, runInAction } from 'mobx'
 import { v4 as uuid } from 'uuid'
 
 import { Action } from '@/types/Action'
+import { getDupe } from '@/app/utils/shortcut'
 import { Input } from '@/types/Input'
 import { moveResult, removeDupes, replacer } from '@/app/utils/textile'
 import { scrollTo } from '@/app/utils/scroll'
@@ -14,6 +15,7 @@ import type { Textile } from '@/types/Textile'
 type State = {
   editingShortcut: boolean
   nameError: string
+  shortcutDupe?: Textile
   showLastStepError: boolean
   textile: Textile
 }
@@ -31,6 +33,11 @@ export class TextileStore {
       textile: root.home.state.textile
     }
     makeAutoObservable(this)
+  }
+
+  onCancelShortcutDupe = () => {
+    this.state.editingShortcut = true
+    this.state.shortcutDupe = undefined
   }
 
   onClickAddStep = () => {
@@ -52,6 +59,12 @@ export class TextileStore {
 
   onClickSave = async () => {
     const validName = validateName(this)
+
+    const shortcutDupe = getDupe(this.state.textile, this.root.home.state.textiles)
+    if (shortcutDupe) {
+      this.state.shortcutDupe = shortcutDupe
+      return
+    }
 
     const textile = this.state.textile
     const steps = textile.steps
@@ -115,5 +128,15 @@ export class TextileStore {
 
   onEscapeLastStepError = (open: boolean) => {
     this.state.showLastStepError = open
+  }
+
+  onRemoveShortcut = async () => {
+    if (!this.state.shortcutDupe) return // If only TypeScript could know that `shortcutDupe` will never be `undefined` here.
+
+    this.state.shortcutDupe.keyboard = undefined
+
+    // TODO: Write `this.state.shortcutDupe` to disk
+    // TODO: Set `this.state.shortcutDupe` to `undefined`
+    // TODO: Call `this.onClickSave()`
   }
 }
