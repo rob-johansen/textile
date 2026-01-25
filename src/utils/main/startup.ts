@@ -62,7 +62,7 @@ export const loadTextiles = async (): Promise<Textile[]> => {
       try {
         await mkdir(documents)
       } catch (err) {
-        logger.error('Error creating Textile directory: %0', err)
+        logger.error('Error creating Textile directory: %O', err)
       }
     }
   }

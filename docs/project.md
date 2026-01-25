@@ -30,7 +30,7 @@ The steps can be:
     ```
     
 2. Then `append` `the text on my clipboard when I run this textile`
-3. Then `append` `[(https://pieinsurance.atlassian.net/browse/`
+3. Then `append` `](https://pieinsurance.atlassian.net/browse/`
 4. Then `append` `the text on my clipboard when I run this textile`
 5. Then `append` `)`
 

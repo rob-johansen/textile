@@ -26,7 +26,8 @@ export const logger = createLogger({
   exitOnError: false,
   format: format.combine(format.splat(), time), // https://nodejs.org/api/util.html#util_util_format_format_args
   level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
-  transports: process.env.NODE_ENV === 'production'
-    ? [new transports.File({ dirname: app.getPath('logs'), filename: 'textiles.log' })]
-    : [new transports.Console()]
+  transports: [
+    new transports.Console(),
+    new transports.File({dirname: app.getPath('logs'), filename: 'textile.log'})
+  ]
 })

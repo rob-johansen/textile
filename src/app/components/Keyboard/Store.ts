@@ -75,6 +75,7 @@ export class KeyboardStore {
               if (key === secondKey) {
                 // We've matched the shortcut of a textile that has two sequences, and two modifiers in its second sequence.
                 console.log(`Matched 1 "${textile.name}"!`)
+                this.root.run.run(textile)
                 this.reset()
               }
             }

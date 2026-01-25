@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url'
 import started from 'electron-squirrel-startup'
 
 import { loadTextiles } from '@/utils/main/startup'
-import { writeTextile } from '@/utils/main/textile'
+import { runCommand, writeTextile } from '@/utils/main/textile'
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -46,6 +46,7 @@ const createWindow = () => {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   ipcMain.handle('load-textiles', loadTextiles)
+  ipcMain.handle('run-command', runCommand)
   ipcMain.handle('write-textile', writeTextile)
   createWindow()
 })
