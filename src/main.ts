@@ -3,6 +3,7 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import started from 'electron-squirrel-startup'
 
+import { copyFromClipboard, copyToClipboard } from '@/utils/main/clipboard'
 import { loadTextiles } from '@/utils/main/startup'
 import { runCommand, writeTextile } from '@/utils/main/textile'
 
@@ -45,6 +46,8 @@ const createWindow = () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
+  ipcMain.handle('copy-from-clipboard', copyFromClipboard)
+  ipcMain.handle('copy-to-clipboard', copyToClipboard)
   ipcMain.handle('load-textiles', loadTextiles)
   ipcMain.handle('run-command', runCommand)
   ipcMain.handle('write-textile', writeTextile)

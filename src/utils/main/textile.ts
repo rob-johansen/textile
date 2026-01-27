@@ -16,12 +16,12 @@ export const runCommand = (_event: IpcMainInvokeEvent, ...args: any[]): Promise<
 
   return new Promise((resolve, reject) => {
     if (!step.value) {
-      reject('A step in this textile is supposed to run a command, but the command is missing.')
+      reject('A step in this textile should run a command, but the command is missing.')
       return
     }
 
     if (!step.metadata.path) {
-      reject('A step in this textile is supposed to run a command, but the path is missing.')
+      reject('A step in this textile should run a command, but the path is missing.')
       return
     }
 
