@@ -11,8 +11,19 @@ export class ListStore {
     makeAutoObservable(this)
   }
 
+  get emptyText(): string {
+    const text = this.root.toolbar.state.searchText
+    const textiles = this.root.home.state.textiles
+    return `No textiles ${(text && textiles.length > 0) ? 'found' : 'yet'}`
+  }
+
   get textiles(): Textile[] {
-    return this.root.home.state.textiles
+    const text = this.root.toolbar.state.searchText
+    return this.root.home.state.textiles.filter((textile) => {
+      if (!text || textile.name.toLowerCase().includes(text.toLowerCase())) {
+        return textile
+      }
+    })
   }
 
   isSelected = (textile: Textile): boolean => {
