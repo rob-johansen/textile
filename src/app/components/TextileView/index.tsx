@@ -16,13 +16,11 @@ export const TextileView = observer(() => {
         {store.textile.name}
       </h1>
       {store.textile.keyboard && (
-        <div>
-          <ShortcutText
-            className="text-[0.75rem] overflow-hidden text-ellipsis text-slate-500 whitespace-nowrap"
-            first={store.textile.keyboard.first}
-            second={store.textile.keyboard.second}
-          />
-        </div>
+        <ShortcutText
+          className="text-[0.875rem] text-slate-500"
+          first={store.textile.keyboard.first}
+          second={store.textile.keyboard.second}
+        />
       )}
       <hr className="border-t border-t-slate-400/[0.625] my-[24px]" />
       <div className="flex flex-col gap-y-[16px]">

@@ -30,16 +30,42 @@ export const StepView = observer((props: Props) => {
               <>
                 <span className="relative top-[4px]">
                   Start with{' '}
-                  {step.input === Input.CLIPBOARD_RUNTIME && 'the text on my clipboard when I run this textile'}
+                  {step.input === Input.CLIPBOARD_RUNTIME && 'the text on my clipboard'}
                   {step.input === Input.COMMAND_RUNTIME && (
-                    <>the output of <Code>{store.getCommand(step)}</Code> (in the <Code>{store.getPath(step)}</Code> directory) when I run this textile</>
+                    <>the output of <Code>{store.getCommand(step)}</Code> (in the <Code>{store.getPath(step)}</Code> directory)</>
                   )}
                   {step.input === Input.TEXT_NOW && <Code>{step.value}</Code>}.
                 </span>
               </>
             ) : (
               <span className="relative top-[4px]">
-                Then
+                {step.action === Action.APPEND && (
+                  <>
+                    Append{' '}
+                    {step.input === Input.CLIPBOARD_RUNTIME && 'the text on my clipboard'}
+                    {step.input === Input.COMMAND_RUNTIME && (
+                      <>the output of <Code>{store.getCommand(step)}</Code> (in the <Code>{store.getPath(step)}</Code> directory)</>
+                    )}
+                    {step.input === Input.TEXT_NOW && <Code>{step.value}</Code>}.
+                  </>
+                )}
+                {step.action === Action.PREPEND && (
+                  <>
+                    Prepend{' '}
+                    {step.input === Input.CLIPBOARD_RUNTIME && 'the text on my clipboard'}
+                    {step.input === Input.COMMAND_RUNTIME && (
+                      <>the output of <Code>{store.getCommand(step)}</Code> (in the <Code>{store.getPath(step)}</Code> directory)</>
+                    )}
+                    {step.input === Input.TEXT_NOW && <Code>{step.value}</Code>}.
+                  </>
+                )}
+                {step.action === Action.REPLACE && (
+                  <>
+                    Replace <Code>{step.value}</Code> with <Code>{step.metadata.replacement as string}</Code>.
+                  </>
+                )}
+                {step.action === Action.COPY && 'Copy the result to my clipboard.'}
+                {step.action === Action.SHOW && 'Show the result.'}
               </span>
             )}
           </div>
