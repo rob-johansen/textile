@@ -6,6 +6,7 @@ import { Resizer } from '@/app/components/Resizer'
 import { Status } from '@/types/Status'
 import { StoreContext } from '@/app/contexts/StoreContext'
 import { Textile } from '@/app/components/Textile'
+import { TextileView } from '@/app/components/TextileView'
 import { Toolbar } from '@/app/components/Toolbar'
 
 export const Home = observer(() => {
@@ -23,9 +24,14 @@ export const Home = observer(() => {
           <div className="flex h-[calc(100vh-56px)] select-none" id="content">
             <List />
             <Resizer />
-            <div className="flex-[1_1_auto] min-w-[870px] overflow-y-scroll scrollbar-thin">
+            <div className="flex-[1_1_auto] overflow-y-scroll scrollbar-thin">
               {store.state.status === Status.CREATING && (
-                <Textile/>
+                <div className="min-w-[870px]">
+                  <Textile />
+                </div>
+              )}
+              {store.state.status === Status.VIEWING && (
+                <TextileView />
               )}
             </div>
           </div>

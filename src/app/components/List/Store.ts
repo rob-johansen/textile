@@ -1,5 +1,6 @@
 import { makeAutoObservable } from 'mobx'
 
+import { Status } from '@/types/Status'
 import type { RootStore } from '@/app/RootStore'
 import type { Textile } from '@/types/Textile'
 
@@ -31,6 +32,8 @@ export class ListStore {
   }
 
   onClickTextile = (textile: Textile) => {
+    // TODO: If you're in the middle of CREATING / EDITING, ask the user to confirm switching to VIEWING? (Otherwise they could lose unsaved changes.)
+    this.root.home.state.status = Status.VIEWING
     this.root.home.state.textile = textile
   }
 }
