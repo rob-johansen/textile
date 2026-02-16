@@ -1,6 +1,8 @@
 import { observer } from 'mobx-react-lite'
 import { useContext, useState } from 'react'
 
+import { Button } from '@/app/components/Button'
+import { Icon, Play } from '@/app/components/Icon'
 import { ShortcutText } from '@/app/components/Keyboard/ShortcutText'
 import { StepView } from '@/app/components/StepView'
 import { StoreContext } from '@/app/contexts/StoreContext'
@@ -22,6 +24,21 @@ export const TextileView = observer(() => {
           second={store.textile.keyboard.second}
         />
       )}
+      <div className="flex gap-x-[16px] items-center mt-[16px]">
+        <Button
+          onClick={store.onClickEdit}
+          variant="secondary"
+        >
+          Edit
+        </Button>
+        <Button
+          className="px-[12px]"
+          icon={{ element: () => <Icon className="size-[20px]" primary="#ffffff" source={Play} /> }}
+          onClick={store.onClickRun}
+        >
+          Run
+        </Button>
+      </div>
       <hr className="border-t border-t-slate-400/[0.625] my-[24px]" />
       <div className="flex flex-col gap-y-[16px]">
         {store.textile.steps.map((step, index) => {

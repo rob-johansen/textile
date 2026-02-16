@@ -18,4 +18,8 @@ export class TextileViewStore {
   onClickEdit = () => {
 
   }
+
+  onClickRun = () => {
+    this.root.run.run(this.textile)
+  }
 }
