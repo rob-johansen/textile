@@ -1,5 +1,6 @@
 import { makeAutoObservable } from 'mobx'
 
+import { Status } from '@/types/Status'
 import type { RootStore } from '@/app/RootStore'
 import type { Textile } from '@/types/Textile'
 
@@ -16,7 +17,7 @@ export class TextileViewStore {
   }
 
   onClickEdit = () => {
-
+    this.root.home.state.status = Status.EDITING
   }
 
   onClickRun = () => {

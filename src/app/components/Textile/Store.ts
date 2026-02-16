@@ -7,6 +7,7 @@ import { Input } from '@/types/Input'
 import { moveResult, removeDupes, replacer } from '@/app/utils/textile'
 import { scrollTo } from '@/app/utils/scroll'
 import { sort } from '@/utils/shared/textiles'
+import { Status } from '@/types/Status'
 import { validateLastStep, validateName } from '@/app/components/Textile/validations'
 import { validateStep } from '@/app/components/Step/validations'
 import type { RootStore } from '@/app/RootStore'
@@ -98,10 +99,12 @@ export class TextileStore {
     const success = await window.main.writeTextile(textile.id, JSON.stringify(textile, replacer, 2))
 
     if (success) {
-      // TODO: Show the textile in read-only form, with its name selected in the list on the left...
       runInAction(() => {
-        this.root.home.state.textiles.push({ ...this.state.textile })
-        sort(this.root.home.state.textiles)
+        if (this.root.home.state.status === Status.CREATING) {
+          this.root.home.state.textiles.push({ ...this.state.textile })
+          sort(this.root.home.state.textiles)
+        }
+        this.root.home.state.status = Status.VIEWING
       })
     } else {
       // TODO: Show an error toast about not being able to save the textile...

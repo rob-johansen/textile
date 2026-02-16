@@ -25,7 +25,7 @@ export const Home = observer(() => {
             <List />
             <Resizer />
             <div className="flex-[1_1_auto] overflow-y-scroll scrollbar-thin">
-              {store.state.status === Status.CREATING && (
+              {(store.state.status === Status.CREATING || store.state.status === Status.EDITING) && (
                 <div className="min-w-[870px]">
                   <Textile />
                 </div>
