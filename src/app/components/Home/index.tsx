@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite'
 import { useContext } from 'react'
 
 import { List } from '@/app/components/List'
+import { Nothing } from '@/app/components/Nothing'
 import { Resizer } from '@/app/components/Resizer'
 import { Status } from '@/types/Status'
 import { StoreContext } from '@/app/contexts/StoreContext'
@@ -29,6 +30,9 @@ export const Home = observer(() => {
                 <div className="min-w-[870px]">
                   <Textile />
                 </div>
+              )}
+              {store.state.status === Status.NOTHING && (
+                <Nothing hasTextiles={store.state.textiles.length > 0} />
               )}
               {store.state.status === Status.VIEWING && (
                 <TextileView />

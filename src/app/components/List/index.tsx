@@ -26,7 +26,7 @@ export const List = observer(() => {
   return (
     <div className="min-w-[250px] overflow-y-scroll scrollbar-thin" id="textiles">
       {store.textiles.length === 0 ? (
-        <div className="flex flex-col gap-y-[16px] items-center h-full justify-center w-full">
+        <div className="flex flex-col gap-y-[16px] h-full items-center justify-center w-full">
           <span className="text-[1.0625rem] text-slate-500">
             {store.emptyText}
           </span>

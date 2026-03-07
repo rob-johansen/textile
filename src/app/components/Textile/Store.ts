@@ -14,6 +14,7 @@ import type { RootStore } from '@/app/RootStore'
 import type { Textile } from '@/types/Textile'
 
 type State = {
+  canceling: boolean
   editingShortcut: boolean
   nameError: string
   shortcutDupe?: Textile
@@ -28,6 +29,7 @@ export class TextileStore {
   constructor(root: RootStore) {
     this.root = root
     this.state = {
+      canceling: false,
       editingShortcut: false,
       nameError: '',
       showLastStepError: false,
@@ -39,6 +41,20 @@ export class TextileStore {
   onCancelShortcutDupe = () => {
     this.state.editingShortcut = true
     this.state.shortcutDupe = undefined
+  }
+
+  onCancelNo = () => {
+    this.state.canceling = false
+  }
+
+  onCancelYes = () => {
+    this.state.canceling = false
+    this.root.home.state.status = Status.NOTHING
+  }
+
+  onChangeName = (value: string): void => {
+    this.state.textile.name = value
+    this.state.nameError = ''
   }
 
   onClickAddStep = () => {
@@ -56,6 +72,10 @@ export class TextileStore {
       metadata: {},
       value: ''
     })
+  }
+
+  onClickCancel = () => {
+    this.state.canceling = true
   }
 
   onClickSave = async () => {
@@ -110,11 +130,6 @@ export class TextileStore {
       // TODO: Show an error toast about not being able to save the textile...
       console.log('Error...')
     }
-  }
-
-  onChangeName = (value: string): void => {
-    this.state.textile.name = value
-    this.state.nameError = ''
   }
 
   onCloseLastStepError = () => {

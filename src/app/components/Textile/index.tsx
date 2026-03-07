@@ -96,6 +96,7 @@ export const Textile = observer(() => {
         </Button>
         <div className="flex gap-x-[16px] items-center">
           <Button
+            onClick={store.onClickCancel}
             variant="secondary"
           >
             Cancel
@@ -107,6 +108,19 @@ export const Textile = observer(() => {
           </Button>
         </div>
       </div>
+      {store.state.canceling && (
+        <Modal title="Please Confirm">
+          Are you sure you want to cancel?
+          <div className="flex gap-x-[16px] items-center justify-end mt-[16px]">
+            <Button onClick={store.onCancelNo} variant="secondary">
+              No
+            </Button>
+            <Button onClick={store.onCancelYes}>
+              Yes
+            </Button>
+          </div>
+        </Modal>
+      )}
       {store.state.editingShortcut && (
         <Shortcut textileStore={store} />
       )}
