@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid'
 import { Action } from '@/types/Action'
 import { getDupe } from '@/app/utils/shortcut'
 import { Input } from '@/types/Input'
-import { moveResult, removeDupes, replacer } from '@/app/utils/textile'
+import { copy, moveResult, removeDupes, replacer } from '@/app/utils/textile'
 import { scrollTo } from '@/app/utils/scroll'
 import { sort } from '@/utils/shared/textiles'
 import { Status } from '@/types/Status'
@@ -49,7 +49,18 @@ export class TextileStore {
 
   onCancelYes = () => {
     this.state.canceling = false
-    this.root.home.state.status = Status.NOTHING
+
+    if (this.root.home.state.status === Status.CREATING) {
+      this.root.home.state.status = Status.NOTHING
+    } else if (this.root.home.state.status === Status.EDITING) {
+      copy(this.root.home.state.editTextile, this.root.home.state.textile)
+      this.root.home.state.editTextile = {
+        id: '',
+        name: '',
+        steps: [],
+      }
+      this.root.home.state.status = Status.VIEWING
+    }
   }
 
   onChangeName = (value: string): void => {

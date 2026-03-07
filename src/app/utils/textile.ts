@@ -1,5 +1,54 @@
 import { Action } from '@/types/Action'
 import type { Step } from '@/types/Step'
+import type { Textile } from '@/types/Textile'
+
+/**
+ * Deep copies one textile into another
+ */
+export const copy = (src: Textile, dst: Textile) => {
+  dst.id = src.id
+
+  if (src.keyboard) {
+    dst.keyboard = { first: { ...src.keyboard.first } }
+    if (src.keyboard.second) {
+      dst.keyboard.second = { ...src.keyboard.second }
+    }
+  }
+
+  dst.name = src.name
+  dst.steps = []
+
+  for (const step of src.steps) {
+    const stepCopy: Step = {
+      action: step.action,
+      error: {
+        action: '',
+        input: '',
+        path: '',
+        replacement: '',
+        value: '',
+      },
+      id: step.id,
+      input: step.input,
+      metadata: {},
+      value: step.value
+    }
+
+    if (step.metadata.args) {
+      stepCopy.metadata.args = step.metadata.args.map((arg) => ({ ...arg }))
+    }
+
+    if (step.metadata.path) {
+      stepCopy.metadata.path = step.metadata.path
+    }
+
+    if (step.metadata.replacement) {
+      stepCopy.metadata.replacement = step.metadata.replacement
+    }
+
+    dst.steps.push(stepCopy)
+  }
+}
 
 /**
  * Moves a "result" step (i.e. `COPY` or `SHOW`) to the penultimate

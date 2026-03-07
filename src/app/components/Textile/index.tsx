@@ -111,7 +111,7 @@ export const Textile = observer(() => {
       {store.state.canceling && (
         <Modal title="Please Confirm">
           Are you sure you want to cancel?
-          <div className="flex gap-x-[16px] items-center justify-end mt-[16px]">
+          <div className="flex gap-x-[16px] items-center justify-end mt-[24px]">
             <Button onClick={store.onCancelNo} variant="secondary">
               No
             </Button>

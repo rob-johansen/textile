@@ -8,6 +8,7 @@ import type { RootStore } from '@/app/RootStore'
 import type { Textile } from '@/types/Textile'
 
 type State = {
+  editTextile: Textile // A copy of the textile currently being edited (so we can restore if the user cancels)
   status: string
   textile: Textile // The currently selected textile
   textiles: Textile[] // The list of all textiles on the left
@@ -16,6 +17,11 @@ type State = {
 export class HomeStore {
   root: RootStore
   state: State = {
+    editTextile: {
+      id: '',
+      name: '',
+      steps: [],
+    },
     status: Status.STARTING,
     textile: {
       id: '',

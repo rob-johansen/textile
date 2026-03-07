@@ -6,6 +6,7 @@ export const getDupe = (candidate: Textile, textiles: Textile[]): Textile | unde
   const { key, mod1, mod2 } = candidate.keyboard.first
 
   for (const textile of textiles) {
+    if (textile.id === candidate.id) continue
     if (!textile.keyboard) continue
 
     const { first } = textile.keyboard
