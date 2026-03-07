@@ -19,7 +19,7 @@ export const Textile = observer(() => {
   return (
     <div className="min-w-[756px] mt-[20px] pb-[56px] w-fit">
       <h1 className="ml-[120px] text-[1.5rem] tracking-[0.25px]">
-        New Textile
+        {store.title}
       </h1>
       <div className="flex gap-x-[8px] items-start ml-[120px] mt-[20px]">
         <label className="relative top-[5px]" htmlFor="name">

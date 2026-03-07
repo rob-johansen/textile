@@ -2,12 +2,14 @@ import { makeAutoObservable, runInAction } from 'mobx'
 import { v4 as uuid } from 'uuid'
 
 import { Action } from '@/types/Action'
+import { copy } from '@/app/utils/textile'
 import { Input } from '@/types/Input'
 import { Status } from '@/types/Status'
 import type { RootStore } from '@/app/RootStore'
 import type { Textile } from '@/types/Textile'
 
 type State = {
+  confirmingNew: boolean
   editTextile: Textile // A copy of the textile currently being edited (so we can restore if the user cancels)
   status: string
   textile: Textile // The currently selected textile
@@ -17,6 +19,7 @@ type State = {
 export class HomeStore {
   root: RootStore
   state: State = {
+    confirmingNew: false,
     editTextile: {
       id: '',
       name: '',
@@ -50,7 +53,30 @@ export class HomeStore {
     })
   }
 
-  onClickNew = (): void => {
+  onClickNew = () => {
+    if (this.state.status === Status.CREATING || this.state.status === Status.EDITING) {
+      this.state.confirmingNew = true
+      return
+    }
+
+    this.startNewTextile()
+  }
+
+  onClickNewNo = () => {
+    this.state.confirmingNew = false
+  }
+
+  onClickNewYes = () => {
+    this.state.confirmingNew = false
+
+    if (this.state.status === Status.EDITING) {
+      copy(this.state.editTextile, this.state.textile)
+    }
+
+    this.startNewTextile()
+  }
+
+  startNewTextile = () => {
     this.state.status = Status.CREATING
     this.state.textile = {
       id: uuid(),

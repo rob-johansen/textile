@@ -38,6 +38,10 @@ export class TextileStore {
     makeAutoObservable(this)
   }
 
+  get title(): string {
+    return this.root.home.state.status === Status.CREATING ? 'New Textile' : 'Edit Textile'
+  }
+
   onCancelShortcutDupe = () => {
     this.state.editingShortcut = true
     this.state.shortcutDupe = undefined

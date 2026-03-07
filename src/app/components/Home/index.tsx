@@ -1,7 +1,9 @@
 import { observer } from 'mobx-react-lite'
 import { useContext } from 'react'
 
+import { Button } from '@/app/components/Button'
 import { List } from '@/app/components/List'
+import { Modal } from '@/app/components/Modal'
 import { Nothing } from '@/app/components/Nothing'
 import { Resizer } from '@/app/components/Resizer'
 import { Status } from '@/types/Status'
@@ -39,6 +41,19 @@ export const Home = observer(() => {
               )}
             </div>
           </div>
+          {store.state.confirmingNew && (
+            <Modal title="Please Confirm">
+              Are you sure you want to start a new textile? Changes to the current textile will be lost.
+              <div className="flex gap-x-[16px] items-center justify-end mt-[24px]">
+                <Button onClick={store.onClickNewNo} variant="secondary">
+                  No
+                </Button>
+                <Button onClick={store.onClickNewYes}>
+                  Yes
+                </Button>
+              </div>
+            </Modal>
+          )}
         </>
       )}
     </>
