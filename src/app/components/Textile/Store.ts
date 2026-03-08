@@ -19,7 +19,6 @@ type State = {
   nameError: string
   shortcutDupe?: Textile
   showLastStepError: boolean
-  textile: Textile
 }
 
 export class TextileStore {
@@ -33,9 +32,12 @@ export class TextileStore {
       editingShortcut: false,
       nameError: '',
       showLastStepError: false,
-      textile: root.home.state.textile
     }
     makeAutoObservable(this)
+  }
+
+  get textile(): Textile {
+    return this.root.home.state.textile
   }
 
   get title(): string {
@@ -68,12 +70,12 @@ export class TextileStore {
   }
 
   onChangeName = (value: string): void => {
-    this.state.textile.name = value
+    this.textile.name = value
     this.state.nameError = ''
   }
 
   onClickAddStep = () => {
-    this.state.textile.steps.push({
+    this.textile.steps.push({
       action: '' as Action,
       error: {
         action: '',
@@ -96,13 +98,13 @@ export class TextileStore {
   onClickSave = async () => {
     const validName = validateName(this)
 
-    const shortcutDupe = getDupe(this.state.textile, this.root.home.state.textiles)
+    const shortcutDupe = getDupe(this.textile, this.root.home.state.textiles)
     if (shortcutDupe) {
       this.state.shortcutDupe = shortcutDupe
       return
     }
 
-    const textile = this.state.textile
+    const textile = this.textile
     const steps = textile.steps
     let stepError = -1
 
@@ -136,7 +138,7 @@ export class TextileStore {
     if (success) {
       runInAction(() => {
         if (this.root.home.state.status === Status.CREATING) {
-          this.root.home.state.textiles.push({ ...this.state.textile })
+          this.root.home.state.textiles.push({ ...this.textile })
           sort(this.root.home.state.textiles)
         }
         this.root.home.state.status = Status.VIEWING
@@ -152,7 +154,7 @@ export class TextileStore {
   }
 
   onDeleteShortcut = () => {
-    this.state.textile.keyboard = undefined
+    this.textile.keyboard = undefined
   }
 
   onEditShortcut = () => {

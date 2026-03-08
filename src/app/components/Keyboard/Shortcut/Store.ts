@@ -23,7 +23,7 @@ export class ShortcutStore {
   textileStore: TextileStore
 
   constructor(textileStore: TextileStore) {
-    const shortcut = textileStore.state.textile.keyboard
+    const shortcut = textileStore.textile.keyboard
     this.state = {
       additional: Boolean(shortcut?.second),
       first: {
@@ -174,7 +174,7 @@ export class ShortcutStore {
   onClickSave = () => {
     if (!validateShortcut(this)) return
 
-    this.textileStore.state.textile.keyboard = {
+    this.textileStore.textile.keyboard = {
       first: this.state.first,
       second: this.state.second,
     }

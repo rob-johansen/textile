@@ -8,7 +8,7 @@ export const validateLastStep = (steps: Step[]): boolean => {
 }
 
 export const validateName = (store: TextileStore): boolean => {
-  if (!store.state.textile.name.trim()) {
+  if (!store.textile.name.trim()) {
     store.state.nameError = 'Please enter a name for this textile'
     return false
   }

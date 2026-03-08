@@ -13,6 +13,8 @@ export const copy = (src: Textile, dst: Textile) => {
     if (src.keyboard.second) {
       dst.keyboard.second = { ...src.keyboard.second }
     }
+  } else {
+    delete dst.keyboard
   }
 
   dst.name = src.name

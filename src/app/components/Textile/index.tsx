@@ -31,28 +31,28 @@ export const Textile = observer(() => {
           id="name"
           onChange={(event) => store.onChangeName(event.target.value)}
           outerClassName="w-full"
-          value={store.state.textile.name}
+          value={store.textile.name}
         />
       </div>
       <div className="flex gap-x-[8px] items-center ml-[120px]">
         <label>
-          <span>Keyboard shortcut</span>{store.state.textile.keyboard && (<span className="mr-[2px]">:</span>)}
+          <span>Keyboard shortcut</span>{store.textile.keyboard && (<span className="mr-[2px]">:</span>)}
         </label>
-        {!store.state.textile.keyboard && (
+        {!store.textile.keyboard && (
           <Button
             className="px-[0] shrink-0 w-[36px]"
             onClick={store.onEditShortcut}
             title="Add"
             variant="secondary"
           >
-            <Icon className="size-[20px]" primary="#3b82f6" source={Plus}/>
+            <Icon className="size-[20px]" primary="#3b82f6" source={Plus} />
           </Button>
         )}
-        {store.state.textile.keyboard && (
+        {store.textile.keyboard && (
           <>
             <ShortcutText
-              first={store.state.textile.keyboard.first}
-              second={store.state.textile.keyboard.second}
+              first={store.textile.keyboard.first}
+              second={store.textile.keyboard.second}
             />
             <Button
               className="px-[0] shrink-0 w-[36px]"
@@ -76,7 +76,7 @@ export const Textile = observer(() => {
       </div>
       <hr className="border-t border-t-slate-400/[0.625] mb-[32px] ml-[120px] mt-[24px]" />
       <div className="mt-[8px]">
-        {store.state.textile.steps.map((step, index) => {
+        {store.textile.steps.map((step, index) => {
           return (
             <Step
               index={index}
