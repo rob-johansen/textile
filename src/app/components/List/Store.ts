@@ -6,6 +6,7 @@ import type { Textile } from '@/types/Textile'
 
 export class ListStore {
   root: RootStore
+  switchTextile: Textile = {} as Textile
 
   constructor(root: RootStore) {
     this.root = root
@@ -32,7 +33,24 @@ export class ListStore {
   }
 
   onClickTextile = (textile: Textile) => {
-    // TODO: If you're in the middle of CREATING / EDITING, ask the user to confirm switching to VIEWING? (Otherwise they could lose unsaved changes.)
+    if (this.root.home.state.status === Status.CREATING || this.root.home.state.status === Status.EDITING) {
+      this.switchTextile = textile
+      return
+    }
+
+    this.switch(textile)
+  }
+
+  onConfirmSwitchNo = () => {
+    this.switchTextile = {} as Textile
+  }
+
+  onConfirmSwitchYes = () => {
+    this.switch(this.switchTextile)
+    this.switchTextile = {} as Textile
+  }
+
+  switch = (textile: Textile) => {
     this.root.home.state.status = Status.VIEWING
     this.root.home.state.textile = textile
   }

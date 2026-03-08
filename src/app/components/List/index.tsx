@@ -2,9 +2,11 @@ import { observer } from 'mobx-react-lite'
 import { twMerge } from 'tailwind-merge'
 import { useContext, useEffect } from 'react'
 
+import { Button } from '@/app/components/Button'
 import { Icon, Textile } from '@/app/components/Icon'
 import { ShortcutText } from '@/app/components/Keyboard/ShortcutText'
 import { StoreContext } from '@/app/contexts/StoreContext'
+import { Modal } from '@/app/components/Modal'
 
 export const List = observer(() => {
   const { list: store } = useContext(StoreContext)
@@ -56,6 +58,19 @@ export const List = observer(() => {
               </button>
             )
           })}
+          {store.switchTextile.id && (
+            <Modal title="Please Confirm">
+              Are you sure you want to leave this textile? Unsaved changes will be lost.
+              <div className="flex gap-x-[16px] items-center justify-end mt-[24px]">
+                <Button onClick={store.onConfirmSwitchNo} variant="secondary">
+                  No
+                </Button>
+                <Button onClick={store.onConfirmSwitchYes}>
+                Yes
+                </Button>
+              </div>
+            </Modal>
+          )}
         </div>
       )}
     </div>

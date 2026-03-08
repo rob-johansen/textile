@@ -9,7 +9,7 @@ import type { RootStore } from '@/app/RootStore'
 import type { Textile } from '@/types/Textile'
 
 type State = {
-  confirmingNew: boolean
+  confirmNew: boolean
   editTextile: Textile // A copy of the textile currently being edited (so we can restore if the user cancels)
   status: string
   textile: Textile // The currently selected textile
@@ -19,7 +19,7 @@ type State = {
 export class HomeStore {
   root: RootStore
   state: State = {
-    confirmingNew: false,
+    confirmNew: false,
     editTextile: {
       id: '',
       name: '',
@@ -55,7 +55,7 @@ export class HomeStore {
 
   onClickNew = () => {
     if (this.state.status === Status.CREATING || this.state.status === Status.EDITING) {
-      this.state.confirmingNew = true
+      this.state.confirmNew = true
       return
     }
 
@@ -63,11 +63,11 @@ export class HomeStore {
   }
 
   onClickNewNo = () => {
-    this.state.confirmingNew = false
+    this.state.confirmNew = false
   }
 
   onClickNewYes = () => {
-    this.state.confirmingNew = false
+    this.state.confirmNew = false
 
     if (this.state.status === Status.EDITING) {
       copy(this.state.editTextile, this.state.textile)

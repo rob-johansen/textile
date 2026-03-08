@@ -41,7 +41,7 @@ export const Home = observer(() => {
               )}
             </div>
           </div>
-          {store.state.confirmingNew && (
+          {store.state.confirmNew && (
             <Modal title="Please Confirm">
               Are you sure you want to start a new textile? Changes to the current textile will be lost.
               <div className="flex gap-x-[16px] items-center justify-end mt-[24px]">
