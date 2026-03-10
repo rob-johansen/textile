@@ -23,7 +23,7 @@ export const StepView = observer((props: Props) => {
       <div className="flex gap-x-[8px] items-start">
         <div className="flex gap-x-[8px] items-center">
           <div className="flex gap-x-[8px] items-start">
-            <div className="bg-gradient-to-br flex font-bold from-[#4568dc] from-[-0.27%] items-center justify-center min-w-[32px] rounded-full size-[32px] text-white to-[#b06ab3] to-[134.14%]">
+            <div className="bg-blue-500 flex font-bold items-center justify-center min-w-[32px] rounded-full size-[32px] text-white">
               {index + 1}
             </div>
             {step.action === Action.START ? (
