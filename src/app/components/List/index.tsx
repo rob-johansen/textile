@@ -39,7 +39,7 @@ export const List = observer(() => {
           {store.textiles.map((textile) => {
             return (
               <button
-                className={twMerge('flex flex-col hover:bg-sky-100/[0.75] justify-center min-h-[52px] ml-[4px] px-[12px] py-[4px] rounded-[8px] text-left w-[calc(100%-4px)]', store.isSelected(textile) && 'bg-blue-500 hover:bg-blue-500')}
+                className={twMerge('flex flex-col hover:bg-sky-100/[0.75] justify-center min-h-[52px] ml-[4px] outline-none px-[12px] py-[4px] rounded-[8px] text-left w-[calc(100%-4px)]', store.isSelected(textile) && 'bg-blue-500 hover:bg-blue-500')}
                 key={textile.id}
                 onClick={() => store.onClickTextile(textile)}
               >
