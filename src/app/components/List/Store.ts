@@ -33,6 +33,30 @@ export class ListStore {
     return textile.id === this.root.home.state.textile.id
   }
 
+  onArrowDown = () => {
+    const textiles = this.textiles
+
+    for (let i = 0; i < textiles.length; i++) {
+      const textile = textiles[i]
+      if (this.isSelected(textile) && i + 1 < textiles.length) {
+        this.onClickTextile(textiles[i + 1])
+        return
+      }
+    }
+  }
+
+  onArrowUp = () => {
+    const textiles = this.textiles
+
+    for (let i = 0; i < textiles.length; i++) {
+      const textile = textiles[i]
+      if (this.isSelected(textile) && i - 1 >= 0) {
+        this.onClickTextile(textiles[i - 1])
+        return
+      }
+    }
+  }
+
   onClickTextile = (textile: Textile) => {
     if (this.root.home.state.status === Status.CREATING || this.root.home.state.status === Status.EDITING) {
       this.switchTextile = textile

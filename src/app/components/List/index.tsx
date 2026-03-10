@@ -39,17 +39,21 @@ export const List = observer(() => {
           {store.textiles.map((textile) => {
             return (
               <button
-                className={twMerge('flex flex-col hover:bg-sky-100/[0.75] justify-center min-h-[52px] ml-[4px] outline-none px-[12px] py-[4px] rounded-[8px] text-left w-[calc(100%-4px)]', store.isSelected(textile) && 'bg-blue-500 hover:bg-blue-500')}
+                className={twMerge('flex flex-col focus:bg-blue-500 group hover:bg-blue-500/[0.1] justify-center min-h-[52px] ml-[4px] outline-none px-[12px] py-[4px] rounded-[8px] text-left w-[calc(100%-4px)]', store.isSelected(textile) && 'bg-blue-500/[0.1]')}
                 key={textile.id}
                 onClick={() => store.onClickTextile(textile)}
+                onKeyDown={(event) => {
+                  if (event.key === 'ArrowDown') store.onArrowDown()
+                  if (event.key === 'ArrowUp') store.onArrowUp()
+                }}
               >
-                <div className={twMerge('font-bold overflow-hidden text-ellipsis text-neutral-900 whitespace-nowrap', store.isSelected(textile) && 'text-white')}>
+                <div className="font-bold group-focus:text-white overflow-hidden text-ellipsis text-neutral-900 whitespace-nowrap">
                   {textile.name}
                 </div>
                 {textile.keyboard && (
                   <div>
                     <ShortcutText
-                      className={twMerge('text-[0.75rem] overflow-hidden text-ellipsis text-slate-500 whitespace-nowrap', store.isSelected(textile) && '[&>span]:text-slate-50')}
+                      className="group-focus:[&>span]:text-slate-50 text-[0.75rem] overflow-hidden text-ellipsis text-slate-500 whitespace-nowrap"
                       first={textile.keyboard.first}
                       second={textile.keyboard.second}
                     />
