@@ -39,7 +39,9 @@ export class ListStore {
     for (let i = 0; i < textiles.length; i++) {
       const textile = textiles[i]
       if (this.isSelected(textile) && i + 1 < textiles.length) {
-        this.onClickTextile(textiles[i + 1])
+        const next = textiles[i + 1]
+        this.onClickTextile(next)
+        document.getElementById(`item-${next.id}`)?.focus()
         return
       }
     }
@@ -51,7 +53,9 @@ export class ListStore {
     for (let i = 0; i < textiles.length; i++) {
       const textile = textiles[i]
       if (this.isSelected(textile) && i - 1 >= 0) {
-        this.onClickTextile(textiles[i - 1])
+        const next = textiles[i - 1]
+        this.onClickTextile(next)
+        document.getElementById(`item-${next.id}`)?.focus()
         return
       }
     }
