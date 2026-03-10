@@ -1,5 +1,6 @@
 import { makeAutoObservable } from 'mobx'
 
+import { copy } from '@/app/utils/textile'
 import { Status } from '@/types/Status'
 import type { RootStore } from '@/app/RootStore'
 import type { Textile } from '@/types/Textile'
@@ -51,6 +52,10 @@ export class ListStore {
   }
 
   switch = (textile: Textile) => {
+    if (this.root.home.state.status === Status.EDITING) {
+      copy(this.root.home.state.editTextile, this.root.home.state.textile)
+    }
+
     this.root.home.state.status = Status.VIEWING
     this.root.home.state.textile = textile
   }
