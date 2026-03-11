@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite'
 import { useContext } from 'react'
 
 import { Button } from '@/app/components/Button'
+import { Code } from '@/app/components/Code'
 import { List } from '@/app/components/List'
 import { Modal } from '@/app/components/Modal'
 import { Nothing } from '@/app/components/Nothing'
@@ -50,6 +51,21 @@ export const Home = observer(() => {
                 </Button>
                 <Button onClick={store.onClickNewYes}>
                   Yes
+                </Button>
+              </div>
+            </Modal>
+          )}
+          {store.state.runName && (
+            <Modal title="Textile Result">
+              <div>
+                Here’s the output from the <span className="font-bold">{store.state.runName}</span> textile:
+                <div className="mt-[12px]">
+                  <Code>{store.state.runOutput}</Code>
+                </div>
+              </div>
+              <div className="flex gap-x-[16px] items-center justify-end mt-[24px]">
+                <Button onClick={store.onCloseRunModal}>
+                  Close
                 </Button>
               </div>
             </Modal>

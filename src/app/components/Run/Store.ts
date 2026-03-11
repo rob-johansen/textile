@@ -28,6 +28,7 @@ export class RunStore {
 
   run = async (textile: Textile) => {
     let output = ''
+    let show = false
 
     for (const step of textile.steps) {
       if (step.action === Action.START) {
@@ -74,8 +75,12 @@ export class RunStore {
       } else if (step.action === Action.COPY) {
         await window.main.copyToClipboard(output)
       } else if (step.action === Action.SHOW) {
-        // TODO: Show the output ... somehow.
+        show = true
       }
+    }
+
+    if (show) {
+      this.root.home.showRunModal(textile, output)
     }
   }
 }

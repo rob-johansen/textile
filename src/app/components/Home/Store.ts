@@ -11,6 +11,8 @@ import type { Textile } from '@/types/Textile'
 type State = {
   confirmNew: boolean
   editTextile: Textile // A copy of the textile currently being edited (so we can restore if the user cancels)
+  runName: string
+  runOutput: string
   status: string
   textile: Textile // The currently selected textile
   textiles: Textile[] // The list of all textiles on the left
@@ -25,6 +27,8 @@ export class HomeStore {
       name: '',
       steps: [],
     },
+    runName: '',
+    runOutput: '',
     status: Status.STARTING,
     textile: {
       id: '',
@@ -76,6 +80,11 @@ export class HomeStore {
     this.startNewTextile()
   }
 
+  onCloseRunModal = () => {
+    this.state.runName = ''
+    this.state.runOutput = ''
+  }
+
   startNewTextile = () => {
     this.state.status = Status.CREATING
     this.state.textile = {
@@ -98,5 +107,10 @@ export class HomeStore {
         }
       ],
     }
+  }
+
+  showRunModal = (textile: Textile, output: string) => {
+    this.state.runName = textile.name
+    this.state.runOutput = output
   }
 }
