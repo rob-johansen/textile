@@ -62,6 +62,8 @@ export class ListStore {
   }
 
   onClickTextile = (textile: Textile) => {
+    if (textile.id === this.root.home.state.textile.id) return
+
     if (this.root.home.state.status === Status.CREATING || this.root.home.state.status === Status.EDITING) {
       this.switchTextile = textile
       return
