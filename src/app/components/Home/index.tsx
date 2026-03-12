@@ -11,6 +11,7 @@ import { Status } from '@/types/Status'
 import { StoreContext } from '@/app/contexts/StoreContext'
 import { Textile } from '@/app/components/Textile'
 import { TextileView } from '@/app/components/TextileView'
+import { Toast } from '@/app/components/Toast'
 import { Toolbar } from '@/app/components/Toolbar'
 
 export const Home = observer(() => {
@@ -72,6 +73,7 @@ export const Home = observer(() => {
           )}
         </>
       )}
+      <Toast />
     </>
   )
 })

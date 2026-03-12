@@ -6,6 +6,7 @@ import { getDupe } from '@/app/utils/shortcut'
 import { Input } from '@/types/Input'
 import { copy, moveResult, removeDupes, replacer } from '@/app/utils/textile'
 import { scrollTo } from '@/app/utils/scroll'
+import { showToast } from '@/app/components/Toast'
 import { sort } from '@/utils/shared/textiles'
 import { Status } from '@/types/Status'
 import { validateLastStep, validateName } from '@/app/components/Textile/validations'
@@ -144,8 +145,7 @@ export class TextileStore {
         this.root.home.state.status = Status.VIEWING
       })
     } else {
-      // TODO: Show an error toast about not being able to save the textile...
-      console.log('Error...')
+      showToast({ message: 'There was an error saving the textile. Please try again.', type: 'error' })
     }
   }
 
@@ -179,8 +179,7 @@ export class TextileStore {
         this.onClickSave()
       })
     } else {
-      // TODO: Show an error toast about not being able to remove the shortcut...
-      console.log('Error removing shortcut...')
+      showToast({message: 'There was an error removing the shortcut. Please try again.', type: 'error'})
     }
   }
 }

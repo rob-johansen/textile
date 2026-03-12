@@ -2,6 +2,7 @@ import { makeAutoObservable, toJS } from 'mobx'
 
 import { Action } from '@/types/Action'
 import { Input } from '@/types/Input'
+import { showToast } from '@/app/components/Toast'
 import type { RootStore } from '@/app/RootStore'
 import type { Step } from '@/types/Step'
 import type { Textile } from '@/types/Textile'
@@ -29,6 +30,7 @@ export class RunStore {
   run = async (textile: Textile) => {
     let output = ''
     let show = false
+    let toast = false
 
     for (const step of textile.steps) {
       if (step.action === Action.START) {
@@ -37,7 +39,7 @@ export class RunStore {
         else if (step.input === Input.TEXT_NOW) output = step.value
 
         if (!output) {
-          // TODO: Show a toast
+          showToast({ message: `"${textile.name}" failed to run`, type: 'error' })
           return
         }
       } else if (step.action === Action.APPEND) {
@@ -48,7 +50,7 @@ export class RunStore {
         else if (step.input === Input.TEXT_NOW) result = step.value
 
         if (!result) {
-          // TODO: Show a toast
+          showToast({ message: `"${textile.name}" failed to run`, type: 'error' })
           return
         }
 
@@ -61,19 +63,20 @@ export class RunStore {
         else if (step.input === Input.TEXT_NOW) result = step.value
 
         if (!result) {
-          // TODO: Show a toast
+          showToast({ message: `"${textile.name}" failed to run`, type: 'error' })
           return
         }
 
         output = `${result}${output}`
       } else if (step.action === Action.REPLACE) {
         if (!step.metadata.replacement) {
-          // TODO: Show a toast
+          showToast({ message: `"${textile.name}" failed to run`, type: 'error' })
           return
         }
         output = output.replaceAll(step.value, step.metadata.replacement)
       } else if (step.action === Action.COPY) {
         await window.main.copyToClipboard(output)
+        toast = true
       } else if (step.action === Action.SHOW) {
         show = true
       }
@@ -81,6 +84,10 @@ export class RunStore {
 
     if (show) {
       this.root.home.showRunModal(textile, output)
+    }
+
+    if (toast) {
+      showToast({ message: `"${textile.name}" ran successfully`, type: 'info' })
     }
   }
 }
