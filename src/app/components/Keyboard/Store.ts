@@ -6,6 +6,7 @@ import { Modifier } from '@/types/Shortcut'
 import type { RootStore } from '@/app/RootStore'
 import type { Textile } from '@/types/Textile'
 
+let waiting = false
 let waitingMod1 = ''
 let waitingMod2 = ''
 let waitingKey = ''
@@ -49,6 +50,15 @@ export class KeyboardStore {
       const secondMod1 = textile.keyboard.second?.mod1
       const secondMod2 = textile.keyboard.second?.mod2
       const secondKey = textile.keyboard.second?.key
+
+      if (
+        waiting &&
+        (waitingMod1 !== firstMod1 ||
+        waitingMod2 !== firstMod2 ||
+        waitingKey !== firstKey)
+      ) {
+        continue
+      }
 
       if (
         textile.keyboard.second &&
@@ -141,8 +151,13 @@ export class KeyboardStore {
     }
   }
 
+  // TODO: Don't you need to call `reset()` when there's no match and/or after
+  //       some arbitrary amount of time (so you're not leaving `waitingMod1`,
+  //       `waitingMod2`, and `waitingKey` with stale values)?
+
   reset = () => {
     clearTimeout(timer)
+    waiting = false
     waitingMod1 = ''
     waitingMod2 = ''
     waitingKey = ''
@@ -152,6 +167,7 @@ export class KeyboardStore {
     clearTimeout(timer)
     timer = setTimeout(this.reset, 2000)
 
+    waiting = true
     waitingMod1 = firstMod1
     waitingMod2 = firstMod2 ?? ''
     waitingKey = firstKey
