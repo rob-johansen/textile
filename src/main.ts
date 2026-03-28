@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow, ipcMain, nativeImage } from 'electron'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import started from 'electron-squirrel-startup'
@@ -16,9 +16,10 @@ if (started) {
 }
 
 const createWindow = () => {
-  // Create the browser window.
+  const icon = join(app.isPackaged ? process.resourcesPath : app.getAppPath(), `src/images/icon.${process.platform === 'win32' ? 'ico' : 'png'}`)
   const mainWindow = new BrowserWindow({
     height: 600,
+    icon,
     titleBarStyle: 'hidden',
     webPreferences: {
       preload: join(__dirname, 'preload.js'),
@@ -28,6 +29,12 @@ const createWindow = () => {
     // on Windows and Linux. Setting `titleBarOverlay` to `true` adds those controls back.
     ...(process.platform !== 'darwin' ? { titleBarOverlay: true } : {}),
   })
+  mainWindow.setIcon(icon)
+
+  if (process.platform === 'darwin' && app.dock) {
+    const image = nativeImage.createFromPath(icon)
+    if (!image.isEmpty()) app.dock.setIcon(image)
+  }
 
   // and load the index.html of the app.
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
