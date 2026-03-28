@@ -22,8 +22,14 @@
 }
 
 @theme {
+  --animate-spinner: spinner 1.5s linear infinite;
   --color-error: #d72b0d;
   --color-success: #258750;
+  @keyframes spinner {
+    to {
+      transform: rotate(360deg);
+    }
+  }
 }
 
 @layer base {

@@ -41,17 +41,12 @@ export class HomeStore {
   constructor(root: RootStore) {
     this.root = root
     makeAutoObservable(this)
-
-    void this.loadTextiles()
   }
 
   loadTextiles = async (): Promise<void> => {
     const textiles = await window.main.loadTextiles()
 
     runInAction(() => {
-      // TODO: At this moment in time, the files are loaded and
-      //       you can stop showing a splash screen in the UI.
-
       this.state.status = Status.NOTHING
       this.state.textiles = textiles
     })

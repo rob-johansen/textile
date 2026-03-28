@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 
 import { Button } from '@/app/components/Button'
 import { Code } from '@/app/components/Code'
@@ -7,6 +7,7 @@ import { List } from '@/app/components/List'
 import { Modal } from '@/app/components/Modal'
 import { Nothing } from '@/app/components/Nothing'
 import { Resizer } from '@/app/components/Resizer'
+import { Splash } from '@/app/components/Splash'
 import { Status } from '@/types/Status'
 import { StoreContext } from '@/app/contexts/StoreContext'
 import { Textile } from '@/app/components/Textile'
@@ -17,10 +18,14 @@ import { Toolbar } from '@/app/components/Toolbar'
 export const Home = observer(() => {
   const { home: store } = useContext(StoreContext)
 
+  useEffect(() => {
+    void store.loadTextiles()
+  }, [store])
+
   return (
     <>
       {store.state.status === Status.STARTING ? (
-        <>Starting up...</>
+        <Splash />
       ) : (
         <>
           <div className="bg-slate-100 sticky top-[0] z-10">
