@@ -32,7 +32,10 @@ export class KeyboardStore {
     const ctrl = event.ctrlKey
     const meta = event.metaKey
     const shift = event.shiftKey
-    const key = event.code.at(-1)?.toUpperCase() ?? ''
+    const code = event.code.toLowerCase()
+    const key = (code.startsWith('key') || code.startsWith('digit') || code.startsWith('numpad'))
+      ? event.code.at(-1)?.toUpperCase() ?? ''
+      : ''
 
     let modCount = 0
     if (alt) modCount++
