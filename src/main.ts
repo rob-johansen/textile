@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, nativeImage } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import started from 'electron-squirrel-startup'
@@ -16,10 +16,9 @@ if (started) {
 }
 
 const createWindow = () => {
-  const icon = join(app.isPackaged ? process.resourcesPath : app.getAppPath(), `src/images/icon.${process.platform === 'win32' ? 'ico' : 'png'}`)
+  const icon = join(app.isPackaged ? process.resourcesPath : app.getAppPath(), 'src/images/icon.png')
   const mainWindow = new BrowserWindow({
     height: 600,
-    icon,
     titleBarStyle: 'hidden',
     webPreferences: {
       preload: join(__dirname, 'preload.js'),
@@ -28,15 +27,10 @@ const createWindow = () => {
     // The hidden `titleBarStyle` above hides the window controls (minimize, maximize, close)
     // on Windows and Linux. Setting `titleBarOverlay` to `true` adds those controls back.
     ...(process.platform !== 'darwin' ? { titleBarOverlay: true } : {}),
+    ...(process.platform === 'linux' ? { icon } : {})
   })
-  mainWindow.setIcon(icon)
 
-  if (process.platform === 'darwin' && app.dock) {
-    const image = nativeImage.createFromPath(icon)
-    if (!image.isEmpty()) app.dock.setIcon(image)
-  }
-
-  // and load the index.html of the app.
+  // Load the index.html of the app.
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
     mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL)
   } else {
