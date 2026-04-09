@@ -23,7 +23,9 @@ const config: ForgeConfig = {
       appleIdPassword: process.env.APPLE_PASSWORD as string,
       teamId: process.env.APPLE_TEAM_ID as string
     },
-    osxSign: {}
+    osxSign: {
+      identity: 'Developer ID Application: Robert Johansen (AE4U8MJ4NM)'
+    }
   },
   plugins: [
     new VitePlugin({
