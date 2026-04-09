@@ -6,19 +6,25 @@ import { MakerRpm } from '@electron-forge/maker-rpm'
 import { VitePlugin } from '@electron-forge/plugin-vite'
 import { FusesPlugin } from '@electron-forge/plugin-fuses'
 import { FuseV1Options, FuseVersion } from '@electron/fuses'
+import 'dotenv/config'
 
 const config: ForgeConfig = {
-  packagerConfig: {
-    asar: true,
-    icon: 'src/images/icon'
-  },
-  rebuildConfig: {},
   makers: [
     new MakerSquirrel({}),
     new MakerZIP({}, ['darwin']),
     new MakerRpm({}),
     new MakerDeb({}),
   ],
+  packagerConfig: {
+    asar: true,
+    icon: 'src/images/icon',
+    osxNotarize: {
+      appleId: process.env.APPLE_ID as string,
+      appleIdPassword: process.env.APPLE_PASSWORD as string,
+      teamId: process.env.APPLE_TEAM_ID as string
+    },
+    osxSign: {}
+  },
   plugins: [
     new VitePlugin({
       // `build` can specify multiple entry builds, which can be Main process, Preload scripts, Worker process, etc.
@@ -55,6 +61,7 @@ const config: ForgeConfig = {
       [FuseV1Options.OnlyLoadAppFromAsar]: true,
     }),
   ],
+  rebuildConfig: {},
 }
 
 export default config

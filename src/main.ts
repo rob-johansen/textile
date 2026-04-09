@@ -1,6 +1,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { updateElectronApp } from 'update-electron-app'
 import started from 'electron-squirrel-startup'
 
 import { copyFromClipboard, copyToClipboard } from '@/utils/main/clipboard'
@@ -14,6 +15,9 @@ const __dirname = dirname(__filename);
 if (started) {
   app.quit()
 }
+
+// Check for updates (https://github.com/electron/update.electronjs.org)
+updateElectronApp()
 
 const createWindow = () => {
   const icon = join(app.isPackaged ? process.resourcesPath : app.getAppPath(), 'src/images/icon.png')

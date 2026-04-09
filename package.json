@@ -17,6 +17,7 @@
     "react-hot-toast": "2.6.0",
     "tailwind-merge": "3.4.0",
     "tailwindcss": "4.1.17",
+    "update-electron-app": "3.1.2",
     "uuid": "13.0.0",
     "winston": "3.18.3"
   },
@@ -35,8 +36,9 @@
     "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
     "@typescript-eslint/eslint-plugin": "8.46.4",
-    "@typescript-eslint/parser": "^8.46.4",
+    "@typescript-eslint/parser": "8.46.4",
     "@vitejs/plugin-react": "5.1.1",
+    "dotenv": "17.4.1",
     "electron": "39.1.2",
     "eslint": "8.57.1",
     "eslint-import-resolver-typescript": "4.4.4",
@@ -51,6 +53,10 @@
   "main": ".vite/build/textile.js",
   "name": "textile",
   "productName": "Textile",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rob-johansen/textile.git"
+  },
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
