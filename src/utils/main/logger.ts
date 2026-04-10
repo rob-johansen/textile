@@ -28,6 +28,6 @@ export const logger = createLogger({
   level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
   transports: [
     new transports.Console(),
-    new transports.File({dirname: app.getPath('logs'), filename: 'textile.log'})
+    new transports.File({ dirname: app.getPath('logs'), filename: 'textile.log' })
   ]
 })

@@ -16,17 +16,19 @@ export const runCommand = (_event: IpcMainInvokeEvent, ...args: any[]): Promise<
 
   return new Promise((resolve, reject) => {
     if (!step.value) {
+      logger.error('Error running step with no value: %O', step)
       reject('A step in this textile should run a command, but the command is missing.')
       return
     }
 
     if (!step.metadata.path) {
+      logger.error('Error running step with no `metadata.path`: %O', step)
       reject('A step in this textile should run a command, but the path is missing.')
       return
     }
 
     const cmd = step.value
-    const argz = step.metadata.args?.map(arg => arg.value) ?? []
+    const argz = step.metadata.args?.filter(arg => arg.value.length > 0).map(arg => arg.value) ?? []
     let cwd = step.metadata.path
     if (cwd.startsWith('~')) {
       cwd = cwd.replace('~', homedir())
