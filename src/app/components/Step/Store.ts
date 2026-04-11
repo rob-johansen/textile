@@ -34,6 +34,8 @@ export class StepStore {
   }
 
   onChangeAction = (step: Step, action: Action) => {
+    if (step.action === action) return // The user selected the same action they had before.
+
     step.action = action
     step.error.action = ''
 
@@ -52,9 +54,11 @@ export class StepStore {
   }
 
   onChangeInput = (step: Step, input: Input) => {
+    if (step.input === input) return // The user selected the same input they had before.
+
     step.error.input = ''
     step.input = input
-    step.metadata.args = step.input === Input.COMMAND_RUNTIME ? [{id: uuid(), value: ''}] : undefined
+    step.metadata.args = step.input === Input.COMMAND_RUNTIME ? [{ id: uuid(), value: '' }] : undefined
     step.metadata.path = step.input === Input.COMMAND_RUNTIME ? '' : undefined
     step.metadata.replacement = step.input === Input.REPLACE_TARGET ? '' : undefined
     step.value = ''

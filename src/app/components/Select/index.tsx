@@ -33,7 +33,7 @@ export const Select = observer(({
   outerClassName,
   ...props
 }: Props) => {
-  const [store] = useState(() => new SelectStore(options, props.value))
+  const [store] = useState(() => new SelectStore(options))
 
   const { context, floatingStyles, refs } = useFloating({
     middleware: [offset(8), flip()],
@@ -57,7 +57,7 @@ export const Select = observer(({
         className={twMerge('cursor-default pr-[32px] field-sizing-content focus:border-slate-400 focus:shadow-[0_0_4px_rgba(148,163,184,0.3)] selection:text-white text-[1rem]', className)}
         readOnly
         ref={refs.setReference}
-        value={store.state.options.filter((option: Option): boolean | undefined => option.selected)?.[0]?.name ?? ''}
+        value={store.state.options.filter((option: Option): boolean | undefined => option.value === props.value)?.[0]?.name ?? ''}
       />
       <Icon
         className={twMerge('absolute cursor-pointer pointer-events-none right-[10px] top-[8px] transition w-[18px]',
@@ -80,7 +80,8 @@ export const Select = observer(({
             >
               <div className="flex flex-col rounded">
                 {store.state.options.map((option: Option) => {
-                  const { icon, name, selected, value } = option
+                  const { icon, name, value } = option
+                  const selected = value === props.value
 
                   return (
                     <button
@@ -92,7 +93,7 @@ export const Select = observer(({
                       tabIndex={0}
                       {...getItemProps({
                         onClick() {
-                          store.onClickOption(option)
+                          store.setOpen(false)
                           onClickOption(option)
                         },
                       })}

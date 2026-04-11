@@ -10,24 +10,12 @@ type State = {
 export class SelectStore {
   state: State
 
-  constructor(options: Option[], value: string) {
+  constructor(options: Option[]) {
     this.state = {
       open: false,
       options: [...options]
     }
-
-    for (const option of this.state.options) {
-      option.selected = option.value === value
-    }
-
     makeAutoObservable(this)
-  }
-
-  onClickOption = ({ value }: Option): void => {
-    for (const option of this.state.options) {
-      option.selected = option.value === value
-    }
-    this.setOpen(false)
   }
 
   setOpen = (value: boolean): void => {

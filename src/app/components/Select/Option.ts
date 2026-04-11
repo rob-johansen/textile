@@ -5,6 +5,5 @@ import type { IconProps } from '@/app/components/Icon/Icon'
 export type Option = {
   icon?: (props: IconProps) => ReactElement
   name: string
-  selected?: boolean
   value: string
 }

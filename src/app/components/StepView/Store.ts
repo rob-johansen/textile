@@ -12,7 +12,8 @@ export class StepViewStore {
   }
 
   getCommand = (step: Step): string => {
-    return `${step.value} ${step.metadata.args?.map((arg) => arg.value).join(' ')}`
+    const args = step.metadata.args?.filter((arg) => arg.value.length > 0).map(arg => arg.value) ?? []
+    return `${step.value}${args.length > 0 ? ` ${args.join(' ')}` : ''}`
   }
 
   getPath = (step: Step): string => {
