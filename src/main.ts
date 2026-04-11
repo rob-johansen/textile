@@ -6,7 +6,7 @@ import started from 'electron-squirrel-startup'
 
 import { copyFromClipboard, copyToClipboard } from '@/utils/main/clipboard'
 import { loadTextiles } from '@/utils/main/startup'
-import { runCommand, writeTextile } from '@/utils/main/textile'
+import { deleteTextile, runCommand, writeTextile } from '@/utils/main/textile'
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -53,6 +53,7 @@ const createWindow = () => {
 app.whenReady().then(() => {
   ipcMain.handle('copy-from-clipboard', copyFromClipboard)
   ipcMain.handle('copy-to-clipboard', copyToClipboard)
+  ipcMain.handle('delete-textile', deleteTextile)
   ipcMain.handle('load-textiles', loadTextiles)
   ipcMain.handle('run-command', runCommand)
   ipcMain.handle('write-textile', writeTextile)

@@ -4,6 +4,7 @@ import type { Textile } from '@/types/Textile'
 export interface Main {
   copyFromClipboard: () => Promise<string>,
   copyToClipboard: (text: string) => Promise<void>,
+  deleteTextile: (id: string) => Promise<boolean>,
   loadTextiles: () => Promise<Textile[]>,
   platform: 'darwin' | 'linux' | 'win32',
   runCommand: (step: Step) => Promise<string>,

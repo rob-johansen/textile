@@ -3,6 +3,7 @@ import { useContext, useState } from 'react'
 
 import { Button } from '@/app/components/Button'
 import { Icon, Play } from '@/app/components/Icon'
+import { Modal } from '@/app/components/Modal'
 import { ShortcutText } from '@/app/components/Keyboard/ShortcutText'
 import { StepView } from '@/app/components/StepView'
 import { StoreContext } from '@/app/contexts/StoreContext'
@@ -38,6 +39,13 @@ export const TextileView = observer(() => {
         >
           Run
         </Button>
+        <Button
+          destructive
+          onClick={store.onClickDelete}
+          variant="secondary"
+        >
+          Delete
+        </Button>
       </div>
       <hr className="border-t border-t-slate-400/[0.625] my-[24px]" />
       <div className="flex flex-col gap-y-[16px]">
@@ -51,6 +59,27 @@ export const TextileView = observer(() => {
           )
         })}
       </div>
+      {store.confirmingDelete && (
+        <Modal title="Please Confirm">
+          <div>
+            Are you sure you want to delete the <span className="font-bold">{store.textile.name}</span> textile?
+          </div>
+          <div className="flex gap-x-[16px] items-center justify-end mt-[24px]">
+            <Button
+              onClick={store.onCancelDelete}
+              variant="secondary"
+            >
+              Cancel
+            </Button>
+            <Button
+              destructive
+              onClick={store.onConfirmDelete}
+            >
+              Delete
+            </Button>
+          </div>
+        </Modal>
+      )}
     </div>
   )
 })

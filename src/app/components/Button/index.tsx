@@ -47,6 +47,13 @@ export const Button = ({
       w-fit
       whitespace-nowrap
     `,
+    variant === 'primary' && destructive &&
+    `
+      active:bg-[#d72b0d]
+      bg-[#d72b0d]/[0.95]
+      hover:bg-[#d72b0d]/[0.875]
+      text-white
+    `,
     variant === 'secondary' &&
     `
       active:bg-blue-500/[0.2]

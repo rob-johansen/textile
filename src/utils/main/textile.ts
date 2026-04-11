@@ -5,11 +5,25 @@ import { app } from 'electron'
 import { homedir } from 'node:os'
 import { join } from 'node:path'
 import { spawn } from 'node:child_process'
-import { writeFile } from 'node:fs/promises'
+import { unlink, writeFile } from 'node:fs/promises'
 import type { IpcMainInvokeEvent } from 'electron/common'
 
 import { logger } from '@/utils/main/logger'
 import type { Step } from '@/types/Step'
+
+export const deleteTextile = async (_event: IpcMainInvokeEvent, ...args: any[]): Promise<boolean> => {
+  const id = args[0] as string
+  const file = join(app.getPath('documents'), 'Textile', `${id}.json`)
+
+  try {
+    const result = await unlink(file)
+    return result === undefined // Yep, an `undefined` result means success.
+  } catch (err) {
+    logger.error(`Error deleting textile "${file}": %O`, err)
+  }
+
+  return false
+}
 
 export const runCommand = (_event: IpcMainInvokeEvent, ...args: any[]): Promise<string> => {
   const step = args[0] as Step
