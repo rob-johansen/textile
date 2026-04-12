@@ -1,8 +1,9 @@
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow, ipcMain, Menu } from 'electron'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { updateElectronApp } from 'update-electron-app'
 import started from 'electron-squirrel-startup'
+import type { MenuItemConstructorOptions } from 'electron'
 
 import { copyFromClipboard, copyToClipboard } from '@/utils/main/clipboard'
 import { loadTextiles } from '@/utils/main/startup'
@@ -43,8 +44,88 @@ const createWindow = () => {
     )
   }
 
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools({ mode: 'bottom' })
+  const isMac = process.platform === 'darwin'
+
+  Menu.setApplicationMenu(Menu.buildFromTemplate([
+    // App name menu (macOS)
+    ...(isMac
+      ? [{
+          label: app.name,
+          submenu: [
+            { role: 'about' },
+            { type: 'separator' },
+            { role: 'services' },
+            { type: 'separator' },
+            { role: 'hide' },
+            { role: 'hideOthers' },
+            { role: 'unhide' },
+            { type: 'separator' },
+            { role: 'quit' }
+          ],
+        }]
+      : []),
+    // File
+    {
+      label: 'File',
+      submenu: [
+        isMac ? { role: 'close' } : { role: 'quit' }
+      ]
+    },
+    // Edit
+    {
+      label: 'Edit',
+      submenu: [
+        { role: 'undo' },
+        { role: 'redo' },
+        { type: 'separator' },
+        { role: 'cut' },
+        { role: 'copy' },
+        { role: 'paste' },
+        { role: 'delete' },
+        { role: 'selectAll' },
+        ...(isMac
+        ? [
+            { type: 'separator' },
+            {
+              label: 'Speech',
+              submenu: [
+                { role: 'startSpeaking' },
+                { role: 'stopSpeaking' }
+              ]
+            }
+          ]
+        : [])
+      ]
+    },
+    // View
+    {
+      label: 'View',
+      submenu: [
+        ...(!app.isPackaged ? [{ role: 'reload' }] : []),
+        { role: 'resetZoom' },
+        { role: 'zoomIn' },
+        { role: 'zoomOut' },
+        { type: 'separator' },
+        { role: 'toggleDevTools', accelerator: 'F12' },
+      ]
+    },
+    // Window
+    {
+      label: 'Window',
+      submenu: [
+        { role: 'minimize' },
+        { role: 'zoom' },
+        ...(isMac
+          ? [
+              { type: 'separator' },
+              { role: 'front' }
+            ]
+          : [
+              { role: 'close' }
+            ])
+      ]
+    },
+  ] as MenuItemConstructorOptions[]))
 }
 
 // This method will be called when Electron has finished
