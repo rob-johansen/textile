@@ -39,7 +39,7 @@
     "@typescript-eslint/parser": "8.46.4",
     "@vitejs/plugin-react": "5.1.1",
     "dotenv": "17.4.1",
-    "electron": "39.1.2",
+    "electron": "41.2.1",
     "eslint": "8.57.1",
     "eslint-import-resolver-typescript": "4.4.4",
     "eslint-plugin-import": "2.32.0",
@@ -49,7 +49,6 @@
     "vite": "5.4.21",
     "vite-tsconfig-paths": "5.1.4"
   },
-  "license": "UNLICENSED",
   "main": ".vite/build/textile.js",
   "name": "textile",
   "productName": "Textile",
@@ -65,5 +64,5 @@
     "lint": "eslint --ext .ts,.tsx ."
   },
   "type": "module",
-  "version": "0.2.0"
+  "version": "0.3.0"
 }
