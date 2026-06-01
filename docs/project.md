@@ -112,3 +112,12 @@ The steps can be:
     - Show the result
     - Show the result and copy it to my clipboard
 10. Textile also shows a "Keyboard Shortcut" field
+
+## GitHub
+
+### Track Downloads
+
+```
+curl --location --header "Accept: application/vnd.github+json" \
+     https://api.github.com/repos/rob-johansen/textile/releases/tags/v0.4.0
+```
